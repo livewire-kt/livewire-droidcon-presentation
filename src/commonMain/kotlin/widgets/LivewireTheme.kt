@@ -66,12 +66,14 @@ val livewireCodeTheme: SourceCodeTheme = { cls ->
     "keyword",
     "literal" -> SpanStyle(color = Livewire.CodeKeyword)
 
+    // NOTE: "function" and "params" are deliberately unmapped — in hljs's Kotlin
+    // grammar they are wrapper scopes spanning the whole signature; styling them
+    // would repaint receivers and parameter lists instead of just names.
     "title",
     "class",
     "type",
     "name",
     "built_in",
-    "function",
     "symbol",
     "variable",
     "property",
