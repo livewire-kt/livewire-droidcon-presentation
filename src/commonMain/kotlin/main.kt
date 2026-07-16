@@ -86,6 +86,7 @@ import slides.updatingTheTree
 import slides.wantsAndDesires
 import widgets.DotGridBackground
 import widgets.LivewireTheme
+import widgets.PaceMeter
 
 fun main() =
   cupApplication(title = "Livewire — Droidcon '26") {
@@ -111,6 +112,7 @@ fun main() =
       ) { slidesContent ->
         DotGridBackground()
         slidesContent()
+        PaceMeter()
       }
     }
   }
