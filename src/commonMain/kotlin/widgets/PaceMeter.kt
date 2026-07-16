@@ -46,6 +46,7 @@ import livewire_presentation.generated.resources.Res
 import livewire_presentation.generated.resources.pace_bolt
 import net.kodein.cup.LocalPresentationState
 import net.kodein.cup.PluginCupAPI
+import net.kodein.cup.PresentationState
 import net.kodein.cup.PresentationStateWrapper
 import net.kodein.cup.utils.SlideContext
 import net.kodein.cup.utils.SlideContextElement
@@ -108,8 +109,10 @@ data class PaceState(
  * windows to run this simultaneously.
  */
 @Composable
-fun rememberPaceState(talkDuration: Duration): PaceState? {
-  val state = LocalPresentationState.current
+fun rememberPaceState(
+  talkDuration: Duration,
+  state: PresentationState = LocalPresentationState.current,
+): PaceState? {
   val slides = state.slides
   if (slides.isEmpty()) return null
 
@@ -331,7 +334,7 @@ fun BoxScope.PacePowerBar(
   }
 }
 
-private fun Duration.asClock(): String {
+internal fun Duration.asClock(): String {
   val totalSeconds = inWholeSeconds
   return "${totalSeconds / 60}:${(totalSeconds % 60).toString().padStart(2, '0')}"
 }
