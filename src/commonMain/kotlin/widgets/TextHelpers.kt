@@ -9,43 +9,42 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 
 /**
- * Small DSL for the deck's inline emphasis styles:
- * plain cream text, amber-bold emphasis, italics, and mono inline code.
+ * Small DSL for the deck's inline emphasis styles: plain cream text, amber-bold emphasis, italics,
+ * and mono inline code.
  */
-class LineBuilder(
-    private val fonts: LivewireFonts,
-    private val builder: AnnotatedString.Builder,
-) {
-    fun t(s: String) = builder.append(s)
+class LineBuilder(private val fonts: LivewireFonts, private val builder: AnnotatedString.Builder) {
+  fun t(s: String) = builder.append(s)
 
-    /** Amber bold — the deck's emphasis style. */
-    fun em(s: String) {
-        builder.withStyle(SpanStyle(color = Livewire.Amber, fontWeight = FontWeight.Bold)) { append(s) }
-    }
+  /** Amber bold — the deck's emphasis style. */
+  fun em(s: String) {
+    builder.withStyle(SpanStyle(color = Livewire.Amber, fontWeight = FontWeight.Bold)) { append(s) }
+  }
 
-    fun b(s: String) {
-        builder.withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append(s) }
-    }
+  fun b(s: String) {
+    builder.withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append(s) }
+  }
 
-    fun i(s: String) {
-        builder.withStyle(SpanStyle(fontStyle = FontStyle.Italic)) { append(s) }
-    }
+  fun i(s: String) {
+    builder.withStyle(SpanStyle(fontStyle = FontStyle.Italic)) { append(s) }
+  }
 
-    /** Inline code — JetBrains Mono, cream. */
-    fun code(s: String) {
-        builder.withStyle(SpanStyle(fontFamily = fonts.mono, fontSize = 0.9.em)) { append(s) }
-    }
+  /** Inline code — JetBrains Mono, cream. */
+  fun code(s: String) {
+    builder.withStyle(SpanStyle(fontFamily = fonts.mono, fontSize = 0.9.em)) { append(s) }
+  }
 
-    /** Red accent (deprecated/dead things). */
-    fun red(s: String) {
-        builder.withStyle(SpanStyle(color = Livewire.Red, fontWeight = FontWeight.Bold)) { append(s) }
-    }
+  /** Red accent (deprecated/dead things). */
+  fun red(s: String) {
+    builder.withStyle(SpanStyle(color = Livewire.Red, fontWeight = FontWeight.Bold)) { append(s) }
+  }
 
-    private val Double.em get() = androidx.compose.ui.unit.TextUnit(this.toFloat(), androidx.compose.ui.unit.TextUnitType.Em)
+  private val Double.em
+    get() =
+      androidx.compose.ui.unit.TextUnit(this.toFloat(), androidx.compose.ui.unit.TextUnitType.Em)
 }
 
 @Composable
 fun line(block: LineBuilder.() -> Unit): AnnotatedString {
-    val fonts = LocalLivewireFonts.current
-    return buildAnnotatedString { LineBuilder(fonts, this).block() }
+  val fonts = LocalLivewireFonts.current
+  return buildAnnotatedString { LineBuilder(fonts, this).block() }
 }

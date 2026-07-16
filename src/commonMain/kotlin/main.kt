@@ -2,7 +2,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.LayoutDirection
 import net.kodein.cup.Presentation
-import net.kodein.cup.insideTransitionSpecs
 import net.kodein.cup.SLIDE_SIZE_16_9
 import net.kodein.cup.SlideGroup
 import net.kodein.cup.SlideSpecs
@@ -10,6 +9,7 @@ import net.kodein.cup.Slides
 import net.kodein.cup.TransitionSet
 import net.kodein.cup.cupApplication
 import net.kodein.cup.imgexp.imageExport
+import net.kodein.cup.insideTransitionSpecs
 import net.kodein.cup.laser.laser
 import net.kodein.cup.overview.overview
 import net.kodein.cup.speaker.speakerWindow
@@ -77,8 +77,8 @@ import slides.sidecarDebugging
 import slides.stayingConnected
 import slides.stetho
 import slides.textNode
-import slides.theTree
 import slides.thankYou
+import slides.theTree
 import slides.title
 import slides.twoPhases
 import slides.uiVsRuntime
@@ -89,128 +89,119 @@ import slides.wantsAndDesires
 import widgets.DotGridBackground
 import widgets.LivewireTheme
 
-fun main() = cupApplication(
-    title = "Livewire — Droidcon '26",
-) {
+fun main() =
+  cupApplication(title = "Livewire — Droidcon '26") {
     remember { EmojiService.initialize() }
 
     LivewireTheme {
-        Presentation(
-            slides = presentationSlides,
-            configuration = {
-                windowManagement()
-                laser()
-                speakerWindow()
-                imageExport()
-                overview()
-                defaultSlideSpecs = SlideSpecs(
-                    size = SLIDE_SIZE_16_9,
-                    startTransitions = TransitionSet.moveHorizontal(LayoutDirection.Ltr),
-                    endTransitions = TransitionSet.moveHorizontal(LayoutDirection.Ltr),
-                )
-            },
-            backgroundColor = Color(0xFF0B0E11),
-        ) { slidesContent ->
-            DotGridBackground()
-            slidesContent()
-        }
+      Presentation(
+        slides = presentationSlides,
+        configuration = {
+          windowManagement()
+          laser()
+          speakerWindow()
+          imageExport()
+          overview()
+          defaultSlideSpecs =
+            SlideSpecs(
+              size = SLIDE_SIZE_16_9,
+              startTransitions = TransitionSet.moveHorizontal(LayoutDirection.Ltr),
+              endTransitions = TransitionSet.moveHorizontal(LayoutDirection.Ltr),
+            )
+        },
+        backgroundColor = Color(0xFF0B0E11),
+      ) { slidesContent ->
+        DotGridBackground()
+        slidesContent()
+      }
     }
-}
+  }
 
-private fun section(vararg slides: SlideGroup) = Slides(
+private fun section(vararg slides: SlideGroup) =
+  Slides(
     *slides,
     specs = {
-        it.insideTransitionSpecs(
-            startTransitions = TransitionSet.fade,
-            endTransitions = TransitionSet.fade,
-        )
+      it.insideTransitionSpecs(
+        startTransitions = TransitionSet.fade,
+        endTransitions = TransitionSet.fade,
+      )
     },
-)
+  )
 
-val presentationSlides = Slides(
+val presentationSlides =
+  Slides(
+    section(title, agenda),
+    section(sectionProblem, sidecarDebugging, stetho, flipper, wantsAndDesires),
     section(
-        title,
-        agenda,
+      sectionIdea,
+      flipIt,
+      composeIsFun,
+      composeRemotely,
+      remoteComposeYes,
+      remoteComposeNo,
+      composeRemotelyQ,
+      uiVsRuntime,
+      otherTalks,
+      buildOurOwnTree,
+      customComposition,
+      theTree,
+      applier,
+      composition,
+      growingTheTree,
+      composeUiLikeApis,
+      textNode,
+      createComposable,
+      emitToComposition,
+      compositionUpdater,
+      revisitingTree,
+      livewireModifier,
+      updatingTheTree,
+      updatingOurApis,
+      updatingTheComposition,
+      creatingNewModifier,
+      allTrees,
+      serialization,
     ),
     section(
-        sectionProblem,
-        sidecarDebugging,
-        stetho,
-        flipper,
-        wantsAndDesires,
+      sectionConnections,
+      hostIsServer,
+      twoPhases,
+      discovery,
+      discoveryDiagram,
+      desktopEasy,
+      iosSimulator,
+      androidAdb,
+      physicalIos1,
+      physicalIos2,
+      physicalIos3,
+      e2eEncryption1,
+      e2eEncryption2,
+      stayingConnected,
     ),
     section(
-        sectionIdea,
-        flipIt,
-        composeIsFun,
-        composeRemotely,
-        remoteComposeYes,
-        remoteComposeNo,
-        composeRemotelyQ,
-        uiVsRuntime,
-        otherTalks,
-        buildOurOwnTree,
-        customComposition,
-        theTree,
-        applier,
-        composition,
-        growingTheTree,
-        composeUiLikeApis,
-        textNode,
-        createComposable,
-        emitToComposition,
-        compositionUpdater,
-        revisitingTree,
-        livewireModifier,
-        updatingTheTree,
-        updatingOurApis,
-        updatingTheComposition,
-        creatingNewModifier,
-        allTrees,
-        serialization,
+      sectionReassembly,
+      renderingOnHost,
+      renderingTree,
+      renderingNode,
+      diffing,
+      backpressure,
+      actions,
+      definingIntention,
+      declaringIntention,
+      clickingBackwards,
+      deliveringAction,
     ),
     section(
-        sectionConnections,
-        hostIsServer,
-        twoPhases,
-        discovery,
-        discoveryDiagram,
-        desktopEasy,
-        iosSimulator,
-        androidAdb,
-        physicalIos1,
-        physicalIos2,
-        physicalIos3,
-        e2eEncryption1,
-        e2eEncryption2,
-        stayingConnected,
+      sectionLivewire,
+      demoScreens,
+      introspection,
+      clientSetup,
+      pluginApi,
+      pluginInfo,
+      pluginContent,
+      pluginScreens1,
+      pluginScreens2,
+      outroGif,
     ),
-    section(
-        sectionReassembly,
-        renderingOnHost,
-        renderingTree,
-        renderingNode,
-        diffing,
-        backpressure,
-        actions,
-        definingIntention,
-        declaringIntention,
-        clickingBackwards,
-        deliveringAction,
-    ),
-    section(
-        sectionLivewire,
-        demoScreens,
-        introspection,
-        clientSetup,
-        pluginApi,
-        pluginInfo,
-        pluginContent,
-        pluginScreens1,
-        pluginScreens2,
-        outroGif,
-    ),
-    section(
-        thankYou,
-    ),
-)
+    section(thankYou),
+  )
