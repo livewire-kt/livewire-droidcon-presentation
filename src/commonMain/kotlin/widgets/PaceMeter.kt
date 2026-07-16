@@ -284,37 +284,40 @@ fun BoxScope.PacePowerBar(
     }
 
   Box(
-    modifier = Modifier.align(Alignment.BottomEnd).padding(end = 12.dp, bottom = 10.dp),
+    modifier = Modifier.align(Alignment.BottomEnd).padding(end = 12.dp, bottom = 12.dp),
     contentAlignment = Alignment.Center,
   ) {
-    Canvas(Modifier.width(46.dp).height(20.dp)) {
+    // Vertical battery: nub on top, charge fills bottom-up.
+    Canvas(Modifier.width(20.dp).height(46.dp)) {
       val stroke = 1.5.dp.toPx()
-      val nubWidth = 2.5.dp.toPx()
-      val bodyWidth = size.width - nubWidth
+      val nubHeight = 2.5.dp.toPx()
+      val bodyHeight = size.height - nubHeight
       val outline = Livewire.Gray.copy(alpha = 0.8f)
       drawRoundRect(
         color = outline,
-        topLeft = Offset(stroke / 2, stroke / 2),
-        size = Size(bodyWidth - stroke, size.height - stroke),
+        topLeft = Offset(stroke / 2, nubHeight + stroke / 2),
+        size = Size(size.width - stroke, bodyHeight - stroke),
         cornerRadius = CornerRadius(4.dp.toPx()),
         style = Stroke(stroke),
       )
       drawRoundRect(
         color = outline,
-        topLeft = Offset(bodyWidth + 0.5.dp.toPx(), size.height * 0.3f),
-        size = Size(nubWidth - 0.5.dp.toPx(), size.height * 0.4f),
+        topLeft = Offset(size.width * 0.3f, 0f),
+        size = Size(size.width * 0.4f, nubHeight - 0.5.dp.toPx()),
         cornerRadius = CornerRadius(1.dp.toPx()),
       )
       val inset = stroke + 2.dp.toPx()
       val gap = 1.5.dp.toPx()
-      val slotWidth = (bodyWidth - inset * 2 - gap * 4) / 5
+      val slotHeight = (bodyHeight - inset * 2 - gap * 4) / 5
       repeat(5) { i ->
+        // i = 0 is the BOTTOM segment; charge stacks upward.
         drawRoundRect(
           color =
             if (i < segments) fillColor.copy(alpha = 0.9f)
             else Livewire.Slate.copy(alpha = 0.4f),
-          topLeft = Offset(inset + i * (slotWidth + gap), inset),
-          size = Size(slotWidth, size.height - inset * 2),
+          topLeft =
+            Offset(inset, size.height - inset - (i + 1) * slotHeight - i * gap),
+          size = Size(size.width - inset * 2, slotHeight),
           cornerRadius = CornerRadius(1.5.dp.toPx()),
         )
       }
@@ -322,7 +325,7 @@ fun BoxScope.PacePowerBar(
     Image(
       painter = painterResource(Res.drawable.pace_bolt),
       contentDescription = null,
-      modifier = Modifier.height(24.dp),
+      modifier = Modifier.height(26.dp),
       contentScale = ContentScale.Fit,
     )
   }
