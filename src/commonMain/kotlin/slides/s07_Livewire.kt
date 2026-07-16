@@ -37,6 +37,9 @@ import widgets.LivewireCode
 import widgets.SectionSlide
 import widgets.TitledSlide
 import widgets.line
+import kotlin.time.Duration.Companion.minutes
+import widgets.PaceKeyframe
+import net.kodein.cup.utils.plus
 
 val sectionLivewire by
   Slide(
@@ -44,7 +47,7 @@ val sectionLivewire by
       SpeakerNotes(
         "We've talked a lot about what we've built, but we haven't actually shown you a single " +
           "thing yet."
-      )
+      ) + PaceKeyframe(34.minutes)
   ) {
     SectionSlide(number = "05", title = "Livewire", subtitle = "Something here, idk what")
   }

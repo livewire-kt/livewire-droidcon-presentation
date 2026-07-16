@@ -58,8 +58,10 @@ import widgets.LocalLivewireFonts
 import widgets.SectionSlide
 import widgets.TitledSlide
 import widgets.line
+import kotlin.time.Duration.Companion.minutes
+import widgets.PaceKeyframe
 
-val sectionIdea by Slide {
+val sectionIdea by Slide(context = PaceKeyframe(6.minutes)) {
   SectionSlide(number = "02", title = "The Idea", subtitle = "How to Compose once over the wire")
 }
 

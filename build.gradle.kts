@@ -17,6 +17,8 @@ kotlin {
       implementation(libs.bundles.cup)
 
       implementation(libs.emoji.compose)
+      implementation(libs.livewire.client)
+      implementation(libs.livewire.plugin.recomposition)
     }
   }
 }

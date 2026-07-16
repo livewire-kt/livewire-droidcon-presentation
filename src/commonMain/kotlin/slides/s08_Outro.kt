@@ -21,8 +21,10 @@ import net.kodein.cup.Slide
 import org.jetbrains.compose.resources.painterResource
 import widgets.Livewire
 import widgets.LocalLivewireFonts
+import kotlin.time.Duration.Companion.minutes
+import widgets.PaceKeyframe
 
-val thankYou by Slide {
+val thankYou by Slide(context = PaceKeyframe(39.minutes)) {
   val fonts = LocalLivewireFonts.current
   Column(
     modifier = Modifier.fillMaxSize().padding(36.dp),

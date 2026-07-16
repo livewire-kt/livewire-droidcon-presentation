@@ -36,8 +36,10 @@ import widgets.LivewireCode
 import widgets.SectionSlide
 import widgets.TitledSlide
 import widgets.line
+import kotlin.time.Duration.Companion.minutes
+import widgets.PaceKeyframe
 
-val sectionConnections by Slide {
+val sectionConnections by Slide(context = PaceKeyframe(20.minutes)) {
   SectionSlide(
     number = "03",
     title = "Connections",

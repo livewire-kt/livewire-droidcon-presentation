@@ -7,8 +7,10 @@ import widgets.Livewire
 import widgets.SectionSlide
 import widgets.TitledSlide
 import widgets.line
+import kotlin.time.Duration.Companion.minutes
+import widgets.PaceKeyframe
 
-val sectionProblem by Slide {
+val sectionProblem by Slide(context = PaceKeyframe(2.minutes)) {
   SectionSlide(
     number = "01",
     title = "The Problem",

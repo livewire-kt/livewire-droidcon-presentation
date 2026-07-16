@@ -1,6 +1,7 @@
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.LayoutDirection
+import com.livewire.client.LivewireClient
 import net.kodein.cup.Presentation
 import net.kodein.cup.SLIDE_SIZE_16_9
 import net.kodein.cup.SlideGroup
@@ -90,6 +91,12 @@ import widgets.PaceMeter
 
 fun main() =
   cupApplication(title = "Livewire — Droidcon '26") {
+    val livewireClient = remember {
+      LivewireClient {
+
+      }
+    }
+
     remember { EmojiService.initialize() }
 
     LivewireTheme {
