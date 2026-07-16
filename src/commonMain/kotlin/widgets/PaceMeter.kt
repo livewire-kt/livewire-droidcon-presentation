@@ -5,9 +5,11 @@
 package widgets
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,19 +30,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlin.math.roundToInt
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.TimeMark
 import kotlin.time.TimeSource
 import kotlinx.coroutines.delay
+import livewire_presentation.generated.resources.Res
+import livewire_presentation.generated.resources.pace_bolt
 import net.kodein.cup.LocalPresentationState
 import net.kodein.cup.PluginCupAPI
 import net.kodein.cup.PresentationStateWrapper
 import net.kodein.cup.utils.SlideContext
 import net.kodein.cup.utils.SlideContextElement
+import org.jetbrains.compose.resources.painterResource
 
 /**
  * Pacing checkpoint attached to a slide's context: "by the time this slide STARTS,
@@ -197,7 +206,7 @@ fun BoxScope.PaceMeter(talkDuration: Duration = 40.minutes) {
       Text(
         text = if (pace.started) pace.elapsed.asClock() else pace.talkDuration.asClock(),
         fontFamily = fonts.mono,
-        fontSize = 20.sp,
+        fontSize = 32.sp,
         color = Livewire.Cream.copy(alpha = if (pace.started) 1f else 0.5f),
       )
       Spacer(Modifier.width(12.dp))
@@ -210,14 +219,14 @@ fun BoxScope.PaceMeter(talkDuration: Duration = 40.minutes) {
             else -> "▼ ${(-pace.delta).asClock()}"
           },
         fontFamily = fonts.mono,
-        fontSize = 20.sp,
+        fontSize = 32.sp,
         color = paceColor,
       )
     }
     Spacer(Modifier.height(8.dp))
     // Timeline: amber fill = time spent, notches = keyframe targets,
     // cream tick = target clock time for the current deck position.
-    Canvas(Modifier.width(220.dp).height(5.dp)) {
+    Canvas(Modifier.width(300.dp).height(12.dp)) {
       val r = CornerRadius(size.height / 2)
       drawRoundRect(color = Livewire.Slate, cornerRadius = r)
       if (pace.started) {
@@ -250,9 +259,10 @@ fun BoxScope.PaceMeter(talkDuration: Duration = 40.minutes) {
 }
 
 /**
- * Discreet audience-facing pace status: a small center-anchored bar in the bottom-right
- * corner. Ahead → green grows right, behind → red grows left (magnitude clamped to
- * ±[fullScale]), on pace → a faint gray dot. Invisible until the talk clock starts.
+ * Discreet audience-facing pace status styled as a little battery in the bottom-right
+ * corner, with the Livewire bolt over it. Charge = time budget: 3 of 5 bars in amber is
+ * on pace, more bars in green means ahead, fewer in red means behind (delta clamped to
+ * ±[fullScale]). Invisible until the talk clock starts.
  */
 @Composable
 fun BoxScope.PacePowerBar(
@@ -263,40 +273,57 @@ fun BoxScope.PacePowerBar(
   val pace = rememberPaceState(talkDuration) ?: return
   if (!pace.started) return
 
-  Canvas(
-    Modifier.align(Alignment.BottomEnd)
-      .padding(end = 12.dp, bottom = 12.dp)
-      .width(44.dp)
-      .height(4.dp)
-  ) {
-    val r = CornerRadius(size.height / 2)
-    val center = size.width / 2
-    drawRoundRect(color = Livewire.Slate.copy(alpha = 0.55f), cornerRadius = r)
+  // Map delta onto charge: 1 bar = badly behind, 3 = on pace, 5 = comfortably ahead.
+  val fraction = (pace.delta / fullScale).toFloat().coerceIn(-1f, 1f)
+  val segments = (3 + fraction * 2).roundToInt().coerceIn(1, 5)
+  val fillColor =
     when {
-      pace.onPace ->
-        drawCircle(
-          color = Livewire.Gray.copy(alpha = 0.7f),
-          radius = size.height * 0.75f,
-          center = Offset(center, size.height / 2),
-        )
-      else -> {
-        val fraction = (pace.delta / fullScale).toFloat().coerceIn(-1f, 1f)
-        val ahead = fraction > 0f
-        val extent = center * kotlin.math.abs(fraction)
+      pace.onPace -> Livewire.Amber
+      pace.delta.isPositive() -> Livewire.CodeString // ahead — green
+      else -> Livewire.Red // behind
+    }
+
+  Box(
+    modifier = Modifier.align(Alignment.BottomEnd).padding(end = 12.dp, bottom = 10.dp),
+    contentAlignment = Alignment.Center,
+  ) {
+    Canvas(Modifier.width(46.dp).height(20.dp)) {
+      val stroke = 1.5.dp.toPx()
+      val nubWidth = 2.5.dp.toPx()
+      val bodyWidth = size.width - nubWidth
+      val outline = Livewire.Gray.copy(alpha = 0.8f)
+      drawRoundRect(
+        color = outline,
+        topLeft = Offset(stroke / 2, stroke / 2),
+        size = Size(bodyWidth - stroke, size.height - stroke),
+        cornerRadius = CornerRadius(4.dp.toPx()),
+        style = Stroke(stroke),
+      )
+      drawRoundRect(
+        color = outline,
+        topLeft = Offset(bodyWidth + 0.5.dp.toPx(), size.height * 0.3f),
+        size = Size(nubWidth - 0.5.dp.toPx(), size.height * 0.4f),
+        cornerRadius = CornerRadius(1.dp.toPx()),
+      )
+      val inset = stroke + 2.dp.toPx()
+      val gap = 1.5.dp.toPx()
+      val slotWidth = (bodyWidth - inset * 2 - gap * 4) / 5
+      repeat(5) { i ->
         drawRoundRect(
-          color = (if (ahead) Livewire.CodeString else Livewire.Red).copy(alpha = 0.8f),
-          topLeft = Offset(if (ahead) center else center - extent, 0f),
-          size = size.copy(width = extent),
-          cornerRadius = r,
+          color =
+            if (i < segments) fillColor.copy(alpha = 0.9f)
+            else Livewire.Slate.copy(alpha = 0.4f),
+          topLeft = Offset(inset + i * (slotWidth + gap), inset),
+          size = Size(slotWidth, size.height - inset * 2),
+          cornerRadius = CornerRadius(1.5.dp.toPx()),
         )
       }
     }
-    // center notch
-    drawLine(
-      color = Livewire.Cream.copy(alpha = 0.5f),
-      start = Offset(center, -1.dp.toPx()),
-      end = Offset(center, size.height + 1.dp.toPx()),
-      strokeWidth = 1.dp.toPx(),
+    Image(
+      painter = painterResource(Res.drawable.pace_bolt),
+      contentDescription = null,
+      modifier = Modifier.height(24.dp),
+      contentScale = ContentScale.Fit,
     )
   }
 }

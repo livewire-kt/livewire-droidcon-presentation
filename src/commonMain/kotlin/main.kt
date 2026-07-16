@@ -19,6 +19,8 @@ import net.kodein.cup.laser.laser
 import net.kodein.cup.overview.overview
 import net.kodein.cup.speaker.isInSpeakerWindow
 import net.kodein.cup.speaker.speakerWindow
+//import net.kodein.cup.speaker.isInSpeakerWindow
+//import net.kodein.cup.speaker.speakerWindow
 import net.kodein.cup.speaker.windowManagement
 import org.kodein.emoji.compose.EmojiService
 import slides.actions
@@ -134,9 +136,7 @@ fun main() =
       ) { slidesContent ->
         DotGridBackground()
         slidesContent()
-        if (isInSpeakerWindow()) {
-          PaceMeter() // full detail, presenter-only
-        } else {
+        if (!isInSpeakerWindow()) {
           PacePowerBar() // discreet corner status for the audience
         }
       }

@@ -44,7 +44,7 @@ cup = [
     "cup-plugin-imageExport",
     "cup-plugin-laser",
     "cup-plugin-overview",
-    "cup-plugin-speakerWindow",
+#    "cup-plugin-speakerWindow",
     "cup-plugin-windowManagement",
     "cup-widgets-material",
     "cup-widgets-sourceCode",

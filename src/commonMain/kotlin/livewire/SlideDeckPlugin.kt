@@ -15,6 +15,6 @@ class SlideDeckPlugin : Plugin {
 
   @Composable
   override fun Content() {
-    
+
   }
 }
