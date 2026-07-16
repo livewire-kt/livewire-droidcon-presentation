@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,6 +15,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
@@ -33,6 +36,7 @@ import net.kodein.cup.sa.SourceCode
 import net.kodein.cup.sa.rememberSourceCode
 import net.kodein.cup.speaker.SpeakerNotes
 import org.jetbrains.compose.resources.painterResource
+import widgets.CodeBox
 import widgets.GifImage
 import widgets.Livewire
 import widgets.LivewireCode
@@ -101,7 +105,11 @@ val textNode by
 
     slideContent {
       TitledSlide(title = "Create a new node", kicker = "// BUILDING OUR APIS") {
-        LivewireCode(sourceCode)
+        CodeBox(
+          modifier = Modifier.fillMaxSize(),
+        ) {
+          LivewireCode(sourceCode)
+        }
       }
     }
   }
@@ -133,7 +141,11 @@ val createComposable by
 
     slideContent {
       TitledSlide(title = "Create its Composable (API)", kicker = "// BUILDING OUR APIS") {
-        LivewireCode(sourceCode)
+        CodeBox(
+          modifier = Modifier.fillMaxSize(),
+        ) {
+          LivewireCode(sourceCode)
+        }
       }
     }
   }
@@ -187,7 +199,11 @@ val emitToComposition by
 
     slideContent { step ->
       TitledSlide(title = "Emit to the composition", kicker = "// BUILDING OUR APIS") {
-        LivewireCode(sourceCode, step = step)
+        CodeBox(
+          modifier = Modifier.fillMaxSize(),
+        ) {
+          LivewireCode(sourceCode, step = step)
+        }
       }
     }
   }
@@ -209,57 +225,40 @@ val compositionUpdater by
   ) {
     val backgroundCode =
       rememberSourceCode(language = "kotlin", key = "updaterBg") {
+        val shell by marker(dimmed(0..3))
+        val hash by marker(dimmed(1..3))
+        val node by marker(dimmed(1..3))
+        val generics by marker(dimmed(2, 3))
+        val factory by marker(dimmed(1, 3))
+        val updateBlock by marker(dimmed(1, 2))
+
         // language=kotlin
         """
-        fun Text(…) {
-          val compositeKeyHash = currentCompositeKeyHashCode.toLong()
-          ReusableComposeNode<TextNode, Applier<LayoutNode>>(
-            factory = { TextNode(text) },
-            update = {
-
-
-
-            },
-          )
-        }
-        """
-          .trimIndent()
-      }
-    val panelCode =
-      rememberSourceCode(language = "kotlin", key = "updaterPanel") {
-        // language=kotlin
-        """
-        update = {
-          init(compositeKeyHash, {…}) // once, after create
-          set(color, {…})             // create + change
-          update(text, {…})           // change only
-          reconcile {…}               // every pass
-        }
+        ${shell}fun Text(…) {${X}
+        ${hash}  val compositeKeyHash = currentCompositeKeyHashCode.toLong()${X}
+        ${node}  ReusableComposeNode<${X}${generics}TextNode, Applier<LayoutNode>${X}${node}>(${X}
+        ${factory}    factory = { TextNode(text) },${X}
+        ${updateBlock}    update = {
+              init(compositeKeyHash, {…}) // once, after create
+              set(color, {…})             // create + change
+              update(text, {…})           // change only
+              reconcile {…}               // every pass
+            },${X}
+        ${hash}  )${X}
+        ${shell}}${X}
         """
           .trimIndent()
       }
 
     slideContent {
       TitledSlide(title = "Composition Updater", kicker = "// BUILDING OUR APIS") {
-        Box(Modifier.fillMaxSize()) {
-          SourceCode(
+        CodeBox(
+          modifier = Modifier.fillMaxSize(),
+        ) {
+          LivewireCode(
             sourceCode = backgroundCode,
-            style =
-              TextStyle(
-                fontFamily = LocalLivewireFonts.current.mono,
-                fontSize = 9.sp,
-                color = Color(0xFF434343),
-              ),
-            theme = fadedCodeTheme,
+            step = 3,
           )
-          Box(
-            modifier =
-              Modifier.align(Alignment.Center)
-                .background(Livewire.Background, RoundedCornerShape(6.dp))
-                .padding(14.dp)
-          ) {
-            LivewireCode(panelCode, fontSize = 10.sp)
-          }
         }
       }
     }
@@ -342,7 +341,11 @@ val updatingTheTree by
 
     slideContent { step ->
       TitledSlide(title = "Updating the tree", kicker = "// LIVEWIRE MODIFIER") {
-        LivewireCode(sourceCode, step = step)
+        CodeBox(
+          modifier = Modifier.fillMaxSize(),
+        ) {
+          LivewireCode(sourceCode, step = step)
+        }
       }
     }
   }
@@ -375,7 +378,11 @@ val updatingOurApis by
 
     slideContent { step ->
       TitledSlide(title = "Updating our APIs", kicker = "// LIVEWIRE MODIFIER") {
-        LivewireCode(sourceCode, step = step)
+        CodeBox(
+          modifier = Modifier.fillMaxSize(),
+        ) {
+          LivewireCode(sourceCode, step = step)
+        }
       }
     }
   }
@@ -414,7 +421,11 @@ val updatingTheComposition by
 
     slideContent { step ->
       TitledSlide(title = "Updating the composition", kicker = "// LIVEWIRE MODIFIER") {
-        LivewireCode(sourceCode, step = step)
+        CodeBox(
+          modifier = Modifier.fillMaxSize(),
+        ) {
+          LivewireCode(sourceCode, step = step)
+        }
       }
     }
   }
@@ -450,7 +461,11 @@ val creatingNewModifier by
 
     slideContent {
       TitledSlide(title = "Creating a new modifier", kicker = "// LIVEWIRE MODIFIER") {
-        LivewireCode(sourceCode)
+        CodeBox(
+          modifier = Modifier.fillMaxSize(),
+        ) {
+          LivewireCode(sourceCode)
+        }
       }
     }
   }
@@ -463,19 +478,28 @@ val allTrees by
       )
   ) {
     TitledSlide(title = "Wait? It's just all trees?", kicker = "// LIVEWIRE MODIFIER") {
-      Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
-        Image(
-          painter = painterResource(Res.drawable.meme_trees),
-          contentDescription = "Modifier chains are binary trees",
-          modifier = Modifier.weight(1.1f).fillMaxSize(),
-          contentScale = ContentScale.Fit,
-        )
-        Spacer(Modifier.width(16.dp))
-        GifImage(
-          path = "files/always_has_been.gif",
-          contentDescription = "Always has been",
-          modifier = Modifier.weight(0.9f).fillMaxWidth(),
-        )
+      Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.Bottom) {
+
+//        Spacer(Modifier.width(16.dp))
+        Box(
+          modifier = Modifier.weight(1f),
+        ) {
+          GifImage(
+            path = "files/always_has_been.gif",
+            contentDescription = "Always has been",
+            modifier = Modifier.fillMaxWidth(),
+            contentScale = ContentScale.FillWidth
+          )
+
+          Image(
+            painter = painterResource(Res.drawable.meme_trees),
+            contentDescription = "Modifier chains are binary trees",
+            modifier = Modifier.fillMaxSize()
+              .background(Livewire.Background.copy(alpha = 0.5f))
+              .padding(top = 8.dp, bottom = 40.dp),
+            contentScale = ContentScale.Fit,
+          )
+        }
       }
     }
   }
@@ -493,7 +517,7 @@ val serialization by
         // language=kotlin
         """
         @Serializable
-        abstract class LayoutNode //{}
+        abstract class LayoutNode
 
         @Serializable
         class BoxNode(…) //{}
@@ -504,6 +528,9 @@ val serialization by
         @Serializable
         class SwitchNode(…) //{}
 
+        @Serializable
+        class BackgroundModifier(…) // {}
+
         // and many more!
         """
           .trimIndent()
@@ -512,14 +539,27 @@ val serialization by
     slideContent {
       TitledSlide(title = "Serialization", kicker = "// BUILDING OUR APIS") {
         Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
-          LivewireCode(sourceCode, modifier = Modifier.weight(1f))
+          CodeBox(
+            modifier = Modifier
+              .weight(1f)
+              .fillMaxHeight(),
+          ) {
+            LivewireCode(sourceCode)
+          }
           Spacer(Modifier.width(16.dp))
-          Image(
-            painter = painterResource(Res.drawable.meme_serialization),
-            contentDescription = null,
-            modifier = Modifier.weight(0.8f).fillMaxSize(),
-            contentScale = ContentScale.Fit,
-          )
+          Box(
+            modifier = Modifier.weight(0.8f),
+            contentAlignment = Alignment.Center,
+          ) {
+            Image(
+              painter = painterResource(Res.drawable.meme_serialization),
+              contentDescription = null,
+              modifier = Modifier
+                .fillMaxHeight()
+                .clip(RoundedCornerShape(16.dp)),
+              contentScale = ContentScale.FillHeight,
+            )
+          }
         }
       }
     }

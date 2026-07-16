@@ -67,8 +67,7 @@ val hostIsServer by
       )
   ) {
     TitledSlide(title = "The host is the server", kicker = "// CONNECTIONS") {
-      Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
-        Column(Modifier.weight(1.1f)) {
+      Column(Modifier.fillMaxSize()) {
           Bullet(line { t("Desktop hosts app is the server, every client dials out.") })
           Bullet(line { t("A USB cable isn't a network: the device can't address your Mac.") })
           Bullet(
@@ -81,12 +80,10 @@ val hostIsServer by
             }
           )
           Bullet(line { t("All the platform mess hides on the host") })
-        }
-        Spacer(Modifier.width(14.dp))
         Image(
           painter = painterResource(Res.drawable.diagram_host_server),
           contentDescription = "Every client dials the host's loopback server",
-          modifier = Modifier.weight(0.9f).fillMaxSize(),
+          modifier = Modifier.weight(1f).fillMaxWidth(),
           contentScale = ContentScale.Fit,
         )
       }

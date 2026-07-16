@@ -94,13 +94,10 @@ val theTree by
     slideContent { step ->
       TitledSlide(title = "The tree", kicker = "// CUSTOM COMPOSE") {
         CodeBox(
-          modifier = Modifier
-            .fillMaxSize(),
-          contentAlignment = Alignment.Center,
+          modifier = Modifier.fillMaxSize(),
         ) {
-          LivewireCode(sourceCode, step = step, modifier = Modifier.padding(16.dp))
+          LivewireCode(sourceCode, step = step)
         }
-
       }
     }
   }
@@ -160,7 +157,11 @@ val applier by
 
     slideContent { step ->
       TitledSlide(title = "Applier", kicker = "// CUSTOM COMPOSE") {
-        LivewireCode(sourceCode, step = step)
+        CodeBox(
+          modifier = Modifier.fillMaxSize(),
+        ) {
+          LivewireCode(sourceCode, step = step)
+        }
       }
     }
   }
@@ -217,7 +218,11 @@ val composition by
 
     slideContent { step ->
       TitledSlide(title = "Composition", kicker = "// CUSTOM COMPOSE") {
-        LivewireCode(sourceCode, step = step)
+        CodeBox(
+          modifier = Modifier.fillMaxSize(),
+        ) {
+          LivewireCode(sourceCode, step = step)
+        }
       }
     }
   }
