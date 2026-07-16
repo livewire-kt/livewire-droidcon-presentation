@@ -2,8 +2,11 @@ package slides
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.dp
 import livewire_presentation.generated.resources.Res
 import livewire_presentation.generated.resources.diagram_growing_tree
 import net.kodein.cup.PreparedSlide
@@ -12,8 +15,10 @@ import net.kodein.cup.sa.rememberSourceCode
 import net.kodein.cup.speaker.SpeakerNotes
 import org.jetbrains.compose.resources.painterResource
 import widgets.Bullet
+import widgets.CodeBox
 import widgets.LivewireCode
 import widgets.TitledSlide
+import widgets.dimmed
 import widgets.line
 
 val customComposition by
@@ -67,19 +72,20 @@ val theTree by
   ) {
     val sourceCode =
       rememberSourceCode(language = "kotlin") {
-        val decl by marker(highlighted(1))
-        val children by marker(highlighted(2))
-        val root by marker(highlighted(3))
+        val rest by marker(dimmed(1..3))
+        val decl by marker(dimmed(2..3))
+        val children by marker(dimmed(1, 3))
+        val root by marker(dimmed(1..2))
 
         // language=kotlin
         """
-        // Our base tree structure
+        ${rest}// Our base tree structure${X}
         ${decl}abstract class LayoutNode {${X}
         ${children}  val children: MutableList<LayoutNode> = mutableListOf()${X}
-          var compositeKeyHash: Long = 0
+        ${rest}  var compositeKeyHash: Long = 0
         }
 
-        // The root of every Livewire tree
+        // The root of every Livewire tree${X}
         ${root}class RootNode : LayoutNode()${X}
         """
           .trimIndent()
@@ -87,7 +93,14 @@ val theTree by
 
     slideContent { step ->
       TitledSlide(title = "The tree", kicker = "// CUSTOM COMPOSE") {
-        LivewireCode(sourceCode, step = step)
+        CodeBox(
+          modifier = Modifier
+            .fillMaxSize(),
+          contentAlignment = Alignment.Center,
+        ) {
+          LivewireCode(sourceCode, step = step, modifier = Modifier.padding(16.dp))
+        }
+
       }
     }
   }
@@ -126,20 +139,21 @@ val applier by
   ) {
     val sourceCode =
       rememberSourceCode(language = "kotlin") {
-        val inserts by marker(highlighted(1))
-        val rest by marker(highlighted(2))
+        val shell by marker(dimmed(1..2))
+        val inserts by marker(dimmed(2))
+        val rest by marker(dimmed(1))
 
         // language=kotlin
         """
-        class LivewireApplier(
+        ${shell}class LivewireApplier(
           root: LayoutNode,
-        ) : AbstractApplier<LayoutNode>(root) {
+        ) : AbstractApplier<LayoutNode>(root) {${X}
         ${inserts}  override fun insertTopDown(index: Int, instance: LayoutNode) {}
           override fun insertBottomUp(index: Int, instance: LayoutNode) {}${X}
         ${rest}  override fun remove(index: Int, count: Int) {}
           override fun move(from: Int, to: Int, count: Int) {}
           override fun onClear() {}${X}
-        }
+        ${shell}}${X}
         """
           .trimIndent()
       }
@@ -177,25 +191,26 @@ val composition by
   ) {
     val sourceCode =
       rememberSourceCode(language = "kotlin") {
-        val root by marker(highlighted(1))
-        val applier by marker(highlighted(2))
-        val recomposer by marker(highlighted(3))
-        val finish by marker(highlighted(4))
+        val shell by marker(dimmed(1..4))
+        val root by marker(dimmed(2..4))
+        val applier by marker(dimmed(1, 3, 4))
+        val recomposer by marker(dimmed(1, 2, 4))
+        val finish by marker(dimmed(1..3))
 
         // language=kotlin
         """
-        fun CoroutineScope.launchLivewire(
-          ${root}rootNode = RootNode(),${X}
-          body: @Composable () -> Unit,
-        ) {
-          ${applier}val livewireApplier = LivewireApplier(rootNode)${X}
-          ${recomposer}val recomposer = Recomposer(coroutineContext)${X}
-          ${finish}val composition = Composition(livewireApplier, recomposer)${X}
+        ${shell}fun CoroutineScope.launchLivewire(${X}
+        ${root}  rootNode = RootNode(),${X}
+        ${shell}  body: @Composable () -> Unit,
+        ) {${X}
+        ${applier}  val livewireApplier = LivewireApplier(rootNode)${X}
+        ${recomposer}  val recomposer = Recomposer(coroutineContext)${X}
+        ${finish}  val composition = Composition(livewireApplier, recomposer)${X}
 
-          // … recomposer.runRecomposeAndApplyChanges() …
+        ${shell}  // … recomposer.runRecomposeAndApplyChanges() …${X}
 
-          ${finish}composition.setContent(body)${X}
-        }
+        ${finish}  composition.setContent(body)${X}
+        ${shell}}${X}
         """
           .trimIndent()
       }

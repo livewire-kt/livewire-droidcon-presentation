@@ -38,6 +38,7 @@ import widgets.Livewire
 import widgets.LivewireCode
 import widgets.LocalLivewireFonts
 import widgets.TitledSlide
+import widgets.dimmed
 
 val composeUiLikeApis by
   Slide(
@@ -159,16 +160,18 @@ val emitToComposition by
   ) {
     val sourceCode =
       rememberSourceCode(language = "kotlin") {
-        val body by marker(highlighted(0))
-        val generics by marker(highlighted(1))
-        val factory by marker(highlighted(2))
-        val updateBlock by marker(highlighted(3))
+        val shell by marker(dimmed(0..3))
+        val hash by marker(dimmed(1..3))
+        val node by marker(dimmed(1..3))
+        val generics by marker(dimmed(2, 3))
+        val factory by marker(dimmed(1, 3))
+        val updateBlock by marker(dimmed(1, 2))
 
         // language=kotlin
         """
-        fun Text(…) {
-        ${body}  val compositeKeyHash = currentCompositeKeyHashCode.toLong()
-          ReusableComposeNode<${generics}TextNode, Applier<LayoutNode>${X}>(
+        ${shell}fun Text(…) {${X}
+        ${hash}  val compositeKeyHash = currentCompositeKeyHashCode.toLong()${X}
+        ${node}  ReusableComposeNode<${X}${generics}TextNode, Applier<LayoutNode>${X}${node}>(${X}
         ${factory}    factory = { TextNode(text) },${X}
         ${updateBlock}    update = {
               init(compositeKeyHash, LayoutNode.SetCompositeKeyHash)
@@ -176,8 +179,8 @@ val emitToComposition by
               update(text, TextNode.SetText)
               set(style, TextNode.SetStyle)
             },${X}
-          )${X}
-        }
+        ${hash}  )${X}
+        ${shell}}${X}
         """
           .trimIndent()
       }
@@ -320,19 +323,19 @@ val updatingTheTree by
   ) {
     val sourceCode =
       rememberSourceCode(language = "kotlin") {
-        val mod by marker(highlighted(0))
+        val rest by marker(dimmed(0))
 
         // language=kotlin
         """
-        // Our base tree structure
+        ${rest}// Our base tree structure
         abstract class LayoutNode {
           val children: MutableList<LayoutNode> = mutableListOf()
-          var compositeKeyHash: Long = 0
-          ${mod}var modifier: LivewireModifier = LivewireModifier${X}
-        }
+          var compositeKeyHash: Long = 0${X}
+          var modifier: LivewireModifier = LivewireModifier
+        ${rest}}
 
         // The root of every Livewire tree
-        class RootNode : LayoutNode()
+        class RootNode : LayoutNode()${X}
         """
           .trimIndent()
       }
@@ -354,18 +357,18 @@ val updatingOurApis by
   ) {
     val sourceCode =
       rememberSourceCode(language = "kotlin") {
-        val mod by marker(highlighted(0))
+        val rest by marker(dimmed(0))
 
         // language=kotlin
         """
-        @LivewireComposable
+        ${rest}@LivewireComposable
         @Composable
         fun Text(
-          text: String,
-          ${mod}modifier: LivewireModifier = LivewireModifier,${X}
-          color: Color = Color.Unspecified,
+          text: String,${X}
+          modifier: LivewireModifier = LivewireModifier,
+        ${rest}  color: Color = Color.Unspecified,
           style: TextStyle? = null,
-        ) // {}
+        ) // {}${X}
         """
           .trimIndent()
       }
@@ -388,23 +391,23 @@ val updatingTheComposition by
   ) {
     val sourceCode =
       rememberSourceCode(language = "kotlin") {
-        val mod by marker(highlighted(0))
+        val rest by marker(dimmed(0))
 
         // language=kotlin
         """
-        fun Text(…) {
+        ${rest}fun Text(…) {
           val compositeKeyHash = currentCompositeKeyHashCode.toLong()
           ReusableComposeNode<TextNode, Applier<LayoutNode>>(
             factory = { TextNode(text) },
             update = {
-              init(compositeKeyHash, LayoutNode.SetCompositeKeyHash)
-              ${mod}set(modifier, LayoutNode.SetModifier)${X}
-              set(color, TextNode.SetColor)
+              init(compositeKeyHash, LayoutNode.SetCompositeKeyHash)${X}
+              set(modifier, LayoutNode.SetModifier)
+        ${rest}      set(color, TextNode.SetColor)
               update(text, TextNode.SetText)
               set(style, TextNode.SetStyle)
             },
           )
-        }
+        }${X}
         """
           .trimIndent()
       }

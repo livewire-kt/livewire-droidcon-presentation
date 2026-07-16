@@ -46,6 +46,9 @@ object Livewire {
   val CodeComment = Color(0xFF8A7A72)
   val CodeNumber = Color(0xFFFFD666)
   val CodeString = Color(0xFF9CCC65)
+
+  /** Warm gray the original deck used for de-emphasized code during focus steps. */
+  val CodeDim = Color(0xFF6B605B)
 }
 
 data class LivewireFonts(val title: FontFamily, val body: FontFamily, val mono: FontFamily)

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -19,6 +20,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -214,7 +218,9 @@ val remoteComposeYes by
         Bullet(line { t("Render Compose in another!") })
         Bullet(line { em("Great! This will work right?") })
         Spacer(Modifier.height(14.dp))
-        LivewireCode(sourceCode, modifier = Modifier.fillMaxWidth())
+        CodeBox {
+          LivewireCode(sourceCode, modifier = Modifier.fillMaxWidth())
+        }
       }
     }
   }
@@ -265,7 +271,7 @@ val composeRemotelyQ by
       )
   ) {
     TitledSlide(title = "Compose … Remotely?", kicker = "// COMPOSE") {
-      Row(verticalAlignment = Alignment.CenterVertically) {
+      Row {
         Column(Modifier.weight(1.3f)) {
           Bullet(
             line {
@@ -294,7 +300,11 @@ val composeRemotelyQ by
         Image(
           painter = painterResource(Res.drawable.compose_remotely_art),
           contentDescription = null,
-          modifier = Modifier.weight(0.7f).fillMaxSize(),
+          modifier = Modifier
+            .weight(0.7f)
+            .scale(scaleX = -1f, scaleY = 1f)
+            .fillMaxSize()
+            .offset(y = 40.dp),
           contentScale = ContentScale.Fit,
         )
       }
@@ -319,7 +329,7 @@ val uiVsRuntime by
     val fonts = LocalLivewireFonts.current
     TitledSlide(title = "", kicker = "// COMPOSE BY ANY OTHER NAME") {
       Row(verticalAlignment = Alignment.Bottom) {
-        Text("Compose ", fontFamily = fonts.title, color = Livewire.Cream, fontSize = 24.sp)
+        Text("Compose ", fontFamily = fonts.title, color = Livewire.Cream, fontSize = 22.sp)
         Text(
           "UI",
           fontFamily = fonts.title,
@@ -327,13 +337,13 @@ val uiVsRuntime by
           fontSize = 24.sp,
           fontStyle = FontStyle.Italic,
         )
-        Text("  vs.  ", fontFamily = fonts.title, color = Livewire.Gray, fontSize = 24.sp)
-        Text("Compose ", fontFamily = fonts.title, color = Livewire.Cream, fontSize = 24.sp)
+        Text("  vs.  ", fontFamily = fonts.title, color = Livewire.Gray, fontSize = 22.sp)
+        Text("Compose ", fontFamily = fonts.title, color = Livewire.Cream, fontSize = 22.sp)
         Text(
           "Runtime",
           fontFamily = fonts.title,
           color = Livewire.Red,
-          fontSize = 24.sp,
+          fontSize = 22.sp,
           fontStyle = FontStyle.Italic,
         )
       }
@@ -348,11 +358,21 @@ val uiVsRuntime by
             fontWeight = FontWeight.SemiBold,
             fontSize = 12.sp,
           )
-          Spacer(Modifier.height(8.dp))
+          Spacer(Modifier.height(24.dp))
+
           GifImage(
             path = "files/ui_vs_runtime.gif",
             contentDescription = "Compose UI demo",
-            modifier = Modifier.weight(1f).fillMaxWidth(),
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+              .width(180.dp)
+              .fillMaxHeight()
+              .clip(
+                RoundedCornerShape(
+                  topStart = 30.dp,
+                  topEnd = 30.dp,
+                )
+              ),
           )
         }
         Spacer(Modifier.width(20.dp))
@@ -362,7 +382,10 @@ val uiVsRuntime by
           Image(
             painter = painterResource(Res.drawable.diagram_ui_vs_runtime),
             contentDescription = "Compose compiler and runtime tree",
-            modifier = Modifier.weight(1f).fillMaxWidth(),
+            modifier = Modifier
+              .weight(1f)
+              .fillMaxWidth()
+              .padding(16.dp),
             contentScale = ContentScale.Fit,
           )
         }
@@ -399,12 +422,30 @@ val otherTalks by
               Image(
                 painter = painterResource(thumb),
                 contentDescription = talkTitle,
-                modifier = Modifier.weight(1f).fillMaxWidth(),
+                modifier = Modifier.weight(1f)
+                  .fillMaxWidth()
+                  .padding(16.dp),
                 contentScale = ContentScale.Fit,
               )
               Spacer(Modifier.height(8.dp))
-              Text(talkTitle, fontWeight = FontWeight.Bold, fontSize = 11.sp)
-              Text(speaker, color = Livewire.Gray, fontSize = 10.sp, fontFamily = fonts.body)
+              Column(
+                Modifier.height(56.dp)
+              ) {
+                Text(
+                  talkTitle,
+                  fontWeight = FontWeight.Bold,
+                  fontSize = 12.sp,
+                  lineHeight = 12.sp,
+                )
+                Spacer(Modifier.height(4.dp))
+                Text(
+                  speaker,
+                  color = Livewire.Gray,
+                  fontSize = 10.sp,
+                  lineHeight = 12.sp,
+                  fontFamily = fonts.body
+                )
+              }
             }
           }
       }
@@ -428,10 +469,10 @@ val buildOurOwnTree by
       )
   ) {
     TitledSlide(title = "So let's build our own tree…", kicker = "// CUSTOM COMPOSE") {
-      Row(verticalAlignment = Alignment.CenterVertically) {
-        Column(Modifier.weight(1.2f)) {
-          Text(line { b("What do we need?") }, fontSize = 13.sp)
-          Spacer(Modifier.height(8.dp))
+      Row(verticalAlignment = Alignment.Top) {
+        Column(Modifier.weight(1.2f).padding(top = 16.dp)) {
+          Text(line { b("What do we need?") }, fontSize = 16.sp)
+          Spacer(Modifier.height(12.dp))
           Bullet(line { t("Compose-like APIs & widgets") })
           Bullet(line { t("Support for all KMP targets") })
           Bullet(line { i("Android/iOS/Desktop/Web") }, indent = 1)

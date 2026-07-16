@@ -60,8 +60,10 @@ fun TitledSlide(
       )
       Spacer(Modifier.height(2.dp))
     }
-    Text(text = title, fontFamily = fonts.title, color = Livewire.Cream, fontSize = titleSize)
-    Spacer(Modifier.height(12.dp))
+    if (title.isNotBlank()) {
+      Text(text = title, fontFamily = fonts.title, color = Livewire.Cream, fontSize = titleSize)
+      Spacer(Modifier.height(12.dp))
+    }
     content()
   }
 }
@@ -148,6 +150,7 @@ fun ColumnScope.Bullet(
 @Composable
 internal fun CodeBox(
   modifier: Modifier = Modifier,
+  contentAlignment: Alignment = Alignment.TopStart,
   content: @Composable BoxScope.() -> Unit,
 ) {
   val cornerSize = 8.dp
@@ -228,6 +231,7 @@ internal fun CodeBox(
         )
       }
       .padding(8.dp),
+    contentAlignment = contentAlignment,
     content = content,
   )
 }

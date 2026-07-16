@@ -24,6 +24,7 @@ import widgets.Bullet
 import widgets.LivewireCode
 import widgets.SectionSlide
 import widgets.TitledSlide
+import widgets.dimmed
 import widgets.line
 
 val sectionReassembly by
@@ -50,20 +51,20 @@ val renderingOnHost by
   ) {
     val sourceCode =
       rememberSourceCode(language = "kotlin") {
-        val inner by marker(highlighted(0))
+        val shell by marker(dimmed(0))
 
         // language=kotlin
         """
-        HostScaffold(…) {
-        ${inner}  val layoutNode by host.connection
+        ${shell}HostScaffold(…) {${X}
+          val layoutNode by host.connection
             .incomingLayoutNodes
             .collectAsState()
 
           LayoutNodeContent(
             node = layoutNode,
             modifier = Modifier.fillMaxSize(),
-          )${X}
-        }
+          )
+        ${shell}}${X}
         """
           .trimIndent()
       }
@@ -140,12 +141,13 @@ val renderingNode by
   ) {
     val sourceCode =
       rememberSourceCode(language = "kotlin") {
-        val keyed by marker(highlighted(1))
-        val folded by marker(highlighted(2))
+        val outer by marker(dimmed(1..2))
+        val keyed by marker(dimmed(2))
+        val folded by marker(dimmed(1))
 
         // language=kotlin
         """
-        @Composable
+        ${outer}@Composable
         fun BoxNodeContent(
           node: BoxNode,
           modifier: Modifier = Modifier,
@@ -154,14 +156,14 @@ val renderingNode by
             modifier = modifier.debugFrame(),
             //…
           ) {
-            node.children.forEach { child ->
+            node.children.forEach { child ->${X}
               ${keyed}key(child.compositeKeyHash) {${X}
         ${folded}        val modifier = with(child.modifier) { this@Box.toComposeUi(Modifier) }
                 LayoutNodeContent(child, modifier)${X}
               ${keyed}}${X}
-            }
+        ${outer}    }
           }
-        }
+        }${X}
         """
           .trimIndent()
       }
@@ -368,17 +370,18 @@ val declaringIntention by
   ) {
     val sourceCode =
       rememberSourceCode(language = "kotlin") {
-        val identifier by marker(highlighted(1))
-        val observe by marker(highlighted(2))
-        val ret by marker(highlighted(3))
+        val head by marker(dimmed(1..3))
+        val identifier by marker(dimmed(2, 3))
+        val observe by marker(dimmed(1, 3))
+        val ret by marker(dimmed(1, 2))
 
         // language=kotlin
         """
-        @Composable
+        ${head}@Composable
         fun clickAction(
           onClick: () -> Unit,
-        ): ClickAction {
-          ${identifier}val identifier = "click_${'$'}currentCompositeKeyHashCode"${X}
+        ): ClickAction {${X}
+        ${identifier}  val identifier = "click_${'$'}currentCompositeKeyHashCode"${X}
         ${observe}  val actionObserver = LocalLivewireActionObserver.current
 
           LaunchedEffect(compositionKey) {
@@ -390,8 +393,8 @@ val declaringIntention by
               }
           }${X}
 
-          ${ret}return remember { ClickAction(identifier) }${X}
-        }
+        ${ret}  return remember { ClickAction(identifier) }${X}
+        ${head}}${X}
         """
           .trimIndent()
       }
