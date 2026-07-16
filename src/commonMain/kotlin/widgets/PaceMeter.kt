@@ -186,21 +186,21 @@ fun BoxScope.PaceMeter(talkDuration: Duration = 40.minutes) {
   Column(
     horizontalAlignment = Alignment.CenterHorizontally,
     modifier =
-      Modifier.align(Alignment.BottomCenter)
-        .padding(bottom = 10.dp)
-        .background(Livewire.Background.copy(alpha = 0.85f), RoundedCornerShape(8.dp))
-        .border(1.dp, Livewire.Slate, RoundedCornerShape(8.dp))
+      Modifier.align(Alignment.BottomEnd)
+        .padding(end = 16.dp, bottom = 16.dp)
+        .background(Livewire.Background.copy(alpha = 0.85f), RoundedCornerShape(10.dp))
+        .border(1.dp, Livewire.Slate, RoundedCornerShape(10.dp))
         .clickable { PaceClock.restart() }
-        .padding(horizontal = 10.dp, vertical = 6.dp),
+        .padding(horizontal = 14.dp, vertical = 10.dp),
   ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
       Text(
         text = if (pace.started) pace.elapsed.asClock() else pace.talkDuration.asClock(),
         fontFamily = fonts.mono,
-        fontSize = 11.sp,
+        fontSize = 20.sp,
         color = Livewire.Cream.copy(alpha = if (pace.started) 1f else 0.5f),
       )
-      Spacer(Modifier.width(8.dp))
+      Spacer(Modifier.width(12.dp))
       Text(
         text =
           when {
@@ -210,14 +210,14 @@ fun BoxScope.PaceMeter(talkDuration: Duration = 40.minutes) {
             else -> "▼ ${(-pace.delta).asClock()}"
           },
         fontFamily = fonts.mono,
-        fontSize = 11.sp,
+        fontSize = 20.sp,
         color = paceColor,
       )
     }
-    Spacer(Modifier.height(4.dp))
+    Spacer(Modifier.height(8.dp))
     // Timeline: amber fill = time spent, notches = keyframe targets,
     // cream tick = target clock time for the current deck position.
-    Canvas(Modifier.width(140.dp).height(3.dp)) {
+    Canvas(Modifier.width(220.dp).height(5.dp)) {
       val r = CornerRadius(size.height / 2)
       drawRoundRect(color = Livewire.Slate, cornerRadius = r)
       if (pace.started) {
