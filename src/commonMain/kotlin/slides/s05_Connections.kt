@@ -31,6 +31,7 @@ import net.kodein.cup.sa.rememberSourceCode
 import net.kodein.cup.speaker.SpeakerNotes
 import org.jetbrains.compose.resources.painterResource
 import widgets.Bullet
+import widgets.CodeBox
 import widgets.LivewireCode
 import widgets.SectionSlide
 import widgets.TitledSlide
@@ -105,24 +106,21 @@ val twoPhases by
       )
   ) {
     TitledSlide(title = "Two phases: discover, then connect", kicker = "// CONNECTIONS") {
-      Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
-        Column(Modifier.weight(1f)) {
-          Bullet(
-            line {
-              em("Discovery")
-              t(": “what's alive right now?”")
-            }
-          )
-          Bullet(line { t("Continuous, cheap, always running. No tunnels held open.") }, indent = 1)
-          Bullet(
-            line {
-              em("Connection")
-              t(": “the user picked one”")
-            }
-          )
-          Bullet(line { t("Builds the persistent encrypted tunnel.") }, indent = 1)
-        }
-        Spacer(Modifier.width(14.dp))
+      Column(Modifier.fillMaxSize()) {
+        Bullet(
+          line {
+            em("Discovery")
+            t(": “what's alive right now?”")
+          }
+        )
+        Bullet(line { t("Continuous, cheap, always running. No tunnels held open.") }, indent = 1)
+        Bullet(
+          line {
+            em("Connection")
+            t(": “the user picked one”")
+          }
+        )
+        Bullet(line { t("Builds the persistent encrypted tunnel.") }, indent = 1)
         Image(
           painter = painterResource(Res.drawable.diagram_two_phases),
           contentDescription = "Discovery then connection",
@@ -506,7 +504,9 @@ val stayingConnected by
         )
         Bullet(line { t("The entire client reconnection handler is one loop:") })
         Spacer(Modifier.height(10.dp))
-        LivewireCode(sourceCode, modifier = Modifier.fillMaxWidth())
+        CodeBox {
+          LivewireCode(sourceCode, modifier = Modifier.fillMaxWidth())
+        }
       }
     }
   }

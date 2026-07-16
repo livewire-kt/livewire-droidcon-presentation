@@ -59,8 +59,6 @@ import slides.physicalIos3
 import slides.pluginApi
 import slides.pluginContent
 import slides.pluginInfo
-import slides.pluginScreens1
-import slides.pluginScreens2
 import slides.remoteComposeNo
 import slides.remoteComposeYes
 import slides.renderingNode
@@ -199,8 +197,6 @@ val presentationSlides =
       pluginApi,
       pluginInfo,
       pluginContent,
-      pluginScreens1,
-      pluginScreens2,
       outroGif,
     ),
     section(thankYou),

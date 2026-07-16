@@ -21,6 +21,7 @@ import net.kodein.cup.sa.rememberSourceCode
 import net.kodein.cup.speaker.SpeakerNotes
 import org.jetbrains.compose.resources.painterResource
 import widgets.Bullet
+import widgets.CodeBox
 import widgets.LivewireCode
 import widgets.SectionSlide
 import widgets.TitledSlide
@@ -71,7 +72,11 @@ val renderingOnHost by
 
     slideContent { step ->
       TitledSlide(title = "Rendering on the host", kicker = "// HOST RENDERING") {
-        LivewireCode(sourceCode, step = step)
+        CodeBox(
+          modifier = Modifier.fillMaxSize()
+        ) {
+          LivewireCode(sourceCode, step = step)
+        }
       }
     }
   }
@@ -116,7 +121,11 @@ val renderingTree by
             contentScale = ContentScale.Fit,
           )
           Spacer(Modifier.width(16.dp))
-          LivewireCode(sourceCode, modifier = Modifier.weight(1.2f))
+          CodeBox(
+            modifier = Modifier.fillMaxSize().weight(1.2f)
+          ) {
+            LivewireCode(sourceCode)
+          }
         }
       }
     }
@@ -170,7 +179,11 @@ val renderingNode by
 
     slideContent { step ->
       TitledSlide(title = "Rendering a node", kicker = "// HOST RENDERING") {
+        CodeBox(
+          modifier = Modifier.fillMaxSize()
+        ) {
         LivewireCode(sourceCode, step = step)
+          }
       }
     }
   }
@@ -214,7 +227,10 @@ val diffing by
         )
         Bullet(line { t("Resync the world when in doubt") })
         Spacer(Modifier.height(10.dp))
-        LivewireCode(sourceCode, modifier = Modifier.fillMaxWidth())
+        CodeBox(
+        ) {
+          LivewireCode(sourceCode, modifier = Modifier.fillMaxWidth())
+        }
       }
     }
   }
@@ -267,7 +283,7 @@ val actions by
       )
   ) {
     TitledSlide(title = "Actions", kicker = "// CLICKING OVER THE WIRE") {
-      Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
+      Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.Top) {
         androidx.compose.foundation.layout.Column(Modifier.weight(1f)) {
           Bullet(line { em("A lambda can't cross a socket!") })
           Bullet(line { t("Client defines the intention") })
@@ -305,10 +321,12 @@ val definingIntention by
         @Serializable
         sealed interface LivewireAction
 
+
         @Serializable
         data class ClickAction(
           val identifier: String,
         ) : LivewireAction
+
 
         @Serializable
         data class CheckedChangeAction(
@@ -328,6 +346,7 @@ val definingIntention by
           val value: String = "",
         ) : LivewireAction
 
+
         @Serializable
         data class FloatValueChangeAction(
           val identifier: String,
@@ -339,10 +358,14 @@ val definingIntention by
 
     slideContent {
       TitledSlide(title = "Defining user intention", kicker = "// ACTIONS") {
-        Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.Top) {
-          LivewireCode(left, modifier = Modifier.weight(1f))
-          Spacer(Modifier.width(20.dp))
-          LivewireCode(right, modifier = Modifier.weight(1f))
+        CodeBox(
+          modifier = Modifier.fillMaxSize()
+        ) {
+          Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.Top) {
+            LivewireCode(left, modifier = Modifier.weight(1f))
+            Spacer(Modifier.width(20.dp))
+            LivewireCode(right, modifier = Modifier.weight(1f))
+          }
         }
       }
     }
@@ -401,7 +424,11 @@ val declaringIntention by
 
     slideContent { step ->
       TitledSlide(title = "Declaring user intention", kicker = "// CLIENT") {
-        LivewireCode(sourceCode, step = step)
+        CodeBox(
+          modifier = Modifier.fillMaxSize()
+        ) {
+          LivewireCode(sourceCode, step = step)
+        }
       }
     }
   }
@@ -434,7 +461,11 @@ val clickingBackwards by
 
     slideContent {
       TitledSlide(title = "Clicking, but backwards", kicker = "// CLIENT") {
-        LivewireCode(sourceCode)
+        CodeBox(
+          modifier = Modifier.fillMaxSize()
+        ) {
+          LivewireCode(sourceCode)
+        }
       }
     }
   }
@@ -470,6 +501,12 @@ val deliveringAction by
       }
 
     slideContent {
-      TitledSlide(title = "Delivering Action", kicker = "// HOST") { LivewireCode(sourceCode) }
+      TitledSlide(title = "Delivering Action", kicker = "// HOST") {
+        CodeBox(
+          modifier = Modifier.fillMaxSize()
+        ) {
+          LivewireCode(sourceCode)
+        }
+      }
     }
   }

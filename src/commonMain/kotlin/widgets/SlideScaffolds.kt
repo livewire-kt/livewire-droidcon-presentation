@@ -56,12 +56,17 @@ fun TitledSlide(
         fontFamily = fonts.mono,
         color = Livewire.Amber,
         fontSize = 7.sp,
-        letterSpacing = 1.5.sp,
+        lineHeight = 14.sp
       )
-      Spacer(Modifier.height(2.dp))
     }
     if (title.isNotBlank()) {
-      Text(text = title, fontFamily = fonts.title, color = Livewire.Cream, fontSize = titleSize)
+      Text(
+        text = title,
+        fontFamily = fonts.title,
+        color = Livewire.Cream,
+        fontSize = titleSize,
+        lineHeight = titleSize
+      )
       Spacer(Modifier.height(12.dp))
     }
     content()

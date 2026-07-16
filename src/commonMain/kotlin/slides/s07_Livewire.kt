@@ -31,6 +31,7 @@ import net.kodein.cup.sa.rememberSourceCode
 import net.kodein.cup.speaker.SpeakerNotes
 import org.jetbrains.compose.resources.painterResource
 import widgets.Bullet
+import widgets.CodeBox
 import widgets.GifImage
 import widgets.LivewireCode
 import widgets.SectionSlide
@@ -146,7 +147,11 @@ val clientSetup by PreparedSlide {
 
   slideContent {
     TitledSlide(title = "Setting up the client", kicker = "// USING LIVEWIRE") {
-      LivewireCode(sourceCode)
+      CodeBox(
+        modifier = Modifier.fillMaxSize()
+      ) {
+        LivewireCode(sourceCode)
+      }
     }
   }
 }
@@ -172,7 +177,11 @@ val pluginApi by PreparedSlide {
 
   slideContent {
     TitledSlide(title = "Plugin API", kicker = "// CUSTOMIZING LIVEWIRE") {
-      LivewireCode(sourceCode)
+      CodeBox(
+        modifier = Modifier.fillMaxSize()
+      ) {
+        LivewireCode(sourceCode)
+      }
     }
   }
 }
@@ -198,7 +207,11 @@ val pluginInfo by PreparedSlide {
 
   slideContent {
     TitledSlide(title = "Plugin info", kicker = "// CUSTOMIZING LIVEWIRE") {
-      LivewireCode(sourceCode)
+      CodeBox(
+        modifier = Modifier.fillMaxSize()
+      ) {
+        LivewireCode(sourceCode)
+      }
     }
   }
 }
@@ -230,44 +243,12 @@ val pluginContent by PreparedSlide {
 
   slideContent {
     TitledSlide(title = "Plugin content", kicker = "// CUSTOMIZING LIVEWIRE") {
-      LivewireCode(sourceCode)
+      CodeBox(
+        modifier = Modifier.fillMaxSize()
+      ) {
+        LivewireCode(sourceCode)
+      }
     }
-  }
-}
-
-val pluginScreens1 by Slide {
-  Row(Modifier.fillMaxSize().padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
-    Image(
-      painter = painterResource(Res.drawable.screenshot_plugin_1),
-      contentDescription = "Custom plugin in the app",
-      modifier = Modifier.weight(1f).fillMaxSize(),
-      contentScale = ContentScale.Fit,
-    )
-    Spacer(Modifier.width(12.dp))
-    Image(
-      painter = painterResource(Res.drawable.screenshot_plugin_2),
-      contentDescription = "Custom plugin rendered on the host",
-      modifier = Modifier.weight(1f).fillMaxSize(),
-      contentScale = ContentScale.Fit,
-    )
-  }
-}
-
-val pluginScreens2 by Slide {
-  Row(Modifier.fillMaxSize().padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
-    Image(
-      painter = painterResource(Res.drawable.screenshot_plugin_3),
-      contentDescription = "Custom plugin in the app",
-      modifier = Modifier.weight(1f).fillMaxSize(),
-      contentScale = ContentScale.Fit,
-    )
-    Spacer(Modifier.width(12.dp))
-    Image(
-      painter = painterResource(Res.drawable.screenshot_plugin_4),
-      contentDescription = "Custom plugin rendered on the host",
-      modifier = Modifier.weight(1f).fillMaxSize(),
-      contentScale = ContentScale.Fit,
-    )
   }
 }
 
