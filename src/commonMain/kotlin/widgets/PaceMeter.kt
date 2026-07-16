@@ -288,7 +288,7 @@ fun BoxScope.PacePowerBar(
     contentAlignment = Alignment.Center,
   ) {
     // Vertical battery: nub on top, charge fills bottom-up.
-    Canvas(Modifier.width(20.dp).height(46.dp)) {
+    Canvas(Modifier.width(24.dp).height(46.dp)) {
       val stroke = 1.5.dp.toPx()
       val nubHeight = 2.5.dp.toPx()
       val bodyHeight = size.height - nubHeight
