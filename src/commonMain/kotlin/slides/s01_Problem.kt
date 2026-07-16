@@ -3,6 +3,7 @@ package slides
 import net.kodein.cup.Slide
 import net.kodein.cup.speaker.SpeakerNotes
 import widgets.Bullet
+import widgets.Livewire
 import widgets.SectionSlide
 import widgets.TitledSlide
 import widgets.line
@@ -77,13 +78,13 @@ val stetho by
       Bullet(line { t("Facebook, 2015") })
       Bullet(
         line {
-          code("chrome://inspect")
+          code("chrome://inspect", color = Livewire.Amber)
           t(" → your app's network, database, view tree, etc")
         }
       )
       Bullet(
         line {
-          code("dumpapp")
+          code("dumpapp", color = Livewire.Amber)
           t(" for custom plugins — CLI only, no UI")
         }
       )

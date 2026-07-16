@@ -2,19 +2,23 @@ package slides
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -24,6 +28,7 @@ import livewire_presentation.generated.resources.Res
 import livewire_presentation.generated.resources.compose_remotely_art
 import livewire_presentation.generated.resources.diagram_flip_it
 import livewire_presentation.generated.resources.diagram_ui_vs_runtime
+import livewire_presentation.generated.resources.platform_all
 import livewire_presentation.generated.resources.platform_logo_1
 import livewire_presentation.generated.resources.platform_logo_2
 import livewire_presentation.generated.resources.platform_logo_3
@@ -41,6 +46,7 @@ import net.kodein.cup.speaker.SpeakerNotes
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import widgets.Bullet
+import widgets.CodeBox
 import widgets.GifImage
 import widgets.Livewire
 import widgets.LivewireCode
@@ -109,13 +115,24 @@ val composeIsFun by
     slideContent {
       TitledSlide(title = "Compose is Fun", kicker = "// COMPOSE") {
         Row(verticalAlignment = Alignment.CenterVertically) {
-          LivewireCode(sourceCode, modifier = Modifier.weight(1.2f))
+          CodeBox(Modifier.weight(1.2f)) {
+            LivewireCode(sourceCode, modifier = Modifier)
+          }
+
           Spacer(Modifier.width(16.dp))
-          GifImage(
-            path = "files/compose_fun.gif",
-            contentDescription = "Expanding card demo",
+          Box(
             modifier = Modifier.weight(0.8f),
-          )
+            contentAlignment = Alignment.Center,
+          ) {
+            GifImage(
+              path = "files/compose_fun.gif",
+              contentDescription = "Expanding card demo",
+              contentScale = ContentScale.Crop,
+              modifier = Modifier
+                .clip(RoundedCornerShape(16.dp))
+                .fillMaxHeight(),
+            )
+          }
         }
       }
     }
@@ -131,9 +148,7 @@ val composeRemotely by
   ) {
     val fonts = LocalLivewireFonts.current
     Column(
-      modifier = Modifier.fillMaxSize().padding(36.dp),
-      horizontalAlignment = Alignment.CenterHorizontally,
-      verticalArrangement = Arrangement.Center,
+      modifier = Modifier.fillMaxSize().padding(horizontal = 36.dp, vertical = 22.dp)
     ) {
       Text(
         text = "// COMPOSE",
@@ -142,41 +157,30 @@ val composeRemotely by
         fontSize = 7.sp,
         letterSpacing = 1.5.sp,
       )
-      Spacer(Modifier.height(6.dp))
+      Spacer(Modifier.height(2.dp))
       Row(verticalAlignment = Alignment.Bottom) {
         Text(
           "What if we could Compose… ",
           fontFamily = fonts.title,
           color = Livewire.Cream,
-          fontSize = 26.sp,
+          fontSize = 22.sp,
         )
         Text(
           "remotely",
           fontFamily = fonts.title,
-          color = Livewire.Amber,
-          fontSize = 26.sp,
+          color = Livewire.Red,
+          fontSize = 22.sp,
           fontStyle = FontStyle.Italic,
         )
       }
       Spacer(Modifier.height(28.dp))
       Row(horizontalArrangement = Arrangement.spacedBy(18.dp)) {
-        listOf(
-            Res.drawable.platform_logo_1,
-            Res.drawable.platform_logo_2,
-            Res.drawable.platform_logo_3,
-            Res.drawable.platform_logo_4,
-            Res.drawable.platform_logo_5,
-            Res.drawable.platform_logo_6,
-            Res.drawable.platform_logo_7,
-          )
-          .forEach { logo: DrawableResource ->
-            Image(
-              painter = painterResource(logo),
-              contentDescription = null,
-              modifier = Modifier.size(34.dp),
-              contentScale = ContentScale.Fit,
-            )
-          }
+        Image(
+          painter = painterResource(Res.drawable.platform_all),
+          contentDescription = null,
+          modifier = Modifier.fillMaxSize(),
+          contentScale = ContentScale.Fit,
+        )
       }
     }
   }

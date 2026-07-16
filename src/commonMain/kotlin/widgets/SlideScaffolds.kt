@@ -4,7 +4,11 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
@@ -18,7 +22,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.DrawStyle
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.TextUnit
@@ -108,10 +116,22 @@ fun ColumnScope.Bullet(
   style: TextStyle = TextStyle.Default,
 ) {
   AnimatedVisibility(visible = visible, enter = fadeIn(), exit = fadeOut()) {
-    Row(modifier = Modifier.padding(start = (indent * 14).dp, top = 3.dp, bottom = 3.dp)) {
-      Text("▸", color = Livewire.Amber, fontSize = 11.sp)
-      Spacer(Modifier.width(6.dp))
-      Text(text, style = style, lineHeight = 15.sp)
+    Row(
+      modifier = Modifier.padding(
+        start = (indent * 14).dp,
+        top = 3.dp,
+        bottom = 3.dp
+      ),
+      verticalAlignment = Alignment.Top
+    ) {
+      Text("⭕", color = Livewire.Amber, fontSize = 12.sp)
+      Spacer(Modifier.width(8.dp))
+      Text(
+        text,
+        style = style,
+        lineHeight = 15.sp,
+        modifier = Modifier.padding(top = 3.dp)
+      )
     }
   }
 }
@@ -123,3 +143,91 @@ fun ColumnScope.Bullet(
   indent: Int = 0,
   style: TextStyle = TextStyle.Default,
 ) = Bullet(AnnotatedString(text), visible, indent, style)
+
+
+@Composable
+internal fun CodeBox(
+  modifier: Modifier = Modifier,
+  content: @Composable BoxScope.() -> Unit,
+) {
+  val cornerSize = 8.dp
+  val lineWidth = 1.dp
+  Box(
+    modifier = modifier
+      .background(Livewire.Background)
+      .drawWithContent {
+        drawContent()
+
+        drawRect(
+          color = Livewire.Slate,
+          style = Stroke(1.dp.toPx())
+        )
+
+        // TOP LEFT
+        drawLine(
+          color = Livewire.Amber,
+          start = Offset(0f, 0f),
+          end = Offset(cornerSize.toPx(), 0f),
+          strokeWidth = lineWidth.toPx(),
+          cap = StrokeCap.Round,
+        )
+        drawLine(
+          color = Livewire.Amber,
+          start = Offset(0f, 0f),
+          end = Offset(0f, cornerSize.toPx()),
+          strokeWidth = lineWidth.toPx(),
+          cap = StrokeCap.Round,
+        )
+
+        // TOP RIGHT
+        drawLine(
+          color = Livewire.Amber,
+          start = Offset(size.width, 0f),
+          end = Offset(size.width - cornerSize.toPx(), 0f),
+          strokeWidth = lineWidth.toPx(),
+          cap = StrokeCap.Round,
+        )
+        drawLine(
+          color = Livewire.Amber,
+          start = Offset(size.width, 0f),
+          end = Offset(size.width, cornerSize.toPx()),
+          strokeWidth = lineWidth.toPx(),
+          cap = StrokeCap.Round,
+        )
+
+        // BOTTOM LEFT
+        drawLine(
+          color = Livewire.Amber,
+          start = Offset(0f, size.height),
+          end = Offset(0f, size.height - cornerSize.toPx()),
+          strokeWidth = lineWidth.toPx(),
+          cap = StrokeCap.Round,
+        )
+        drawLine(
+          color = Livewire.Amber,
+          start = Offset(0f, size.height),
+          end = Offset(cornerSize.toPx(), size.height),
+          strokeWidth = lineWidth.toPx(),
+          cap = StrokeCap.Round,
+        )
+
+        // BOTTOM LEFT
+        drawLine(
+          color = Livewire.Amber,
+          start = Offset(size.width, size.height),
+          end = Offset(size.width, size.height - cornerSize.toPx()),
+          strokeWidth = lineWidth.toPx(),
+          cap = StrokeCap.Round,
+        )
+        drawLine(
+          color = Livewire.Amber,
+          start = Offset(size.width, size.height),
+          end = Offset(size.width - cornerSize.toPx(), size.height),
+          strokeWidth = lineWidth.toPx(),
+          cap = StrokeCap.Round,
+        )
+      }
+      .padding(8.dp),
+    content = content,
+  )
+}

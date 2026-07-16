@@ -23,7 +23,7 @@ fun LivewireCode(
       TextStyle(
         fontFamily = LocalLivewireFonts.current.mono,
         fontSize = fontSize,
-        color = Livewire.CodePlain,
+//        color = Livewire.CodePlain,
       ),
     theme = livewireCodeTheme,
   )

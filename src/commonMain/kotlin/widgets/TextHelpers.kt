@@ -1,6 +1,8 @@
 package widgets
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -29,8 +31,14 @@ class LineBuilder(private val fonts: LivewireFonts, private val builder: Annotat
   }
 
   /** Inline code — JetBrains Mono, cream. */
-  fun code(s: String) {
-    builder.withStyle(SpanStyle(fontFamily = fonts.mono, fontSize = 0.9.em)) { append(s) }
+  fun code(s: String, color: Color = Livewire.Cream) {
+    builder.withStyle(
+      SpanStyle(
+        fontFamily = fonts.mono,
+        fontSize = 0.9.em,
+        color = color,
+      )
+    ) { append(s) }
   }
 
   /** Red accent (deprecated/dead things). */
