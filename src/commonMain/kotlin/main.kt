@@ -1,7 +1,11 @@
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.LayoutDirection
 import com.livewire.client.LivewireClient
+import com.livewire.plugin.recomposition.RecompositionPlugin
+import livewire.SlideDeckPlugin
 import net.kodein.cup.Presentation
 import net.kodein.cup.SLIDE_SIZE_16_9
 import net.kodein.cup.SlideGroup
@@ -13,6 +17,7 @@ import net.kodein.cup.imgexp.imageExport
 import net.kodein.cup.insideTransitionSpecs
 import net.kodein.cup.laser.laser
 import net.kodein.cup.overview.overview
+import net.kodein.cup.speaker.isInSpeakerWindow
 import net.kodein.cup.speaker.speakerWindow
 import net.kodein.cup.speaker.windowManagement
 import org.kodein.emoji.compose.EmojiService
@@ -88,12 +93,22 @@ import slides.wantsAndDesires
 import widgets.DotGridBackground
 import widgets.LivewireTheme
 import widgets.PaceMeter
+import widgets.PacePowerBar
 
 fun main() =
   cupApplication(title = "Livewire — Droidcon '26") {
     val livewireClient = remember {
       LivewireClient {
+        install(RecompositionPlugin())
+        install(SlideDeckPlugin())
+      }
+    }
 
+    DisposableEffect(Unit) {
+      livewireClient.start()
+
+      onDispose {
+        livewireClient.stop()
       }
     }
 
@@ -119,7 +134,11 @@ fun main() =
       ) { slidesContent ->
         DotGridBackground()
         slidesContent()
-        PaceMeter()
+        if (isInSpeakerWindow()) {
+          PaceMeter() // full detail, presenter-only
+        } else {
+          PacePowerBar() // discreet corner status for the audience
+        }
       }
     }
   }
