@@ -11,9 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,7 +19,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import bugs.StagedBugs
-import com.livewire.ui.widget.Text
 import livewire_presentation.generated.resources.Res
 import livewire_presentation.generated.resources.jc
 import livewire_presentation.generated.resources.screenshot_demo_1
@@ -29,27 +26,23 @@ import livewire_presentation.generated.resources.screenshot_demo_2
 import livewire_presentation.generated.resources.screenshot_demo_3
 import livewire_presentation.generated.resources.screenshot_demo_4
 import livewire_presentation.generated.resources.screenshot_demo_5
-import livewire_presentation.generated.resources.screenshot_plugin_1
-import livewire_presentation.generated.resources.screenshot_plugin_2
-import livewire_presentation.generated.resources.screenshot_plugin_3
-import livewire_presentation.generated.resources.screenshot_plugin_4
 import livewire_presentation.generated.resources.screenshot_recomposition
 import net.kodein.cup.PreparedSlide
 import net.kodein.cup.Slide
 import net.kodein.cup.sa.rememberSourceCode
 import net.kodein.cup.speaker.SpeakerNotes
+import net.kodein.cup.utils.plus
 import org.jetbrains.compose.resources.painterResource
 import widgets.Bullet
 import widgets.CodeBox
 import widgets.GifImage
 import widgets.LivewireCode
 import widgets.LivewireWire
+import widgets.PaceKeyframe
 import widgets.SectionSlide
 import widgets.TitledSlide
 import widgets.line
 import kotlin.time.Duration.Companion.minutes
-import widgets.PaceKeyframe
-import net.kodein.cup.utils.plus
 
 val sectionLivewire by
   Slide(
