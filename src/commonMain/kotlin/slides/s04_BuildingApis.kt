@@ -51,12 +51,13 @@ val composeUiLikeApis by
       SpeakerNotes(
         listOf(
           0..0 to
+            "DREW:\n" +
             "To add meaning to our tree, we need to cover our last requirement for " +
               "building a custom composition.\n\n" +
               "Tree node emitter, i.e our `@Composable` function APIs. These are the \"widgets\" " +
               "you already know and love.",
-          1..1 to "> Just quickly talk / mention through these. Just here to drive the point.",
-          2..2 to "We want writing Livewire UIs to feel JUST like writing regular Compose UIs.",
+          1..1 to "DREW:\n> Just quickly talk / mention through these. Just here to drive the point.",
+          2..2 to "DREW:\nWe want writing Livewire UIs to feel JUST like writing regular Compose UIs.",
         )
       ),
   ) { step ->
@@ -83,6 +84,7 @@ val textNode by
   PreparedSlide(
     context =
       SpeakerNotes(
+        "DREW:\n" +
         "To do this we need to first extend the meaning of our tree nodes.\n\n" +
           "We create a new node/implementation that adds additional meaning and metadata to " +
           "describe a UI element that we want to render.\n\n" +
@@ -118,6 +120,7 @@ val createComposable by
   PreparedSlide(
     context =
       SpeakerNotes(
+        "DREW:\n" +
         "Next, we need to define a function that developers can call to emit this node in the " +
           "composition.\n\n" +
           "These almost one-to-one follow the composables you use today, minus some limitations " +
@@ -157,16 +160,16 @@ val emitToComposition by
       SpeakerNotes(
         listOf(
           0..0 to
-            "Lastly, we need to tell the composition how to create and update our new " +
+            "DREW:\nLastly, we need to tell the composition how to create and update our new " +
               "tree node.",
           1..1 to
-            "Start with calling the `ReusableComposeNode` composable function. Giving it " +
+            "DREW:\nStart with calling the `ReusableComposeNode` composable function. Giving it " +
               "the node type that you want to emit, and the `Applier` type that the composition " +
               "needs to handle it.",
           2..2 to
-            "Next, define the factory or how the composition creates the concrete class " +
+            "DREW:\nNext, define the factory or how the composition creates the concrete class " +
               "of your implementation.",
-          3..3 to "Lastly, tell the composition HOW to update your node when its state changes",
+          3..3 to "DREW:\nLastly, tell the composition HOW to update your node when its state changes",
         )
       ),
   ) {
@@ -214,6 +217,7 @@ val compositionUpdater by
   PreparedSlide(
     context =
       SpeakerNotes(
+        "DREW:\n" +
         "For this, there are 4 basic methods you can use in this scope depending on **when** you " +
           "want the composition to update your node:\n\n" +
           "`init` - This is called only once after the node is created, and no more\n\n" +
@@ -268,6 +272,7 @@ val revisitingTree by
   Slide(
     context =
       SpeakerNotes(
+        "DREW:\n" +
         "Let's look back at our tree now that we've added more meaning to our nodes.\n\n" +
           "It's starting to take shape and look more like the description of a UI.\n\n" +
           "However, its still pretty limited. It lacks the metadata / meaning that make our UIs " +
@@ -292,6 +297,7 @@ val livewireModifier by
   Slide(
     context =
       SpeakerNotes(
+        "DREW:\n" +
         "… which is to create a `Modifier` pattern!\n\n" +
           "This works wonderfully so why re-invent the world and it keeps us to our original " +
           "requirement of creating APIs that developers already know.\n\n" +
@@ -316,7 +322,7 @@ val updatingTheTree by
     stepCount = 1,
     context =
       SpeakerNotes(
-        "First, we update our tree data structure. Adding the modifier as another piece of " +
+        "DREW:\nFirst, we update our tree data structure. Adding the modifier as another piece of " +
           "metadata to the node."
       ),
   ) {
@@ -355,7 +361,7 @@ val updatingOurApis by
     stepCount = 1,
     context =
       SpeakerNotes(
-        "Then we update our `@Composable` APIs by adding it as the first defaulted parameter"
+        "DREW:\nThen we update our `@Composable` APIs by adding it as the first defaulted parameter"
       ),
   ) {
     val sourceCode =
@@ -392,7 +398,7 @@ val updatingTheComposition by
     stepCount = 1,
     context =
       SpeakerNotes(
-        "Lastly, we update our emitter's update function to tell compose how to apply and update " +
+        "DREW:\nLastly, we update our emitter's update function to tell compose how to apply and update " +
           "it when it changes in the composition."
       ),
   ) {
@@ -434,6 +440,7 @@ val creatingNewModifier by
   PreparedSlide(
     context =
       SpeakerNotes(
+        "DREW:\n" +
         "Very similar to how we add new nodes to our UI tree, we do the same for modifiers.\n\n" +
           "Just create a new implementation that defines the modifiers meaning and intent that " +
           "can be applied to all nodes its attached to.\n\n" +
@@ -474,7 +481,7 @@ val allTrees by
   Slide(
     context =
       SpeakerNotes(
-        "I told you, everything is a tree.\n\n" + "Modifiers, are just chains of binary trees"
+        "DREW:\nI told you, everything is a tree.\n\n" + "Modifiers, are just chains of binary trees"
       )
   ) {
     TitledSlide(title = "Wait? It's just all trees?", kicker = "// LIVEWIRE MODIFIER") {
@@ -508,7 +515,7 @@ val serialization by
   PreparedSlide(
     context =
       SpeakerNotes(
-        "KSP plugin with polymorphic serializer?\n\n" +
+        "DREW:\nKSP plugin with polymorphic serializer?\n\n" +
           "Kotlinx serialization let us migrate from JSON to protos"
       )
   ) {

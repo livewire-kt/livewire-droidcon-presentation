@@ -51,7 +51,7 @@ val sectionLivewire by
           "thing yet."
       ) + PaceKeyframe(34.minutes)
   ) {
-    SectionSlide(number = "05", title = "Livewire", subtitle = "Something here, idk what")
+    SectionSlide(number = "05", title = "Livewire", subtitle = "Live Demos (also not live demos)")
   }
 
 val demoScreens by

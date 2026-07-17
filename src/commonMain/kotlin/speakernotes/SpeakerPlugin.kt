@@ -38,8 +38,8 @@ public class SpeakerNotes(notes: List<Pair<IntRange, String>>) : SlideContextEle
   public val notes: List<Pair<IntRange, Pair<String, Color>>> = notes.map { (range, text) ->
     val text = text.trim()
     range to when {
-      text.startsWith("laurie", ignoreCase = true) -> text.lines().drop(1).joinToString("\n").trim() to Color(0xFF005500)
-      text.startsWith("eric", ignoreCase = true) -> text.lines().drop(1).joinToString("\n").trim() to Color(0xFF880000)
+      text.startsWith("drew", ignoreCase = true) -> text.lines().drop(1).joinToString("\n").trim() to Color(0xFF880000)
+      text.startsWith("eric", ignoreCase = true) -> text.lines().drop(1).joinToString("\n").trim() to Color(0xFF005500)
       else -> text to Color.Black
     }
   }

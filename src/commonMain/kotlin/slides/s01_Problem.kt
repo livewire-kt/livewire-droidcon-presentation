@@ -22,9 +22,18 @@ val sidecarDebugging by
   Slide(
     context =
       SpeakerNotes(
-        "The IDE can show a HashMap with 47 entries; it can't show 'the third cart item has a stale " +
-          "price.' Domain-shaped debugging needs app code cooperating with a tool. Stetho and " +
-          "Flipper are the side-cars everyone used."
+        """
+          ERIC:
+          The first problem is that the debugger knows what's in your app's memory, but it doesn't know what any of it means.
+
+          The tools the IDE provides can show you what your UI looks like, or what's being sent on the network, or a million other things, but this is all generic.
+
+          Your IDE can show a HashMap with 47 entries, but it can't show you something like: 'the third cart item has a stale price.'
+
+          It can't tell you about the specific way your app does feature flags or telemetry or your special flower of a sync queue.
+
+          Domain-shaped debugging needs app code cooperating with a tool. This is what we're calling a side car.
+        """.trimIndent()
       )
   ) {
     TitledSlide(title = "Side-car debugging", kicker = "// THE PROBLEM") {
@@ -69,11 +78,16 @@ val stetho by
   Slide(
     context =
       SpeakerNotes(
-        "Stetho had a neat trick: speak the chrome devtools protocol. Piggybacking on this was " +
-          "clever, Facebook borrowed a very polished inspector.\n\n" +
-          "But custom domain plugins were second-class (dumpapp = a command line).\n\n" +
-          "As a firefox user, the lack of dedicated app always annoyed me too.\n\n" +
-          "It quietly stopped being maintained years before the archive."
+        """
+          ERIC:
+          Stetho had a neat trick: speak the chrome devtools protocol. Piggybacking on this was super clever. Facebook borrowed a very polished inspector.
+
+          But custom domain plugins were second-class (dumpapp = a command line).
+
+          As a firefox user, I was also always incredibly annoyed by the requirement to have chrome installed too.
+
+          It quietly stopped being maintained years before the archive.
+        """.trimIndent(),
       )
   ) {
     TitledSlide(title = "Stetho (2015–†)", kicker = "// THE PROBLEM") {
@@ -103,10 +117,16 @@ val flipper by
   Slide(
     context =
       SpeakerNotes(
-        "Flipper fixed Stetho's UI problem and introduced another one: every custom plugin is two " +
-          "codebases in two languages with a hand-rolled JSON contract nothing checks.\n\n" +
-          "Artisanal JSON?\n\n" +
-          "Data model changes silently break the desktop half."
+        """
+          ERIC:
+          Flipper fixed Stetho's UI and plugin problems and introduced another one:
+
+          Every custom plugin is two codebases in two languages with a hand-rolled artisinal JSON contract nothing checks. Data model changes silently broke the desktop half.
+
+          A problem that both Drew and I ran into when we worked on the same platform team was that there was no way to ensure every developer had custom plugins.
+
+          Like its predecessor, it was quietly deprecated and archived.
+        """.trimIndent()
       )
   ) {
     TitledSlide(title = "Flipper (2019–†?)", kicker = "// THE PROBLEM") {
@@ -116,7 +136,6 @@ val flipper by
           em("plugin API!")
         }
       )
-      Bullet(line { t("Custom Plugins!") })
       Bullet(line { t("Desktop half installed per-developer from a marketplace") })
       Bullet(line { t("Android & iOS only, no desktop client.") })
       Bullet(
@@ -129,7 +148,17 @@ val flipper by
   }
 
 val wantsAndDesires by
-  Slide(context = SpeakerNotes("a recomposition plugin for Flipper sounds like a nightmare")) {
+  Slide(context = SpeakerNotes("""
+    ERIC:
+    So we've now gone through the two most popular sidecar debugging apps and neither one could quite scratch that itch for us.
+    What was missing? Here's our checklist:
+
+    - Full KMP support (ios, android, desktop, and maybe even web)
+    - Plugins that you only have to write once in a single language in a single codebase
+    - Ability to automatically deliver to each developer on the team
+    - Type safe!
+    - Good enough to build a recomposition inspection plugin, because doing this in flipper sounds like a nightmare
+  """.trimIndent())) {
     TitledSlide(title = "Wants & desires", kicker = "// THE PROBLEM") {
       Bullet(
         line {

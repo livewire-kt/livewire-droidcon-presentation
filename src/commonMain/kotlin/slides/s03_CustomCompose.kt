@@ -25,6 +25,7 @@ val customComposition by
   Slide(
     context =
       SpeakerNotes(
+        "DREW:\n" +
         "What does it take to actually create a custom composition?\n\n" +
           "You need to define your own custom tree data structure. This will hold all the " +
           "metadata and information we need to describe UIs and intentions.\n\n" +
@@ -59,13 +60,14 @@ val theTree by
       SpeakerNotes(
         listOf(
           0..0 to
+            "DREW:\n" +
             "If we hearken back to our data structures class. A tree is essentially just " +
               "a class with a list of itself and some metadata to describe each node.\n\n" +
               "The core of Livewire is just this:",
-          1..1 to "We have an abstract `LayoutNode` to describe each layout element.",
-          2..2 to "It has a list of children, i.e. more `LayoutNodes`",
+          1..1 to "DREW:\nWe have an abstract `LayoutNode` to describe each layout element.",
+          2..2 to "DREW:\nIt has a list of children, i.e. more `LayoutNodes`",
           3..3 to
-            "Then we define its first concrete implementation, the `RootNode`. Which is " +
+            "DREW:\nThen we define its first concrete implementation, the `RootNode`. Which is " +
               "the \"**ROOT**\" of every livewire tree in our composition.",
         )
       ),
@@ -109,12 +111,12 @@ val applier by
       SpeakerNotes(
         listOf(
           0..0 to
-            "Next! We need an applier, or a way to tell Compose how to manipulate our " +
+            "DREW:\nNext! We need an applier, or a way to tell Compose how to manipulate our " +
               "tree.\n\n" +
               "In its simplest form you just implement `AbstractApplier`, giving it your tree's " +
               "Type, and seeding it with the root or an empty tree.",
           1..1 to
-            "The first methods in an applier are how it inserts nodes into your tree. " +
+            "DREW:\nThe first methods in an applier are how it inserts nodes into your tree. " +
               "There are two different approaches, but **ONLY ONE** should be used.\n\n" +
               "`insertTopDown` is called before the children of instance have been created and " +
               "inserted into it. `insertBottomUp` is called after all children have been created " +
@@ -127,7 +129,7 @@ val applier by
               "For livewire we followed the approach that the `UiApplier` takes and use " +
               "`insertBottomUp` to prevent duplicate notifications.",
           2..2 to
-            "Lastly, are just the remaining tree manipulation methods for removing, " +
+            "DREW:\nLastly, are just the remaining tree manipulation methods for removing, " +
               "moving, and clearing nodes in your tree.\n\n" +
               "There are more functions to override here for more complicated behavior, but you " +
               "get the gist.",
@@ -173,16 +175,16 @@ val composition by
       SpeakerNotes(
         listOf(
           0..0 to
-            "Next, is building the Composition. This example is simplified for brevity of " +
+            "DREW:\nNext, is building the Composition. This example is simplified for brevity of " +
               "our slides, but we pretty much cribbed the setup from **Molecule**, so go checkout " +
               "that library for another example of this setup.",
-          1..1 to "First, we pass in a `RootNode` to seed our composition with",
-          2..2 to "Then, we create an instance of our `Applier` with our `RootNode`",
+          1..1 to "DREW:\nFirst, we pass in a `RootNode` to seed our composition with",
+          2..2 to "DREW:\nThen, we create an instance of our `Applier` with our `RootNode`",
           3..3 to
-            "Next, we create the Recomposer object so we can power recompositions in our " +
+            "DREW:\nNext, we create the Recomposer object so we can power recompositions in our " +
               "custom composition. (*go check out those other talks for more on this*)",
           4..4 to
-            "Lastly, we create our Composition, run the recomposer, and give it the " +
+            "DREW:\nLastly, we create our Composition, run the recomposer, and give it the " +
               "content that will be used to build our tree and define our UI.\n\n" +
               "This, again, is overly simplified and our real implementation has some more " +
               "boilerplate that essentially emits our `LayoutNode` tree when its updated so that " +
@@ -231,7 +233,7 @@ val growingTheTree by
   Slide(
     context =
       SpeakerNotes(
-        "Let's take a look at the sapling that is our tree so far. Visually, it would look " +
+        "DREW:\nLet's take a look at the sapling that is our tree so far. Visually, it would look " +
           "something like this.\n\n" +
           "However, that doesn't really **describe** a UI. We have a tree, but it doesn't really " +
           "tell us anything."

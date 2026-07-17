@@ -88,7 +88,16 @@ private fun Speaker(photo: DrawableResource, name: String, fonts: LivewireFonts)
 }
 
 val agenda by
-  Slide(context = SpeakerNotes("Quick roadmap — five stops, ending in a live demo.")) {
+  Slide(context = SpeakerNotes("""
+    ERIC:
+    Here's a quick roadmap of what we'll be going over today.
+
+    -First we'll talk about the problem we're solving, which will take us through the fascinating history of application debugging.
+    -Next, we'll go over the idea we had to make this better, which involves some very cool and pretty novel usage of compose
+    -Then we'll talk about connections - how we made each KMP target talk to our desktop app
+    -That'll lead us into re-assembly, putting all of this together
+    -Finally, we'll show a demo of our library and talk about how you can use it in your own apps today
+  """.trimIndent())) {
     val fonts = LocalLivewireFonts.current
     Column(Modifier.fillMaxSize().padding(horizontal = 36.dp, vertical = 22.dp)) {
       Text(
@@ -107,11 +116,11 @@ val agenda by
       )
       Spacer(Modifier.height(16.dp))
       listOf(
-          "01" to "The problem: iterating on Android UI is slow",
-          "02" to "The idea: a live wire between host & client",
-          "03" to "Architecture: WebSockets over ADB",
-          "04" to "Kotlin Multiplatform in practice",
-          "05" to "Demo & what's next",
+          "01" to "The problem: The storied history of application debugging",
+          "02" to "The idea: How to Compose once over the wire",
+          "03" to "Connections: How we learned to talk to each other",
+          "04" to "Re-assembly: Not all parts included.",
+          "05" to "Livewire, Live Demos",
         )
         .forEach { (num, item) ->
           Row(

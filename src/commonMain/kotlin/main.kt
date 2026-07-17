@@ -53,7 +53,6 @@ import slides.demoTime
 import slides.desktopEasy
 import slides.diffing
 import slides.discovery
-import slides.discoveryDiagram
 import slides.e2eEncryption1
 import slides.e2eEncryption2
 import slides.emitToComposition
@@ -205,7 +204,6 @@ val presentationSlides =
       hostIsServer,
       twoPhases,
       discovery,
-      discoveryDiagram,
       desktopEasy,
       iosSimulator,
       androidAdb,

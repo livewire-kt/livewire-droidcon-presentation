@@ -69,7 +69,8 @@ val flipIt by
   Slide(
     context =
       SpeakerNotes(
-        """In Flipper, meaning is reconstructed on the desktop by a second program.
+        """DREW:
+In Flipper, meaning is reconstructed on the desktop by a second program.
 What if meaning never left the app? The app already knows how its debug data should look, so it sends the looks.
 
 A plugin is just Kotlin in your codebase; A database plugin can call your DAO directly. A another plugin could just access your apps state that would be hard to send across the wire.
@@ -90,6 +91,7 @@ val composeIsFun by
   PreparedSlide(
     context =
       SpeakerNotes(
+        "DREW:\n" +
         "So! Writing Compose is Fun!\n\n" +
           "By now most of us know how powerful and delightful writing Compose can be."
       )
@@ -147,6 +149,7 @@ val composeRemotely by
   Slide(
     context =
       SpeakerNotes(
+        "DREW:\n" +
         "Wouldn't it be nice if we could write compose and have it render on our desktops? " +
           "It would be!\n\nThat sounds like some sort of **Remote Compose**!"
       )
@@ -194,6 +197,7 @@ val remoteComposeYes by
   PreparedSlide(
     context =
       SpeakerNotes(
+        "DREW:\n" +
         "Oh fantastic! This exists!\n\n" +
           "You can write Compose UI code in one app …\n\n" +
           "Then have it render **remotely** in another app!\n\n" +
@@ -230,6 +234,7 @@ val remoteComposeNo by
   Slide(
     context =
       SpeakerNotes(
+        "DREW:\n" +
         "Errrr, not quite!\n\n" +
           "\"At the time of writing\"…\n\n" +
           "The creator, or producing, side of this library is only possible on the JVM. So this " +
@@ -264,6 +269,7 @@ val composeRemotelyQ by
   Slide(
     context =
       SpeakerNotes(
+        "DREW:\n" +
         "But what if we could **Compose…Remotely?**\n\n" +
           "Could we build our own Compose UI?\n\n" +
           "Could we build a Compose API that developers are already familiar with? Functions " +
@@ -316,6 +322,7 @@ val uiVsRuntime by
   Slide(
     context =
       SpeakerNotes(
+        "DREW:\n" +
         "So if we want to talk about writing custom compositions, we need to talk about what " +
           "\"Compose\" really is.\n\n" +
           "There is Compose UI, or Jetpack Compose based on who does your marketing, which is " +
@@ -398,6 +405,7 @@ val otherTalks by
   Slide(
     context =
       SpeakerNotes(
+        "DREW:\n" +
         "The Compose compiler, runtime, and internals are an amazing piece of tech and we won't " +
           "spend any time under the hood as this topic alone could fill several talks.\n\n" +
           "So instead check out these great talks that dive deeper into this topic."
@@ -457,6 +465,7 @@ val buildOurOwnTree by
   Slide(
     context =
       SpeakerNotes(
+        "DREW:\n" +
         "\"I'm going to build my own composables! With serialization! And Multiplatform " +
           "rendering!\"\n\n" +
           "We want developers to interact with an API they are already familiar with. We don't " +
