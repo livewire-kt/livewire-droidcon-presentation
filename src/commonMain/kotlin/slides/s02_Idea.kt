@@ -475,12 +475,20 @@ val buildOurOwnTree by
           Bullet(line { t("Ability to render our composition over the wire") })
         }
         Spacer(Modifier.width(16.dp))
-        Image(
-          painter = painterResource(Res.drawable.remote_compose_art),
-          contentDescription = "Remote Compose",
-          modifier = Modifier.weight(0.8f).fillMaxSize(),
-          contentScale = ContentScale.Fit,
-        )
+        Box(
+          modifier = Modifier
+            .weight(0.8f)
+            .fillMaxHeight(),
+          contentAlignment = Alignment.Center
+        ) {
+          GifImage(
+            path = "files/build_own_compose.gif",
+            contentDescription = "Remote Compose",
+            modifier = Modifier
+              .height(165.dp),
+            contentScale = ContentScale.FillHeight,
+          )
+        }
       }
     }
   }
