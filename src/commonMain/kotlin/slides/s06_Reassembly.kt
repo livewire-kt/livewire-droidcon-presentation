@@ -81,7 +81,10 @@ val renderingOnHost by
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
       ) {
-        LivewireCode(sourceCode, step = step)
+        LivewireCode(
+          sourceCode = sourceCode,
+          fontSize = 12.sp,
+        )
       }
     }
   }

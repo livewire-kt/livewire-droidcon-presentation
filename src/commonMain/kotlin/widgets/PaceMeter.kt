@@ -299,7 +299,7 @@ fun BoxScope.PacePowerBar(
     contentAlignment = Alignment.Center,
   ) {
     // Vertical battery: nub on top, charge fills bottom-up.
-    Canvas(Modifier.width(24.dp).height(46.dp)) {
+    Canvas(Modifier.width(18.dp).height(32.dp)) {
       val stroke = 1.5.dp.toPx()
       val nubHeight = 2.5.dp.toPx()
       val bodyHeight = size.height - nubHeight
@@ -329,14 +329,14 @@ fun BoxScope.PacePowerBar(
           topLeft =
             Offset(inset, size.height - inset - (i + 1) * slotHeight - i * gap),
           size = Size(size.width - inset * 2, slotHeight),
-          cornerRadius = CornerRadius(1.5.dp.toPx()),
+          cornerRadius = CornerRadius(1.dp.toPx()),
         )
       }
     }
     Image(
       painter = painterResource(Res.drawable.pace_bolt),
       contentDescription = null,
-      modifier = Modifier.height(26.dp),
+      modifier = Modifier.height(16.dp).padding(top = 2.5.dp),
       contentScale = ContentScale.Fit,
     )
   }
