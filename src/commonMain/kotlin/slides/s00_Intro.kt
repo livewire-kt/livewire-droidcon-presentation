@@ -93,7 +93,7 @@ val agenda by
     Here's a quick roadmap of what we'll be going over today.
 
     -First we'll talk about the problem we're solving, which will take us through the fascinating history of application debugging.
-    -Next, we'll go over the idea we had to make this better, which involves some very cool and pretty novel usage of compose
+    -Next, we'll go over our idea for making this better, which involves some very cool and pretty novel usage of compose
     -Then we'll talk about connections - how we made each KMP target talk to our desktop app
     -That'll lead us into re-assembly, putting all of this together
     -Finally, we'll show a demo of our library and talk about how you can use it in your own apps today

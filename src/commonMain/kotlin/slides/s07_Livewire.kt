@@ -269,7 +269,7 @@ val demoTime by
   Slide(
     context =
       SpeakerNotes(
-        "BEAT 1 — the clicker is \"dead\" on this slide: navigation keys are swallowed while " +
+        "DREW:\nBEAT 1 — the clicker is \"dead\" on this slide: navigation keys are swallowed while " +
           "we're here. Click a few times, look puzzled, then pull out the phone: " +
           "Livewire → Slide Deck → next step. The remote path never touches the keyboard. " +
           "Optional flourish before advancing: Deck Doctor → turn OFF \"HID event " +
@@ -290,7 +290,7 @@ val stateSurgery by
   Slide(
     context =
       SpeakerNotes(
-        "BEAT 2 — deck surgery, live from the phone. Deck Doctor is a ~40-line plugin " +
+        "DREW:\nBEAT 2 — deck surgery, live from the phone. Deck Doctor is a ~40-line plugin " +
           "whose controls are bound straight to the deck's snapshot state.\n\n" +
           "Suggested run, all from the phone: drag \"Substrate lattice gain\" up and down " +
           "— the background dots breathe on every window. Flip \"Telemetry beacon\" — the " +

@@ -28,7 +28,7 @@ val sidecarDebugging by
 
           The tools the IDE provides can show you what your UI looks like, or what's being sent on the network, or a million other things, but this is all generic.
 
-          Your IDE can show a HashMap with 47 entries, but it can't show you something like: 'the third cart item has a stale price.'
+          Your IDE can show a HashMap with 47 entries, but it can't show you something like: 'the third item in your cart has a stale price.'
 
           It can't tell you about the specific way your app does feature flags or telemetry or your special flower of a sync queue.
 
@@ -80,11 +80,13 @@ val stetho by
       SpeakerNotes(
         """
           ERIC:
-          Stetho had a neat trick: speak the chrome devtools protocol. Piggybacking on this was super clever. Facebook borrowed a very polished inspector.
+          We're not the first people to think of a sidecar app. The first one that I'm aware of was Stetho.
 
-          But custom domain plugins were second-class (dumpapp = a command line).
+          Stetho had a neat trick: it spoke the chrome devtools protocol. Piggybacking on this was super clever. Facebook was able to borrow a very polished inspector for free.
 
-          As a firefox user, I was also always incredibly annoyed by the requirement to have chrome installed too.
+          But custom domain plugins were second-class citizens (dumpapp was a cli tool and a pain to use).
+
+          As a firefox user, I was also incredibly annoyed by the requirement to have chrome installed.
 
           It quietly stopped being maintained years before the archive.
         """.trimIndent(),
@@ -119,11 +121,11 @@ val flipper by
       SpeakerNotes(
         """
           ERIC:
-          Flipper fixed Stetho's UI and plugin problems and introduced another one:
+          Next up was Flipper, which fixed Stetho's UI and plugin problems and introduced another one:
 
-          Every custom plugin is two codebases in two languages with a hand-rolled artisinal JSON contract nothing checks. Data model changes silently broke the desktop half.
+          Every custom plugin was two codebases in two languages with a hand-rolled artisinal JSON contract that nothing checked. Data model changes silently broke the desktop half.
 
-          A problem that both Drew and I ran into when we worked on the same platform team was that there was no way to ensure every developer had custom plugins.
+          A problem that both Drew and I ran into when we worked on a platform team was that there was no way to ensure every developer had custom plugins.
 
           Like its predecessor, it was quietly deprecated and archived.
         """.trimIndent()
