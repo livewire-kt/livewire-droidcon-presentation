@@ -3,6 +3,7 @@ compose = "1.11.0"                      # https://github.com/JetBrains/compose-m
 cup = "1.0.0-Beta-17"                   # https://github.com/KodeinKoders/CuP/releases
 emoji = "2.4.0"                         # https://github.com/kosi-libs/Emoji.kt/releases
 kotlin = "2.3.21"                       # https://github.com/jetbrains/kotlin/releases
+vlcj = "4.12.1"                         # https://github.com/caprica/vlcj/releases (needs libVLC installed)
 livewire = "1.0.0"                      # https://github.com/livewire-kt/livewire/releases
 material3 = "1.11.0-alpha07"            # https://github.com/JetBrains/compose-multiplatform/releases
 materialIcons = "1.7.3"                 # https://github.com/JetBrains/compose-multiplatform/releases
@@ -33,6 +34,7 @@ livewire-client = { module = "com.livewire-kt.livewire:client", version.ref = "l
 livewire-plugin-recomposition = { module = "com.livewire-kt.livewire:plugin-recomposition", version.ref = "livewire" }
 qrose = { module = "io.github.alexzhirkevich:qrose", version.ref = "qrose" }
 particle-emitter = "io.github.piotrprus:particle-emitter:1.1.0"
+vlcj = { module = "uk.co.caprica:vlcj", version.ref = "vlcj" }
 
 [bundles]
 compose = [

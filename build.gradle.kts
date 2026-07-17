@@ -21,6 +21,7 @@ kotlin {
       implementation(libs.livewire.plugin.recomposition)
       implementation(libs.qrose)
       implementation(libs.particle.emitter)
+      implementation(libs.vlcj)
     }
   }
 }

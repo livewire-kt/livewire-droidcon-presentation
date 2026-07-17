@@ -48,7 +48,7 @@ import widgets.TitledSlide
 import widgets.line
 import kotlin.time.Duration.Companion.minutes
 
-val sectionIdea by Slide(context = PaceKeyframe(6.minutes)) {
+val sectionIdea by Slide(context = PaceKeyframe(3.minutes)) {
   SectionSlide(number = "02", title = "The Idea", subtitle = "How to Compose once over the wire")
 }
 

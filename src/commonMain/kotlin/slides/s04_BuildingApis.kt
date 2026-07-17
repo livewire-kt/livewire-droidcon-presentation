@@ -547,8 +547,14 @@ val serialization by
   PreparedSlide(
     context =
       SpeakerNotes(
-        "DREW:\nKSP plugin with polymorphic serializer?\n\n" +
-          "Kotlinx serialization let us migrate from JSON to protos"
+        """
+          ERIC:
+          Before we talk about how we establish the connections, we have to talk about what we'll be sending over them.
+
+          The TL;DR here is that we used kotlinx serialization for each node and modifier, which made this incredibly easy.
+
+          It also made it very easy to migrate from JSON to protos to reduce the amount of data being shuttled over the wire.
+        """.trimIndent()
       )
   ) {
     val sourceCode =

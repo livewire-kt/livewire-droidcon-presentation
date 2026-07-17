@@ -42,13 +42,25 @@ fun GifImage(
       frame = SkiaImage.makeFromBitmap(bitmap).toComposeImageBitmap()
       return@LaunchedEffect
     }
-    while (true) {
-      for (i in 0 until codec.frameCount) {
-        codec.readPixels(bitmap, i)
-        frame = SkiaImage.makeFromBitmap(bitmap).toComposeImageBitmap()
-        val duration = codec.getFrameInfo(i).duration
-        delay(if (duration <= 0) 100L else duration.toLong())
+    
+    var twoAgo: SkiaImage? = null
+    var oneAgo: SkiaImage? = null
+    try {
+      while (true) {
+        for (i in 0 until codec.frameCount) {
+          codec.readPixels(bitmap, i)
+          val image = SkiaImage.makeFromBitmap(bitmap)
+          frame = image.toComposeImageBitmap()
+          twoAgo?.close()
+          twoAgo = oneAgo
+          oneAgo = image
+          val duration = codec.getFrameInfo(i).duration
+          delay(if (duration <= 0) 100L else duration.toLong())
+        }
       }
+    } finally {
+      twoAgo?.close()
+      oneAgo?.close()
     }
   }
 

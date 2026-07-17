@@ -49,7 +49,7 @@ val title by Slide {
     Column(verticalArrangement = Arrangement.Center) {
       Text(text = "LIVEWIRE", fontFamily = fonts.title, color = Livewire.Cream, fontSize = 52.sp)
       Text(
-        text = "[ Debugging Using Remote Compose, Made Easy with Livewire ]",
+        text = "Debugging Using Remote Compose, Made Easy with Livewire",
         fontFamily = fonts.mono,
         color = Livewire.Amber,
         fontSize = 12.sp,

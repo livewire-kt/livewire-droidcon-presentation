@@ -197,10 +197,10 @@ val presentationSlides =
       updatingTheComposition,
       creatingNewModifier,
       allTrees,
-      serialization,
     ),
     section(
       sectionConnections,
+      serialization,
       hostIsServer,
       twoPhases,
       discovery,

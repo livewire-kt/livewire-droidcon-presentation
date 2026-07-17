@@ -35,12 +35,12 @@ import net.kodein.cup.utils.plus
 import org.jetbrains.compose.resources.painterResource
 import widgets.Bullet
 import widgets.CodeBox
-import widgets.GifImage
 import widgets.LivewireCode
 import widgets.LivewireWire
 import widgets.PaceKeyframe
 import widgets.SectionSlide
 import widgets.TitledSlide
+import widgets.VideoPlayer
 import widgets.line
 import kotlin.time.Duration.Companion.minutes
 
@@ -365,9 +365,9 @@ val stateSurgery by
   }
 
 val outroGif by Slide {
-  GifImage(
-    path = "files/outro.gif",
-    contentDescription = null,
+  VideoPlayer(
+    path = "files/outro.mp4",
+    fallbackGifPath = "files/outro.gif",
     modifier = Modifier.fillMaxSize().padding(8.dp),
   )
 }
