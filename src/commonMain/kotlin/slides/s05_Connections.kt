@@ -325,7 +325,7 @@ Slide(
 
         The mechanism Xcode and Finder use is a daemon called usbmuxd, and its protocol is completely undocumented.
 
-        Luckily there are a few open source projects in this space already so we didn't have to do much reverse engineering. PeerTalk is an old objective-c library that hasn't changed much in over 10 years. There's also a Linux version of usbmuxd called libimobiledevice.
+        Luckily there are a few open source projects in this space already so we didn't have to do much reverse engineering. One example is PeerTalk, which is an old objective-c library that hasn't changed much in over 10 years. There's also a Linux version of usbmuxd called libimobiledevice.
 
         You talk to usbmuxd over a Unix domain socket. Each message is a small header wrapping an XML plist.
 
@@ -424,7 +424,7 @@ Slide(
         ERIC:
         Let's talk about security. We added end-to-end encryption for this library. The obvious question here: 'it's localhost, why bother?'
 
-        Because localhost isn't private: any other process or user on the machine can connect to an open port. We're streaming your app's live UI and letting the host drive taps back.
+        Because localhost isn't private: any other process or user on the machine can connect to an open port. We're streaming a UI representation of your app's data and potentially even allowing mutation of it.
 
         That deserves protection, and it costs almost nothing.
       """.trimIndent()

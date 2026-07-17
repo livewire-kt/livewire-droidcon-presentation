@@ -125,7 +125,7 @@ val flipper by
 
           Every custom plugin was two codebases in two languages with a hand-rolled artisinal JSON contract that nothing checked. Data model changes silently broke the desktop half.
 
-          A problem that both Drew and I ran into when we worked on a platform team was that there was no way to ensure every developer had custom plugins.
+          A problem that both Drew and I ran into when we worked on a platform team was that there was no way to that ensure every developer had our company's custom plugins.
 
           Like its predecessor, it was quietly deprecated and archived.
         """.trimIndent()
