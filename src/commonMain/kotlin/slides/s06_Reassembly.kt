@@ -462,7 +462,7 @@ val declaringIntention by
         LivewireCode(
           sourceCode = sourceCode,
           step = step,
-          fontSize = 12.sp,
+          fontSize = 10.sp,
         )
       }
     }
@@ -471,31 +471,41 @@ val declaringIntention by
 
 val clickingBackwards by
   PreparedSlide(
+    stepCount = 2,
     context =
       SpeakerNotes(
-        "DREW:\nHere is an example of how this would look in the wild for a developer using Livewire.\n\n" +
-          "Not so different from just using a lambda."
-      )
+        listOf(
+          0..0 to
+            "DREW:\nHere is an example of how this would look in the wild for a developer " +
+              "using Livewire.\n\nNot so different from just using a lambda.",
+          1..1 to
+            "DREW:\nThe only Livewire-ism is clickAction: instead of handing the button a " +
+              "lambda, it registers the handler locally and returns a serializable " +
+              "intention that ships across the wire with the tree.",
+        )
+      ),
   ) {
     val sourceCode =
       rememberSourceCode(language = "kotlin") {
+        val around by marker(dimmed(1))
+
         // language=kotlin
         """
-        @LivewireComposable
+        ${around}@LivewireComposable
         @Composable
         fun MyAppPlugin() {
           var counter by remember { mutableStateOf(0) }
-          Button(
-            action = clickAction { counter++ },
-          ) {
+          Button(${X}
+            ${around}action = ${X}clickAction { counter++ }${around},${X}
+        ${around}  ) {
             Text("Increment: ${'$'}{counter}")
           }
-        }
+        }${X}
         """
         .trimIndent()
     }
 
-  slideContent {
+  slideContent { step ->
     TitledSlide(title = "Clicking, but backwards", kicker = "// CLIENT") {
       CodeBox(
         modifier = Modifier.fillMaxSize(),
@@ -503,6 +513,7 @@ val clickingBackwards by
       ) {
         LivewireCode(
           sourceCode = sourceCode,
+          step = step,
           fontSize = 12.sp,
         )
       }

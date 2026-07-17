@@ -160,9 +160,13 @@ val clientSetup by PreparedSlide {
   slideContent {
     TitledSlide(title = "Setting up the client", kicker = "// USING LIVEWIRE") {
       CodeBox(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
       ) {
-        LivewireCode(sourceCode)
+        LivewireCode(
+          sourceCode = sourceCode,
+          fontSize = 12.sp,
+        )
       }
     }
   }
@@ -190,9 +194,13 @@ val pluginApi by PreparedSlide {
   slideContent {
     TitledSlide(title = "Plugin API", kicker = "// CUSTOMIZING LIVEWIRE") {
       CodeBox(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
       ) {
-        LivewireCode(sourceCode)
+        LivewireCode(
+          sourceCode = sourceCode,
+          fontSize = 12.sp,
+        )
       }
     }
   }
@@ -220,9 +228,13 @@ val pluginInfo by PreparedSlide {
   slideContent {
     TitledSlide(title = "Plugin info", kicker = "// CUSTOMIZING LIVEWIRE") {
       CodeBox(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
       ) {
-        LivewireCode(sourceCode)
+        LivewireCode(
+          sourceCode = sourceCode,
+          fontSize = 12.sp,
+        )
       }
     }
   }
@@ -256,9 +268,13 @@ val pluginContent by PreparedSlide {
   slideContent {
     TitledSlide(title = "Plugin content", kicker = "// CUSTOMIZING LIVEWIRE") {
       CodeBox(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
       ) {
-        LivewireCode(sourceCode)
+        LivewireCode(
+          sourceCode = sourceCode,
+          fontSize = 12.sp,
+        )
       }
     }
   }

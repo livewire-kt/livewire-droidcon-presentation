@@ -194,7 +194,7 @@ val emitToComposition by
         """
         ${shell}fun Text(…) {${X}
         ${hash}  val compositeKeyHash = currentCompositeKeyHashCode.toLong()${X}
-        ${node}  ReusableComposeNode<${X}${generics}TextNode, Applier<LayoutNode>${X}${node}>(${X}
+          ${generics}ReusableComposeNode<TextNode, Applier<LayoutNode>>(${X}
         ${factory}    factory = { TextNode(text) },${X}
         ${updateBlock}    update = {
               init(compositeKeyHash, LayoutNode.SetCompositeKeyHash)

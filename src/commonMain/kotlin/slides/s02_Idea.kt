@@ -57,11 +57,14 @@ val flipIt by
     context =
       SpeakerNotes(
         """DREW:
-In Flipper, meaning is reconstructed on the desktop by a second program.
-What if meaning never left the app? The app already knows how its debug data should look, so it sends the looks.
+That idea is to flip the script!
+In Flipper, meaning is reconstructed and re-rendered on the desktop.
+But … what if meaning never left the app?
+The app already knows how its debug data should look, so it should just send the looks.
 
-A plugin is just Kotlin in your codebase; A database plugin can call your DAO directly. A another plugin could just access your apps state that would be hard to send across the wire.
-What if the host never updates when you write or update a plugin."""
+A plugin is just Kotlin in your codebase; A database plugin can call your DAOs directly.
+What if you wanted a plugin to access more complex state that would be hard to send across the wire?
+What if the host never needs updates when you write or update a plugin."""
       )
   ) {
     TitledSlide(title = "Flip it: the app describes, the host renders", kicker = "// THE IDEA") {
@@ -78,9 +81,11 @@ val composeIsFun by
   PreparedSlide(
     context =
       SpeakerNotes(
-        "DREW:\n" +
-        "So! Writing Compose is Fun!\n\n" +
-          "By now most of us know how powerful and delightful writing Compose can be."
+        """DREW:
+By now most of us know how powerful and delightful writing Compose can be.
+
+Writing Compose is Fun!
+"""
       )
   ) {
     val sourceCode =
@@ -188,7 +193,7 @@ val remoteComposeYes by
         "Oh fantastic! This exists!\n\n" +
           "You can write Compose UI code in one app …\n\n" +
           "Then have it render **remotely** in another app!\n\n" +
-          "**This will work!!**"
+          "**This will work, right?!?!**"
       )
   ) {
     val sourceCode =
@@ -221,17 +226,20 @@ val remoteComposeNo by
   Slide(
     context =
       SpeakerNotes(
-        "DREW:\n" +
-        "Errrr, not quite!\n\n" +
-          "\"At the time of writing\"…\n\n" +
-          "The creator, or producing, side of this library is only possible on the JVM. So this " +
-          "doesn't work with our goal of supporting all multiplatform targets.\n\n" +
-          "The player side is Android only currently. So this doesn't work with our goal of " +
-          "rendering in our desktop app.\n\n" +
-          "We looked at porting this to kotlin / kmp but the lift turned out to be more than we " +
-          "wanted to take on: the core of both creation/player libraries are written in Java, and " +
-          "we didn't want the burden of maintaining heavy changes to a fork of a young and " +
-          "frequently changing library."
+        """DREW:
+Errrr, not quite!
+
+"At the time of writing"…
+
+The creator, or producing, side of this library is only possible on the JVM.
+So this doesn't work with our goal of supporting all multiplatform targets.
+
+The player side is Android only currently.
+So this doesn't work with our goal of rendering in our desktop app.
+
+We looked at porting this to kotlin / kmp but the lift turned out to be more than we wanted to take on:
+ - the core of both creation/player libraries are written in Java,
+ - and we didn't want the burden of maintaining heavy changes to a fork of a young and frequently changing library."""
       )
   ) {
     TitledSlide(title = "Remote Compose™ ❌", kicker = "// COMPOSE") {
@@ -256,12 +264,15 @@ val composeRemotelyQ by
   Slide(
     context =
       SpeakerNotes(
-        "DREW:\n" +
-        "But what if we could **Compose…Remotely?**\n\n" +
-          "Could we build our own Compose UI?\n\n" +
-          "Could we build a Compose API that developers are already familiar with? Functions " +
-          "like **Box, Column, Button, Icon, Text**?\n\n" +
-          "Could we render this custom composition over the wire to accomplish our idea?"
+        """DREW:
+But what if we could **Compose…Remotely?**
+
+Could we build our own Compose UI?
+
+Could we build a Compose API that developers are already familiar with?
+Functions like **Box, Column, Button, Icon, Text**?
+
+Could we render this custom composition over the wire to accomplish our idea?"""
       )
   ) {
     TitledSlide(title = "Compose … Remotely?", kicker = "// COMPOSE") {
