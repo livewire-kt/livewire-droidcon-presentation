@@ -43,6 +43,7 @@ val sectionConnections by Slide(
       """
     ERIC:
     Alright so we've talked about some cool usage of compose, but how do we actually get this from an app running on your phone to the app on your computer?
+
     Let's talk about the incredible bundle of joy that is connections.
   """.trimIndent()
     )
@@ -68,9 +69,9 @@ Slide(
 
         The only thing adb or usbmuxd can do is bridge a port, So no matter which way you point it, somebody has to be dialing localhost.
 
-        Loopback is the one address that exists on both ends. Given that, the real choice here is WHERE the complexity lives. Put the server on the desktop and every client (Android, iOS, simulator, another desktop) does the same trivial thing: open a known socket.
+        Loopback is the one address that exists on both ends. Given that, the real choice here is WHERE the complexity lives. Put the server on the desktop and every client, no matter which platform it's running on, does the same trivial thing: open a known socket.
 
-        The client has no networking code, no platform branches, and no idea whether it's on a cable or the same machine. All the horrible platform work (adb reverse forwards, usbmuxd protocol handling, socket forwarders, is quarantined on the desktop, behind the illusion that 'the app's loopback is the host's server.'
+        The client has no networking code, no platform branches, and no idea whether it's on a cable or the same machine. All the horrible platform work is quarantined on the desktop, behind the illusion that the app's loopback is the host's server.
       """.trimIndent()
     )
 ) {
@@ -106,9 +107,9 @@ Slide(
         ERIC:
         Connecting involves two problems that people often smush together. Here's how we pulled them apart to make the picker feel instant.
 
-        Discovery answers 'what could I connect to?'. Cheap enough to run constantly, so a device picker can update live as you plug in devices or launch apps. It's deliberately lossy and stateless.
+        Discovery answers the question 'what could I connect to?'. It's cheap enough to run constantly, so a device picker can update live as you plug in devices or launch apps. It's deliberately lossy and stateless.
 
-        Connection answers 'wire me up to this one'. Key exchange, the tunnel, the websocket. That's the stateful, expensive part, so it only happens once the user has committed to connecting to a specific device and app.
+        Connection is what happens when the user has made it known which client they want to wire up to. This is where we do key exchange, setup the tunnel and the websocket. That's the stateful, expensive part, so it only happens once the user has committed to connecting to a specific device and app.
       """.trimIndent()
     )
 ) {
@@ -188,12 +189,16 @@ val desktopEasy by
 Slide(
   context =
     SpeakerNotes(
-      "ERIC:\n" +
-        "Here's the baseline - the version of the problem with none of the platform pain. This " +
-        "is useful because it isolates the core idea before the tunnels arrive.\n\n" +
-        "Client and host are on the same machine, both on localhost, so discovery is a plain " +
-        "UDP datagram, and 'connecting' is just opening a socket.\n\n" +
-        "Why can't life always be this easy?"
+      """
+        ERIC:
+        Let's cover desktop first. This is the baseline - the version of the problem with none of the platform pain.
+
+        It's useful to start here because it isolates the core idea before the tunnels arrive.
+
+        Client and host are on the same machine, both on localhost, so discovery is a plain UDP datagram, and 'connecting' is just opening a socket.
+
+        Why can't life always be this easy?
+      """.trimIndent()
     )
 ) {
   TitledSlide(title = "Desktop: the easy one", kicker = "// CONNECTIONS") {
@@ -223,7 +228,7 @@ Slide(
 
         It runs as a normal process on the Mac and shares the host's loopback.
 
-        "It's a process on your Mac wearing an iPhone costume.
+        It's a process on your Mac wearing an iPhone costume.
 
         UDP discovery works and the connection is direct, so we have the same easy path as desktop.
 
@@ -480,15 +485,15 @@ PreparedSlide(
 
         The client is a single loop, the code on screen is barely simplified from the real thing.
 
-         Dial loopback, handshake, stream frames.
+        Dial loopback, handshake, stream frames.
 
-         If anything drops (maybe the app was backgrounded or killed, the socket died, the host restarted), it just waits a bit and dials again. No rediscovery, no renegotiating the tunnel.
+        If anything drops (maybe the app was backgrounded or killed, the socket died, the host restarted), it just waits a bit and dials again. No rediscovery, no renegotiating the tunnel.
 
-         The host side is even lazier: the server never tears down. When a client vanishes, it just goes Connected → Listening, throws away the UI tree, and waits for someone to knock again.
+        The host side is even lazier: the server never tears down. When a client vanishes, it just goes Connected → Listening, throws away the UI tree, and waits for someone to knock again.
 
-         A connection_id is used to guarantee a reconnect is the same app you originally picked, not some other process grabbing the port.
+        A connection_id is used to guarantee a reconnect is the same app you originally picked, not some other process grabbing the port.
 
-         And the reason app restarts 'just work': the bridge lives on the host and outlives the app process. Kill and relaunch the app and it reconnects itself, with a brand-new handshake and a full tree resync, so you never see a stale UI.
+        And the reason app restarts 'just work': the bridge lives on the host and outlives the app process. Kill and relaunch the app and it reconnects itself, with a brand-new handshake and a full tree resync, so you never see a stale UI.
       """.trimIndent()
     )
 ) {
