@@ -27,14 +27,14 @@ val customComposition by
       SpeakerNotes(
         "DREW:\n" +
         "What does it take to actually create a custom composition?\n\n" +
-          "You need to define your own custom tree data structure. This will hold all the " +
+          "First, You need to define your own custom tree data structure. This will hold all the " +
           "metadata and information we need to describe UIs and intentions.\n\n" +
-          "You need an implementation of Compose's `Applier` interface. This basically tells " +
+          "Next, You need an implementation of Compose's `Applier` interface. This basically tells " +
           "Compose how to manipulate your custom tree data structure.\n\n" +
-          "You need to create a Composition, i.e. the compose engine, with your applier and the " +
+          "Then, You need to create a Composition, i.e. the compose engine, with your applier and the " +
           "root of your tree. This is responsible for creating and updating your tree data " +
           "structure.\n\n" +
-          "Lastly, you need \"Node emitters/updaters\". This is basically your `@Composable` " +
+          "Lastly, you need \"Node emitters/updaters\". These are basically your `@Composable` " +
           "apis. For Livewire these are re-implementations of the functions you know and love.\n\n" +
           "Okay, we know what we need to build so lets start with our tree."
       )

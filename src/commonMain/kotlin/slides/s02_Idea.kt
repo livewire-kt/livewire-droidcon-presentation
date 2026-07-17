@@ -155,13 +155,13 @@ val composeRemotely by
       Spacer(Modifier.height(2.dp))
       Row(verticalAlignment = Alignment.Bottom) {
         Text(
-          "What if we could Compose… ",
+          "What if we could remotely… ",
           fontFamily = fonts.title,
           color = Livewire.Cream,
           fontSize = 22.sp,
         )
         Text(
-          "remotely",
+          "Compose",
           fontFamily = fonts.title,
           color = Livewire.Red,
           fontSize = 22.sp,
@@ -452,16 +452,16 @@ val buildOurOwnTree by
     context =
       SpeakerNotes(
         "DREW:\n" +
-        "\"I'm going to build my own composables! With serialization! And Multiplatform " +
-          "rendering!\"\n\n" +
+        "So let's build our own tree\n\n" +
+          "First, lets lay out some requirements to do this\n\n" +
           "We want developers to interact with an API they are already familiar with. We don't " +
           "want to re-invent how you write declarative UI. **Naming stuff like HStack and VStack " +
           "would just be insane.**\n\n" +
-          "We want to support everywhere Kotlin can run. As we mentioned with Compose " +
-          "compiler/runtime this is already free! And with Compose Multiplatform we can meet our " +
+          "We want to support everywhere Kotlin can run. \nAs we mentioned with the Compose " +
+          "compiler/runtime this is already free. Then using Compose Multiplatform we can meet our " +
           "host rendering requirement.\n\n" +
-          "We want to be able to send our custom composition over the wire. So we need it to be " +
-          "serializable."
+          "Lastly, We need the ability to send our custom composition over the wire.\n" +
+          "So we need it to be serializable."
       )
   ) {
     TitledSlide(title = "So let's build our own tree…", kicker = "// CUSTOM COMPOSE") {
