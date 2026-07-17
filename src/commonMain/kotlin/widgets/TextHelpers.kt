@@ -18,8 +18,8 @@ class LineBuilder(private val fonts: LivewireFonts, private val builder: Annotat
   fun t(s: String) = builder.append(s)
 
   /** Amber bold — the deck's emphasis style. */
-  fun em(s: String) {
-    builder.withStyle(SpanStyle(color = Livewire.Amber, fontWeight = FontWeight.Bold)) { append(s) }
+  fun em(s: String, color: Color = Livewire.Amber) {
+    builder.withStyle(SpanStyle(color = color, fontWeight = FontWeight.Bold)) { append(s) }
   }
 
   fun b(s: String) {

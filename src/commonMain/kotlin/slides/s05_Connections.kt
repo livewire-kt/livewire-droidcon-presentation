@@ -2,13 +2,10 @@ package slides
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
@@ -32,6 +29,7 @@ import net.kodein.cup.utils.plus
 import org.jetbrains.compose.resources.painterResource
 import widgets.Bullet
 import widgets.CodeBox
+import widgets.Livewire
 import widgets.LivewireCode
 import widgets.PaceKeyframe
 import widgets.SectionSlide
@@ -181,7 +179,7 @@ Slide(
       painter = painterResource(Res.drawable.diagram_discovery),
       contentDescription = "UDP datagrams for local clients, TCP beacon pull over USB tunnels",
       modifier = Modifier.fillMaxSize(),
-      contentScale = ContentScale.Fit,
+      contentScale = ContentScale.FillWidth,
     )
   }
 }
@@ -190,10 +188,11 @@ val desktopEasy by
 Slide(
   context =
     SpeakerNotes(
-      "Here's the baseline - the version of the problem with none of the platform pain. This " +
+      "ERIC:\n" +
+        "Here's the baseline - the version of the problem with none of the platform pain. This " +
         "is useful because it isolates the core idea before the tunnels arrive.\n\n" +
         "Client and host are on the same machine, both on localhost, so discovery is a plain " +
-        "UDP datagram and 'connecting' is just opening a socket.\n\n" +
+        "UDP datagram, and 'connecting' is just opening a socket.\n\n" +
         "Why can't life always be this easy?"
     )
 ) {
@@ -218,11 +217,18 @@ val iosSimulator by
 Slide(
   context =
     SpeakerNotes(
-      "The simulator looks like iOS but for our purposes it behaves like desktop, because it " +
-        "runs as a normal process on the Mac and shares the host's loopback.\n\n" +
-        "It's a process on your Mac wearing an iPhone costume. UDP discovery works, the " +
-        "connection is direct, same easy path as desktop.\n\n" +
-        "Now let's plug in some actual hardware."
+      """
+        ERIC:
+        The simulator looks like iOS but for our purposes it behaves like desktop.
+
+        It runs as a normal process on the Mac and shares the host's loopback.
+
+        "It's a process on your Mac wearing an iPhone costume.
+
+        UDP discovery works and the connection is direct, so we have the same easy path as desktop.
+
+        Now let's plug in some actual hardware!
+      """.trimIndent()
     )
 ) {
   TitledSlide(title = "iOS Simulator: also easy!", kicker = "// CONNECTIONS") {
@@ -248,32 +254,35 @@ val androidAdb by
 Slide(
   context =
     SpeakerNotes(
-      "Discovery: we speak the adb wire protocol directly through the excellent dadb library, " +
-        "open a stream to the device's tcp discovery port, and read that one beacon.\n\n" +
-        "Connection is the satisfying one. Plain adb 'forward' takes a port on your computer " +
-        "and forwards it INTO the device: host to device. But our whole model is 'the app " +
-        "dials loopback and reaches the host,' which is backwards. So we use adb REVERSE " +
-        "forward, which maps a port on the DEVICE back to a port on the host. Now when the " +
-        "app connects to a localhost port on the phone, it surfaces on the host at the same " +
-        "port, where our server is listening.\n\n" +
-        "That single reverse is the entire Android bridge. Still not bad, right? JUST WAIT " +
-        "UNTIL YOU SEE HOW IOS WORKS."
+      """
+        ERIC:
+        Android time! Let's start with discovery:
+        The host desktop app speaks the adb wire protocol directly through the excellent dadb library. It opens a stream to the device's tcp discovery port, and read that one beacon.
+
+        Connection is the interesting one. Plain adb 'forward' takes a port on your computer and forwards it INTO the device: host to device. But our whole model is 'the app dials loopback and reaches the host,' which is backwards.
+
+        So we use adb REVERSE forward, which maps a port on the DEVICE back to a port on the host.
+
+        Now when the app connects to a localhost port on the phone, it surfaces on the host at the same port, where our server is listening.
+
+        That single reverse is the entire Android bridge. Still not bad, right? JUST WAIT UNTIL YOU SEE HOW IOS WORKS.
+      """.trimIndent()
     )
 ) {
   TitledSlide(title = "Android: adb in reverse", kicker = "// CONNECTIONS") {
     Bullet(
       line {
         t("Discovery rides the adb transport (via ")
-        code("dadb")
+        code("dadb", color = Livewire.Amber)
         t("): open a ")
-        code("tcp")
+        code("tcp", color = Livewire.Amber)
         t(" stream, read the beacon, close.")
       }
     )
     Bullet(
       line {
         t("The connection flips from what you'd expect - a ")
-        em("reverse forward")
+        em("reverse forward", color = Livewire.Red)
         t(" maps the device's loopback back to the host's.")
       }
     )
@@ -289,7 +298,7 @@ Slide(
 
 val physicalIos1 by
 Slide(
-  context = SpeakerNotes("Things haven't been too bad so far.\n\nHere's where we start the pain")
+  context = SpeakerNotes("ERIC:\nThings haven't been too bad so far.\n\nHere's where we start the pain")
 ) {
   TitledSlide(title = "Physical iOS", kicker = "// CONNECTIONS") {
     Image(
@@ -305,58 +314,56 @@ val physicalIos2 by
 Slide(
   context =
     SpeakerNotes(
-      "There is no supported way to open an arbitrary port to an app on a physical iPhone. " +
-        "The mechanism Xcode and Finder use is a daemon called usbmuxd, and its protocol is " +
-        "completely undocumented.\n\n" +
-        "Luckily there are a few open source projects in this space already so we didn't " +
-        "have to do much reverse engineering. PeerTalk is an old objective-c library that " +
-        "hasn't changed much in 10 or so years. There's also a Linux version of usbmuxd " +
-        "called libimobiledevice.\n\n" +
-        "You talk to usbmuxd over a Unix domain socket; each message is a 16-byte " +
-        "little-endian header wrapping an XML plist.\n\n" +
-        "But the detail that shapes everything is the last one: usbmuxd is one-directional. " +
-        "The host can reach into the device, but the device can't dial out to the host. " +
-        "There's no adb-reverse equivalent. That breaks our 'app dials loopback' rule, so " +
-        "let's look into how we get it back."
+      """
+        ERIC:
+        SO: There's no supported way to open an arbitrary port to an app on a physical iPhone.
+
+        The mechanism Xcode and Finder use is a daemon called usbmuxd, and its protocol is completely undocumented.
+
+        Luckily there are a few open source projects in this space already so we didn't have to do much reverse engineering. PeerTalk is an old objective-c library that hasn't changed much in over 10 years. There's also a Linux version of usbmuxd called libimobiledevice.
+
+        You talk to usbmuxd over a Unix domain socket. Each message is a small header wrapping an XML plist.
+
+        But the detail that shapes everything is the last one: usbmux is one-directional. The host can reach into the device, but the device can't dial out to the host.
+
+        There's no adb-reverse equivalent. That breaks our 'app dials loopback' rule, so let's look into how we get it back.
+      """.trimIndent()
     )
 ) {
   TitledSlide(title = "Physical iOS", kicker = "// CONNECTIONS") {
-    Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
-      Column(Modifier.weight(1.2f)) {
-        Bullet(
-          line {
-            t("No public API exists, so we use ")
-            code("usbmuxd")
-            t(
-              ", Apple's undocumented daemon that powers connections for Finder, Apple Music, Xcode, iTunes (RIP), etc"
-            )
-          }
-        )
-        Bullet(
-          line {
-            code("usbmuxd listen")
-            t(" streams device attach/detach events, each with a ")
-            code("deviceId")
-            t(" and a ")
-            code("UDID")
-            t(". Enough to route bytes, but not to show humans.")
-          }
-        )
-        Bullet(
-          line {
-            t("For the name we shell out: ")
-            code("ideviceinfo")
-            t(" (Linux), ")
-            code("xcrun devicectl")
-            t(" (macOS).")
-          }
-        )
-      }
-      Spacer(Modifier.width(14.dp))
+    Column(Modifier.fillMaxSize()) {
+      Bullet(
+        line {
+          t("No public API exists, so we use ")
+          code("usbmuxd", color = Livewire.Amber)
+          t(
+            ", Apple's undocumented daemon that powers connections for Finder, Apple Music, Xcode, iTunes (RIP), etc"
+          )
+        }
+      )
+      Bullet(
+        line {
+          code("usbmuxd listen", color = Livewire.Amber)
+          t(" streams device attach/detach events, each with a ")
+          code("deviceId", color = Livewire.Amber)
+          t(" and a ")
+          code("UDID", color = Livewire.Amber)
+          t(". Enough to route bytes, but not to show humans.")
+        }
+      )
+      Bullet(
+        line {
+          t("For the name we shell out: ")
+          code("ideviceinfo", color = Livewire.Amber)
+          t(" (Linux), ")
+          code("xcrun devicectl", color = Livewire.Amber)
+          t(" (macOS).")
+        }
+      )
       Image(
         painter = painterResource(Res.drawable.diagram_usbmuxd),
         contentDescription = "usbmuxd protocol",
-        modifier = Modifier.weight(0.8f).fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         contentScale = ContentScale.Fit,
       )
     }
@@ -367,25 +374,28 @@ val physicalIos3 by
 Slide(
   context =
     SpeakerNotes(
-      "Discovery (top) is the same pull model as Android: the host opens a tcp stream over " +
-        "usbmuxd and reads the beacon.\n\n" +
-        "Connection (bottom) is the part we had to build by hand. Because usbmux is one-way, " +
-        "the iOS client library runs its own socket forwarder ON the device, and the host " +
-        "runs one too. Between them, over the usbmux stream, we splice together a fake " +
-        "loopback-to-loopback tunnel.\n\n" +
-        "From left to right: the app connects to its own loopback port, the device-side " +
-        "forwarder shuttles that to a different port; usbmux carries that port across the " +
-        "cable; the host-side IosForwarder pumps it into the host's loopback at the original " +
-        "port; the WebSocket server answers. Five hops, and the app thinks it's talking to " +
-        "itself."
+      """
+        ERIC:
+        The top of the diagram here shows discovery, which uses the same pull model as Android. The host opens a tcp stream over usbmux and reads the beacon.
+
+        The connection part of the diagram is the part we had to put lots of thought into. Because usbmux is one-way, the iOS client library runs its own socket forwarder ON the device, and the host runs one too. Between them, over the usbmux stream, we splice together a fake loopback-to-loopback tunnel.
+
+        From left to right: the app connects to its own loopback port
+        the device-side forwarder shuttles that to a different port
+        usbmux carries that port across the cable
+        the host-side IosForwarder pumps it into the host's loopback at the original port
+        the websocket server answers.
+
+        Five hops, and the app thinks it's talking to itself.
+      """.trimIndent()
     )
 ) {
   TitledSlide(title = "Physical iOS", kicker = "// CONNECTIONS") {
     Bullet(
       line {
-        code("usbmuxd")
+        code("usbmuxd", color = Livewire.Amber)
         t(" only reaches ")
-        em("host → device")
+        em("host → device", color = Livewire.Red)
         t(
           ". To keep “the app dials loopback,” both ends run a socket forwarder and we stitch a loopback tunnel across the cable ourselves."
         )
@@ -405,10 +415,14 @@ val e2eEncryption1 by
 Slide(
   context =
     SpeakerNotes(
-      "The obvious question here: 'it's localhost, why bother?'\n\n" +
-        "Because localhost isn't private: any other process or user on the machine can " +
-        "connect to an open port. We're streaming your app's live UI and letting the host " +
-        "drive taps back; that deserves protection, and it costs almost nothing."
+      """
+        ERIC:
+        Let's talk about security. We added end-to-end encryption for this library. The obvious question here: 'it's localhost, why bother?'
+
+        Because localhost isn't private: any other process or user on the machine can connect to an open port. We're streaming your app's live UI and letting the host drive taps back.
+
+        That deserves protection, and it costs almost nothing.
+      """.trimIndent()
     )
 ) {
   TitledSlide(title = "E2E Encryption", kicker = "// CONNECTIONS") {
@@ -425,15 +439,16 @@ val e2eEncryption2 by
 Slide(
   context =
     SpeakerNotes(
-      "The handshake is ephemeral ECDH over P-256, done as the very first frames: swap public " +
-        "keys, derive a shared secret, run it through HKDF-SHA256 to get symmetric keys. And " +
-        "there's no designated client key vs server key — both ends compare public keys and " +
-        "deterministically agree who owns which direction, so no role negotiation.\n\n" +
-        "Every frame after that is AES-GCM: a one-byte tag (text vs binary), a 12-byte " +
-        "nonce, then ciphertext.\n\n" +
-        "The nonce is a per-direction prefix plus a monotonically increasing counter, and " +
-        "the receiver enforces that the counter only ever goes up. So a replayed or " +
-        "reordered frame is rejected outright, not just noticed after the fact."
+      """
+        ERIC:
+        In the first connection frame, we do a handshake where we swap public keys, derive a shared secret, then derive symmetric keys.
+
+        There's no designated client key vs server key. Both ends compare public keys and deterministically agree who owns which direction, which lets us avoid role negotiation.
+
+        Every frame after that is encrypted, with a 1-byte tag to tell us the data type, then a nonce, then ciphertext.
+
+        The nonce is a per-direction prefix plus a monotonically increasing counter used to avoid replays or reordered frames.
+      """.trimIndent()
     )
 ) {
   TitledSlide(title = "E2E Encryption", kicker = "// CONNECTIONS") {
@@ -459,24 +474,22 @@ val stayingConnected by
 PreparedSlide(
   context =
     SpeakerNotes(
-      "The problem with connecting to apps like this is that they tend to be fairly ephemeral, " +
-        "but luckily we've set ourselves up for fairly easily handling of reconnections.\n\n" +
-        "The client is a single loop, the code on screen is barely simplified from the real " +
-        "thing. Dial loopback, handshake, stream frames. If anything drops (maybe the app was " +
-        "backgrounded or killed, the socket died, the host restarted), it just waits three " +
-        "seconds and dials again. No rediscovery, no renegotiating the tunnel.\n\n" +
-        "The host side is even lazier: the server never tears down. When a client vanishes " +
-        "it just goes Connected → Listening, throws away the UI tree, and waits for someone " +
-        "to knock again.\n\n" +
-        "If a second socket shows up during a reconnect race, the old one is cancelled and " +
-        "replaced, so you never get two live sessions. A connection_id is used to guarantee " +
-        "a reconnect is the same app you originally picked, not some other process grabbing " +
-        "the port.\n\n" +
-        "And the reason app restarts 'just work': the bridge (adb reverse, or the usbmux " +
-        "forwarder) lives on the host and outlives the app process. Kill and relaunch the " +
-        "app and it reconnects itself, with a brand-new handshake and a full tree resync, so " +
-        "you never render stale UI.\n\n" +
-        "HAMMER HOME WHY THE DESKTOP BEING THE SERVER IS BETTER"
+      """
+        ERIC:
+        The problem with connecting to apps like this is that they tend to be fairly ephemeral. Luckily we've set ourselves up for handling reconnections pretty easily.
+
+        The client is a single loop, the code on screen is barely simplified from the real thing.
+
+         Dial loopback, handshake, stream frames.
+
+         If anything drops (maybe the app was backgrounded or killed, the socket died, the host restarted), it just waits a bit and dials again. No rediscovery, no renegotiating the tunnel.
+
+         The host side is even lazier: the server never tears down. When a client vanishes, it just goes Connected → Listening, throws away the UI tree, and waits for someone to knock again.
+
+         A connection_id is used to guarantee a reconnect is the same app you originally picked, not some other process grabbing the port.
+
+         And the reason app restarts 'just work': the bridge lives on the host and outlives the app process. Kill and relaunch the app and it reconnects itself, with a brand-new handshake and a full tree resync, so you never see a stale UI.
+      """.trimIndent()
     )
 ) {
   val sourceCode =
@@ -500,8 +513,7 @@ PreparedSlide(
     TitledSlide(title = "Staying connected", kicker = "// CONNECTIONS") {
       Bullet(
         line {
-          t("Because the host is the server, reconnection is almost free. ")
-          em("The client just keeps dialing loopback.")
+          t("Because the host is the server, reconnection is almost free. The client just keeps dialing loopback.")
         }
       )
       Bullet(line { t("The entire client reconnection handler is one loop:") })
