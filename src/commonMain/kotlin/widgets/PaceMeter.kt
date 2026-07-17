@@ -78,14 +78,22 @@ object PaceClock {
 
   var elapsed: Duration by mutableStateOf(Duration.ZERO)
 
+  /**
+   * Manual adjustment added to the monotonic clock — the Deck Doctor's "chronometer
+   * skew", for when the clock was started late (or a Q&A ate the buffer).
+   */
+  var skew: Duration by mutableStateOf(Duration.ZERO)
+
   fun restart() {
     startMark = TimeSource.Monotonic.markNow()
     elapsed = Duration.ZERO
+    skew = Duration.ZERO
   }
 
   fun clear() {
     startMark = null
     elapsed = Duration.ZERO
+    skew = Duration.ZERO
   }
 }
 
@@ -147,7 +155,7 @@ fun rememberPaceState(
   LaunchedEffect(PaceClock.startMark) {
     val mark = PaceClock.startMark ?: return@LaunchedEffect
     while (true) {
-      PaceClock.elapsed = mark.elapsedNow()
+      PaceClock.elapsed = (mark.elapsedNow() + PaceClock.skew).coerceAtLeast(Duration.ZERO)
       delay(250)
     }
   }

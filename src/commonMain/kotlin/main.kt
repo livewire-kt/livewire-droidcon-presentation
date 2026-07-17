@@ -3,9 +3,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.LayoutDirection
+import bugs.deckBugs
 import com.livewire.client.LivewireClient
 import com.livewire.plugin.recomposition.RecompositionPlugin
 import kotlin.time.Duration.Companion.minutes
+import livewire.DeckDoctorPlugin
 import livewire.SlideDeckPlugin
 import net.kodein.cup.LocalPresentationState
 import net.kodein.cup.Presentation
@@ -47,6 +49,7 @@ import slides.declaringIntention
 import slides.definingIntention
 import slides.deliveringAction
 import slides.demoScreens
+import slides.demoTime
 import slides.desktopEasy
 import slides.diffing
 import slides.discovery
@@ -81,6 +84,7 @@ import slides.sectionLivewire
 import slides.sectionProblem
 import slides.sectionReassembly
 import slides.serialization
+import slides.stateSurgery
 import slides.sidecarDebugging
 import slides.stayingConnected
 import slides.stetho
@@ -94,6 +98,8 @@ import slides.updatingOurApis
 import slides.updatingTheComposition
 import slides.updatingTheTree
 import slides.wantsAndDesires
+import widgets.BlackoutCurtain
+import widgets.DeckControls
 import widgets.DotGridBackground
 import widgets.LivewireTheme
 import widgets.PaceMeter
@@ -106,6 +112,7 @@ fun main() =
       LivewireClient {
         install(RecompositionPlugin())
         install(SlideDeckPlugin(presentationState, talkDuration = 40.minutes))
+        install(DeckDoctorPlugin())
       }
     }
 
@@ -128,6 +135,7 @@ fun main() =
           speakerWindow()
           imageExport()
           overview()
+          deckBugs()
           defaultSlideSpecs =
             SlideSpecs(
               size = SLIDE_SIZE_16_9,
@@ -139,9 +147,10 @@ fun main() =
       ) { slidesContent ->
         DotGridBackground()
         slidesContent()
-        if (!isInSpeakerWindow()) {
+        if (!isInSpeakerWindow() && DeckControls.audienceHud) {
           PacePowerBar() // discreet corner status for the audience
         }
+        BlackoutCurtain() // last, so it covers slides and HUD alike
       }
     }
   }
@@ -228,6 +237,8 @@ val presentationSlides =
       pluginApi,
       pluginInfo,
       pluginContent,
+      demoTime,
+      stateSurgery,
       outroGif,
     ),
     section(thankYou),

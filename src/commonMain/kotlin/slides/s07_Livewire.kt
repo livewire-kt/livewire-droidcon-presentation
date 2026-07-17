@@ -2,6 +2,7 @@ package slides
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import bugs.StagedBugs
 import livewire_presentation.generated.resources.Res
 import livewire_presentation.generated.resources.screenshot_demo_1
 import livewire_presentation.generated.resources.screenshot_demo_2
@@ -254,6 +256,57 @@ val pluginContent by PreparedSlide {
     }
   }
 }
+
+val demoTime by
+  Slide(
+    context =
+      SpeakerNotes(
+        "BEAT 1 — the clicker is \"dead\" on this slide: navigation keys are swallowed while " +
+          "we're here. Click a few times, look puzzled, then pull out the phone: " +
+          "Livewire → Slide Deck → next step. The remote path never touches the keyboard. " +
+          "Optional flourish before advancing: Deck Doctor → turn OFF \"HID event " +
+          "coalescing\" and show the clicker coming back to life.\n\n" +
+          "Panic button: K on the laptop clears every staged bug."
+      ) + StagedBugs(swallowKeys = true)
+  ) {
+    TitledSlide(title = "One more thing — a live demo", kicker = "// DEMO") {
+      Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
+        Bullet(line { t("This deck is a Compose app") })
+        Bullet(line { t("Livewire is compiled into it") })
+        Bullet(line { em("What could possibly go wrong?") })
+      }
+    }
+  }
+
+val stateSurgery by
+  Slide(
+    context =
+      SpeakerNotes(
+        "BEAT 2 — deck surgery, live from the phone. Deck Doctor is a ~40-line plugin " +
+          "whose controls are bound straight to the deck's snapshot state.\n\n" +
+          "Suggested run, all from the phone: drag \"Substrate lattice gain\" up and down " +
+          "— the background dots breathe on every window. Flip \"Telemetry beacon\" — the " +
+          "pace battery vanishes and returns. Finale: \"Photon output limiter\" ON — the " +
+          "projector goes black while the speaker window keeps running — then OFF.\n\n" +
+          "Land the point: no screenshots, no special demo build. The phone dispatches " +
+          "actions over the wire into the same snapshot state this deck renders from. " +
+          "Turtle one-liner on the way out: the tool inspecting the deck is itself " +
+          "streamed Compose. Panic: K restores every visual default."
+      )
+  ) {
+    TitledSlide(title = "The deck is just state", kicker = "// DEMO") {
+      Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
+        Bullet(line { t("Those dots behind me? Snapshot state") })
+        Bullet(line { t("The little battery in the corner? Snapshot state") })
+        Bullet(
+          line {
+            t("The photons coming out of this projector? ")
+            em("Also state")
+          }
+        )
+      }
+    }
+  }
 
 val outroGif by Slide {
   GifImage(

@@ -16,7 +16,9 @@ fun BoxScope.DotGridBackground() {
   Canvas(Modifier.matchParentSize()) {
     val spacing = 24.dp.toPx()
     val radius = 1.dp.toPx()
-    val color = Livewire.Amber.copy(alpha = 0.14f)
+    // gridGain is snapshot state read in the draw phase, so the Deck Doctor's
+    // "substrate lattice gain" slider re-draws every window live.
+    val color = Livewire.Amber.copy(alpha = (0.14f * DeckControls.gridGain).coerceIn(0f, 1f))
     var y = spacing / 2
     while (y < size.height) {
       var x = spacing / 2
