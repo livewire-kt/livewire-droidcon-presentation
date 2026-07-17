@@ -420,6 +420,8 @@ val declaringIntention by
     val sourceCode =
       rememberSourceCode(language = "kotlin") {
         val head by marker(dimmed(1..3))
+        val tail by marker(dimmed(1..3))
+        val click by marker(dimmed(1, 3))
         val identifier by marker(dimmed(2, 3))
         val observe by marker(dimmed(1, 3))
         val ret by marker(dimmed(1, 2))
