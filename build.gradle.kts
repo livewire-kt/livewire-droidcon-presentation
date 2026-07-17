@@ -19,6 +19,7 @@ kotlin {
       implementation(libs.emoji.compose)
       implementation(libs.livewire.client)
       implementation(libs.livewire.plugin.recomposition)
+      implementation(libs.qrose)
     }
   }
 }

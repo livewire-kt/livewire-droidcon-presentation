@@ -6,6 +6,7 @@ kotlin = "2.3.21"                       # https://github.com/jetbrains/kotlin/re
 livewire = "1.0.0"                      # https://github.com/livewire-kt/livewire/releases
 material3 = "1.11.0-alpha07"            # https://github.com/JetBrains/compose-multiplatform/releases
 materialIcons = "1.7.3"                 # https://github.com/JetBrains/compose-multiplatform/releases
+qrose = "1.1.2"                         # https://github.com/alexzhirkevich/qrose/releases
 
 [plugins]
 compose = { id = "org.jetbrains.compose", version.ref = "compose" }
@@ -30,6 +31,7 @@ cup-widgets-sourceCode = { module = "net.kodein.cup:cup-widgets-source-code", ve
 emoji-compose = { module = "org.kodein.emoji:emoji-compose-m3", version.ref = "emoji" }
 livewire-client = { module = "com.livewire-kt.livewire:client", version.ref = "livewire" }
 livewire-plugin-recomposition = { module = "com.livewire-kt.livewire:plugin-recomposition", version.ref = "livewire" }
+qrose = { module = "io.github.alexzhirkevich:qrose", version.ref = "qrose" }
 
 [bundles]
 compose = [

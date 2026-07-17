@@ -12,17 +12,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -33,21 +29,11 @@ import livewire_presentation.generated.resources.compose_remotely_art
 import livewire_presentation.generated.resources.diagram_flip_it
 import livewire_presentation.generated.resources.diagram_ui_vs_runtime
 import livewire_presentation.generated.resources.platform_all
-import livewire_presentation.generated.resources.platform_logo_1
-import livewire_presentation.generated.resources.platform_logo_2
-import livewire_presentation.generated.resources.platform_logo_3
-import livewire_presentation.generated.resources.platform_logo_4
-import livewire_presentation.generated.resources.platform_logo_5
-import livewire_presentation.generated.resources.platform_logo_6
-import livewire_presentation.generated.resources.platform_logo_7
 import livewire_presentation.generated.resources.remote_compose_art
-import livewire_presentation.generated.resources.talk_thumb_1
-import livewire_presentation.generated.resources.talk_thumb_2
 import net.kodein.cup.PreparedSlide
 import net.kodein.cup.Slide
 import net.kodein.cup.sa.rememberSourceCode
 import net.kodein.cup.speaker.SpeakerNotes
-import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import widgets.Bullet
 import widgets.CodeBox
@@ -55,11 +41,12 @@ import widgets.GifImage
 import widgets.Livewire
 import widgets.LivewireCode
 import widgets.LocalLivewireFonts
+import widgets.PaceKeyframe
+import widgets.QrCode
 import widgets.SectionSlide
 import widgets.TitledSlide
 import widgets.line
 import kotlin.time.Duration.Companion.minutes
-import widgets.PaceKeyframe
 
 val sectionIdea by Slide(context = PaceKeyframe(6.minutes)) {
   SectionSlide(number = "02", title = "The Idea", subtitle = "How to Compose once over the wire")
@@ -416,25 +403,24 @@ val otherTalks by
       Row(Modifier.fillMaxSize(), horizontalArrangement = Arrangement.spacedBy(24.dp)) {
         listOf(
             Triple(
-              Res.drawable.talk_thumb_1,
+              "https://www.youtube.com/watch?v=6BRlI5zfCCk",
               "The Compose Runtime, Demystified",
               "Leland Richardson",
             ),
             Triple(
-              Res.drawable.talk_thumb_2,
+              "https://www.youtube.com/watch?v=EN45NNImwYs",
               "Demystifying the Compose Runtime & Compiler",
               "Andrew Bailey",
             ),
           )
           .forEach { (thumb, talkTitle, speaker) ->
             Column(Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
-              Image(
-                painter = painterResource(thumb),
+              QrCode(
+                data = thumb,
                 contentDescription = talkTitle,
                 modifier = Modifier.weight(1f)
                   .fillMaxWidth()
                   .padding(16.dp),
-                contentScale = ContentScale.Fit,
               )
               Spacer(Modifier.height(8.dp))
               Column(
