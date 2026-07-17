@@ -326,12 +326,22 @@ val stateSurgery by
         Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
           Row {
             Column {
-              Bullet(line { t("Those dots behind me? Snapshot state") })
-              Bullet(line { t("The little battery in the corner? Snapshot state") })
+              Bullet(
+                line {
+                  t("Those dots behind me? ")
+                  em("Snapshot state")
+                }
+              )
+              Bullet(
+                line {
+                  t("The little battery in the corner? ")
+                  em("Snapshot state")
+                }
+              )
               Bullet(
                 line {
                   t("The live…wire below? ")
-                  em("Also state")
+                  em("Snapshot state")
                 }
               )
             }
