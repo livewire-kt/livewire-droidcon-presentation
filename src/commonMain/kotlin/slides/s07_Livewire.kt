@@ -3,6 +3,7 @@ package slides
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,7 +49,7 @@ val sectionLivewire by
   Slide(
     context =
       SpeakerNotes(
-        "We've talked a lot about what we've built, but we haven't actually shown you a single " +
+        "ERIC:\nWe've talked a lot about what we've built, but we haven't actually shown you a single " +
           "thing yet."
       ) + PaceKeyframe(34.minutes)
   ) {
@@ -60,21 +62,20 @@ val demoScreens by
     context =
       SpeakerNotes(
         listOf(
-          0..0 to "SOMETHING HERE OR IT CRASHES",
+          0..0 to "ERIC:\nSo here's the main screen. You can see here we've launched it with 3 open devices.\n\nAn Android emulator on top.\n\nAn iPhone in the middle\n\nAnd a desktop app running on the bottom.\n\nThese all have the same logo cause they're all instances our demo app.",
           1..1 to
-            "Run custom queries. View schemas. View tables. Database queries through the " +
-              "same SQL driver your app uses.",
+            "DREW:\nHere's our database plugin. Run custom queries. View schemas. View tables. Database queries through the same SQL driver your app uses.",
           2..2 to
-            "Network: one line in your OkHttp/Ktor setup; requests, timings, headers, " +
+            "DREW:\nNetwork: one line in your OkHttp/Ktor setup; requests, timings, headers, " +
               "formatted bodies, even images render. It reads the app's traffic because it IS " +
               "the app.",
           3..3 to
-            "Recomposition plugin, which is what I'm personally most proud of.\n\n" +
-              "It shows your composition tree, with recompositions, skips and child " +
+            "ERIC:\nRecomposition plugin, which is what I'm personally most proud of.\n\n" +
+              "It shows your composition tree, with recomposition, skip, and child " +
               "recomposition counts for each node. We collapse boring stuff into breadcrumbs, " +
               "like the Box > NavigationBar > Surface group above.",
           4..4 to
-            "When you select a node, it tells you WHY it invalidated (if it can) - which " +
+            "ERIC:\nWhen you select a node, it tells you WHY it invalidated (if it can) - which " +
               "state changed, and its value. Also shows current parameters.\n\n" +
               "Note that while the plugin does work on every platform, it's not able to give " +
               "quite as much detail on iOS due to kotlin/native's lack of reflection.",
@@ -101,29 +102,35 @@ val demoScreens by
   }
 
 val introspection by
-  Slide(context = SpeakerNotes("or it observes its own emissions, forever")) {
+  Slide(context = SpeakerNotes(
+    """
+      ERIC:
+      One funny thing we discovered while developing this is that it's REALLY easy to get ourselves into an infinite recomposition loop.
+
+      The recomposition inspector is Compose…
+      …streamed over a composition…
+      …watching your compositions.
+
+      We got around this by ignorelisting the tracker's own composition, and thus contained our turtles.
+    """.trimIndent()
+  )) {
     TitledSlide(title = "Introspection isn't always a good thing", kicker = "// PLUGINS") {
-      Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
-        Column(Modifier.weight(1.1f)) {
-          Bullet(line { t("The recomposition inspector is Compose…") })
-          Bullet(line { t("…streamed over a composition…") })
-          Bullet(line { t("…watching your compositions.") })
+      Box(Modifier.fillMaxSize()) {
+        Column {
+          Text("""
+            The recomposition inspector is Compose…
+            …streamed over a composition…
+            …watching your compositions.
+          """.trimIndent())
           Spacer(Modifier.height(8.dp))
-          Bullet(line { t("Livewire's own composition is tagged with a context marker") })
-          Bullet(
-            line {
-              t("The tracker ")
-              em("ignorelists itself")
-              t(" — or it observes its own emissions, forever")
-            }
-          )
+          Bullet(line { t("Livewire's own composition\nis tagged with a context\nmarker") })
+          Bullet(line { t("The tracker ignorelists itself\nso it doesn't observe its own\nemissions, forever") })
           Bullet(line { t("Turtles: contained 🐢") })
         }
-        Spacer(Modifier.width(14.dp))
         Image(
           painter = painterResource(Res.drawable.screenshot_recomposition),
           contentDescription = "Recomposition inspector inspecting itself",
-          modifier = Modifier.weight(0.9f).fillMaxSize(),
+          modifier = Modifier.align(Alignment.BottomEnd),
           contentScale = ContentScale.Fit,
         )
       }

@@ -26,8 +26,8 @@ class LineBuilder(private val fonts: LivewireFonts, private val builder: Annotat
     builder.withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append(s) }
   }
 
-  fun i(s: String) {
-    builder.withStyle(SpanStyle(fontStyle = FontStyle.Italic)) { append(s) }
+  fun i(s: String, color: Color = Livewire.Cream) {
+    builder.withStyle(SpanStyle(fontStyle = FontStyle.Italic, color = color)) { append(s) }
   }
 
   /** Inline code — JetBrains Mono, cream. */

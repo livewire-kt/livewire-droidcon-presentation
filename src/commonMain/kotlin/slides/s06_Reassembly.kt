@@ -30,12 +30,13 @@ import widgets.line
 import kotlin.time.Duration.Companion.minutes
 import widgets.PaceKeyframe
 import net.kodein.cup.utils.plus
+import widgets.Livewire
 
 val sectionReassembly by
   Slide(
     context =
       SpeakerNotes(
-        "Now we've established how we create our UIs… How we established a connection between a " +
+        "DREW:\nNow we've established how we create our UIs… How we established a connection between a " +
           "device and our desktop companion app… How do we now bring it all together."
       ) + PaceKeyframe(28.minutes)
   ) {
@@ -47,7 +48,7 @@ val renderingOnHost by
     stepCount = 1,
     context =
       SpeakerNotes(
-        "In the host app, we can access a Flow of our `LayoutNode` trees from the connection and " +
+        "DREW:\nIn the host app, we can access a Flow of our `LayoutNode` trees from the connection and " +
           "collect them in our desktop compose.\n\n" +
           "From there we feed it into a \"Router\" composable that can recursively direct and " +
           "render the node and its children based on type."
@@ -88,7 +89,7 @@ val renderingTree by
   PreparedSlide(
     context =
       SpeakerNotes(
-        "Structurally our tree looks something like this, and then the router on the right here " +
+        "DREW:\nStructurally our tree looks something like this, and then the router on the right here " +
           "handles individual nodes like so…"
       )
   ) {
@@ -140,13 +141,13 @@ val renderingNode by
     context =
       SpeakerNotes(
         listOf(
-          0..0 to "For layout and other nodes can can handle children iterate through them…",
+          0..0 to "DREW:\nFor layout and other nodes can can handle children iterate through them…",
           1..1 to
-            "… then keying each children to the composition key hash generated from the " +
+            "DREW:\n… then keying each children to the composition key hash generated from the " +
               "client so that the client stays the source of truth in this \"dual-composition\" " +
               "kind of setup",
           2..2 to
-            "Then fold their LivewireModifier into a Compose UI modifier, and then feed " +
+            "DREW:\nThen fold their LivewireModifier into a Compose UI modifier, and then feed " +
               "each child back through the router.",
         )
       ),
@@ -195,12 +196,16 @@ val diffing by
   PreparedSlide(
     context =
       SpeakerNotes(
-        "The compose runtime hands us structural diffs. Its insert/remove/move calls ARE the " +
-          "diff.\n\n" +
-          "Our first frame ends up being a few kb, per-frame patches are generally tens of " +
-          "bytes.\n\n" +
-          "The host can send a RequestFullTree message to the client in the event it ever " +
-          "loses context (maybe it missed a frame?)"
+        """
+          ERIC:
+          So by now you've probably thought to yourself: there's no way we can send the entire tree over the wire several times per second on a USB 2 cord.
+
+          The good news is that we can actually do diffs. The compose runtime hands us structural diffs. Its insert/remove/move calls ARE the diff.
+
+          Our first frame ends up being a few kb, per-frame patches are generally tens of bytes.
+
+          The host can send a RequestFullTree message to the client in the event it ever loses context (maybe it missed a frame?)
+        """.trimIndent()
       )
   ) {
     val sourceCode =
@@ -239,7 +244,18 @@ val diffing by
   }
 
 val backpressure by
-  Slide(context = SpeakerNotes("")) {
+  Slide(context = SpeakerNotes(
+    """
+      ERIC:
+      Even with diffs, backpressure can be an issue! So how do we handle the case that the composition tries to produce frames faster than we can shuttle them to the host?
+
+      We do this by stopping our MonotonicFrameClock after each emission. Once the wire is drained, we restart the clock.
+
+      This means we simply get fewer frames rather than more queueing.
+
+      Luckily the host is independent enough that the throttling doesn't actually hurt us - we just show the latest data available at all times for near-zero lag.
+    """.trimIndent()
+  )) {
     TitledSlide(title = "Handling backpressure", kicker = "// DIFFING") {
       Bullet(
         line { t("Problem: composition can produce frames far faster than the wire drains them") }
@@ -261,7 +277,7 @@ val backpressure by
       Bullet(
         line {
           t("Slow consumer ⇒ the app ")
-          i("composes less")
+          em("composes less", color = Livewire.Red)
           t(", not queues more.")
         }
       )
@@ -277,12 +293,14 @@ val actions by
   Slide(
     context =
       SpeakerNotes(
-        "We've now covered creating our UIs, establishing a connection over the wire, and " +
-          "rendering our UIs on the other side.\n\n" +
-          "Buuuuuut, how do we now convey the user's actual intention (i.e. actions). We can't " +
-          "really send a lambda across a socket.\n\n" +
-          "What we can do is have the client define the intention to the host and have the " +
-          "host deliver the user's action back to the client."
+        """
+          DREW:
+          We've now covered creating our UIs, establishing a connection over the wire, and rendering our UIs on the other side.
+
+          Buuuuuut, how do we now convey the user's actual intention (i.e. actions). We can't really send a lambda across a socket.
+
+          What we can do is have the client define the intention to the host and have the host deliver the user's action back to the client.
+        """.trimIndent()
       )
   ) {
     TitledSlide(title = "Actions", kicker = "// CLICKING OVER THE WIRE") {
@@ -307,6 +325,7 @@ val definingIntention by
   PreparedSlide(
     context =
       SpeakerNotes(
+        "DREW:\n" +
         "Wait! This is suspiciously starting to look like another tree… Well, maybe a bonzai " +
           "tree.\n\n" +
           "We can model a user's action as a sealed set of classes that define the meaning of " +
@@ -380,16 +399,16 @@ val declaringIntention by
     context =
       SpeakerNotes(
         listOf(
-          0..0 to "Now we need an API to let developers declare this intentions",
+          0..0 to "DREW:\nNow we need an API to let developers declare this intentions",
           1..1 to
-            "First, we capture the unique composition key for this action/node so that " +
+            "DREW:\nFirst, we capture the unique composition key for this action/node so that " +
               "we can uniquely relate the input from the user when sent back from the host",
           2..2 to
-            "Then, in a `LaunchedEffect` we observe all actions of our type, filtered to " +
+            "DREW:\nThen, in a `LaunchedEffect` we observe all actions of our type, filtered to " +
               "our unique composition id and then execute the saved lambda-action when we " +
               "observe this event.",
           3..3 to
-            "Lastly, we remember and return this action, i.e. intention, to the caller " +
+            "DREW:\nLastly, we remember and return this action, i.e. intention, to the caller " +
               "to be serialized and set across the wire as part of our tree",
         )
       ),
@@ -440,7 +459,7 @@ val clickingBackwards by
   PreparedSlide(
     context =
       SpeakerNotes(
-        "Here is an example of how this would look in the wild for a developer using Livewire.\n\n" +
+        "DREW:\nHere is an example of how this would look in the wild for a developer using Livewire.\n\n" +
           "Not so different from just using a lambda."
       )
   ) {
@@ -477,7 +496,7 @@ val deliveringAction by
   PreparedSlide(
     context =
       SpeakerNotes(
-        "Now, on the host side when rendering our node into actual ComposeUI, we do an inverse " +
+        "DREW:\nNow, on the host side when rendering our node into actual ComposeUI, we do an inverse " +
           "and dispatch the stored action on the node back to the client when clicked."
       )
   ) {
