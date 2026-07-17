@@ -36,10 +36,29 @@ object DeckControls {
   /** Whether the audience window shows the pace battery HUD (the "telemetry beacon"). */
   var audienceHud by mutableStateOf(true)
 
+  // Wire physics — read every frame by [LivewireWire]'s emitters ("corona discharge
+  // rate", "arc energy", "carrier drift velocity", "gravitational coupling").
+
+  /** Sizzle particles per second along the cable. */
+  var wireSizzleRate by mutableStateOf(140f)
+
+  /** Multiplier on particle ejection force for both emitters. */
+  var wireArcEnergy by mutableStateOf(1f)
+
+  /** Speed multiplier for the traveling charge (0 freezes it in place). */
+  var wireDriftVelocity by mutableStateOf(1f)
+
+  /** Downward gravity applied to the charge's sparks, in dp/s². */
+  var wireSparkGravity by mutableStateOf(60f)
+
   fun reset() {
     blackout = false
     gridGain = 1f
     audienceHud = true
+    wireSizzleRate = 140f
+    wireArcEnergy = 1f
+    wireDriftVelocity = 1f
+    wireSparkGravity = 60f
   }
 }
 

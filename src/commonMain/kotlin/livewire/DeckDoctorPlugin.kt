@@ -48,6 +48,8 @@ import widgets.PaceClock
  * - "Telemetry beacon" → [DeckControls.audienceHud], the pace battery HUD
  * - "Substrate lattice gain" → [DeckControls.gridGain], background dot brightness
  * - "Chronometer skew" → [PaceClock.skew], nudges the talk clock ±1 min
+ * - "WIRE PHYSICS" → the [widgets.LivewireWire] particle emitters on the demo slide:
+ *   sizzle rate, spark force, charge speed, and spark gravity
  *
  * Everything is bound to snapshot state the deck reads, so a flip on the phone
  * changes the projector immediately: control → action over the wire → snapshot
@@ -147,8 +149,82 @@ class DeckDoctorPlugin : Plugin {
           },
         )
       }
+
+      Card(title = "WIRE PHYSICS") {
+        Text(
+          text = "Transmission-line parameters. Effective where live conductors are present.",
+          style = LivewireTheme.typography.bodySmall,
+          color = LivewireTheme.colorScheme.onSurfaceVariant,
+        )
+        Spacer(LivewireModifier.height(10.dp))
+        TunableSlider(
+          label = "Corona discharge rate — ${DeckControls.wireSizzleRate.roundToInt()}/s",
+          description = "Ambient ionization along the conductor",
+          value = DeckControls.wireSizzleRate,
+          rangeStart = 0f,
+          rangeEnd = 400f,
+        ) {
+          DeckControls.wireSizzleRate = it
+        }
+        TunableSlider(
+          label = "Arc energy — ×${DeckControls.wireArcEnergy.oneDecimal()}",
+          description = "Ejection velocity of liberated electrons",
+          value = DeckControls.wireArcEnergy,
+          rangeStart = 0f,
+          rangeEnd = 3f,
+        ) {
+          DeckControls.wireArcEnergy = it
+        }
+        TunableSlider(
+          label = "Carrier drift velocity — ×${DeckControls.wireDriftVelocity.oneDecimal()}",
+          description = "Propagation speed of the charge carrier. Zero pins it in place",
+          value = DeckControls.wireDriftVelocity,
+          rangeStart = 0f,
+          rangeEnd = 4f,
+        ) {
+          DeckControls.wireDriftVelocity = it
+        }
+        TunableSlider(
+          label = "Gravitational coupling — ${DeckControls.wireSparkGravity.roundToInt()} dp/s²",
+          description = "How strongly the sparks believe in gravity",
+          value = DeckControls.wireSparkGravity,
+          rangeStart = 0f,
+          rangeEnd = 300f,
+        ) {
+          DeckControls.wireSparkGravity = it
+        }
+      }
     }
   }
+
+  @LivewireComposable
+  @Composable
+  private fun TunableSlider(
+    label: String,
+    description: String,
+    value: Float,
+    rangeStart: Float,
+    rangeEnd: Float,
+    onValueChange: (Float) -> Unit,
+  ) {
+    Column(modifier = LivewireModifier.fillMaxWidth().padding(vertical = 3.dp)) {
+      Text(label, style = LivewireTheme.typography.bodyLarge)
+      Text(
+        text = description,
+        style = LivewireTheme.typography.bodySmall,
+        color = LivewireTheme.colorScheme.onSurfaceVariant,
+      )
+      Slider(
+        value = value,
+        onValueChange = floatValueChangeAction(onValueChange),
+        modifier = LivewireModifier.fillMaxWidth(),
+        valueRangeStart = rangeStart,
+        valueRangeEnd = rangeEnd,
+      )
+    }
+  }
+
+  private fun Float.oneDecimal(): Float = (this * 10).roundToInt() / 10f
 
   @LivewireComposable
   @Composable

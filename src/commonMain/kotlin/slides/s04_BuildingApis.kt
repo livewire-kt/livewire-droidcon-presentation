@@ -109,8 +109,12 @@ val textNode by
       TitledSlide(title = "Create a new node", kicker = "// BUILDING OUR APIS") {
         CodeBox(
           modifier = Modifier.fillMaxSize(),
+          contentAlignment = Alignment.Center,
         ) {
-          LivewireCode(sourceCode)
+          LivewireCode(
+            sourceCode = sourceCode,
+            fontSize = 12.sp,
+          )
         }
       }
     }
@@ -146,8 +150,12 @@ val createComposable by
       TitledSlide(title = "Create its Composable (API)", kicker = "// BUILDING OUR APIS") {
         CodeBox(
           modifier = Modifier.fillMaxSize(),
+          contentAlignment = Alignment.Center,
         ) {
-          LivewireCode(sourceCode)
+          LivewireCode(
+            sourceCode = sourceCode,
+            fontSize = 12.sp,
+          )
         }
       }
     }
@@ -204,14 +212,17 @@ val emitToComposition by
       TitledSlide(title = "Emit to the composition", kicker = "// BUILDING OUR APIS") {
         CodeBox(
           modifier = Modifier.fillMaxSize(),
+          contentAlignment = Alignment.Center,
         ) {
-          LivewireCode(sourceCode, step = step)
+          LivewireCode(
+            sourceCode = sourceCode,
+            step = step,
+            fontSize = 12.sp,
+          )
         }
       }
     }
   }
-
-private val fadedCodeTheme: net.kodein.cup.sa.SourceCodeTheme = { _ -> null }
 
 val compositionUpdater by
   PreparedSlide(
@@ -227,7 +238,7 @@ val compositionUpdater by
           "`reconcile` - This is called after EVERY update to your node."
       )
   ) {
-    val backgroundCode =
+    val sourceCode =
       rememberSourceCode(language = "kotlin", key = "updaterBg") {
         val shell by marker(dimmed(0..3))
         val hash by marker(dimmed(1..3))
@@ -258,10 +269,12 @@ val compositionUpdater by
       TitledSlide(title = "Composition Updater", kicker = "// BUILDING OUR APIS") {
         CodeBox(
           modifier = Modifier.fillMaxSize(),
+          contentAlignment = Alignment.Center,
         ) {
           LivewireCode(
-            sourceCode = backgroundCode,
+            sourceCode = sourceCode,
             step = 3,
+            fontSize = 12.sp,
           )
         }
       }
@@ -349,8 +362,13 @@ val updatingTheTree by
       TitledSlide(title = "Updating the tree", kicker = "// LIVEWIRE MODIFIER") {
         CodeBox(
           modifier = Modifier.fillMaxSize(),
+          contentAlignment = Alignment.Center,
         ) {
-          LivewireCode(sourceCode, step = step)
+          LivewireCode(
+            sourceCode = sourceCode,
+            step = step,
+            fontSize = 12.sp,
+          )
         }
       }
     }
@@ -386,8 +404,13 @@ val updatingOurApis by
       TitledSlide(title = "Updating our APIs", kicker = "// LIVEWIRE MODIFIER") {
         CodeBox(
           modifier = Modifier.fillMaxSize(),
+          contentAlignment = Alignment.Center,
         ) {
-          LivewireCode(sourceCode, step = step)
+          LivewireCode(
+            sourceCode = sourceCode,
+            step = step,
+            fontSize = 12.sp,
+          )
         }
       }
     }
@@ -429,8 +452,13 @@ val updatingTheComposition by
       TitledSlide(title = "Updating the composition", kicker = "// LIVEWIRE MODIFIER") {
         CodeBox(
           modifier = Modifier.fillMaxSize(),
+          contentAlignment = Alignment.Center,
         ) {
-          LivewireCode(sourceCode, step = step)
+          LivewireCode(
+            sourceCode = sourceCode,
+            step = step,
+            fontSize = 12.sp,
+          )
         }
       }
     }
@@ -470,8 +498,12 @@ val creatingNewModifier by
       TitledSlide(title = "Creating a new modifier", kicker = "// LIVEWIRE MODIFIER") {
         CodeBox(
           modifier = Modifier.fillMaxSize(),
+          contentAlignment = Alignment.Center,
         ) {
-          LivewireCode(sourceCode)
+          LivewireCode(
+            sourceCode = sourceCode,
+            fontSize = 12.sp,
+          )
         }
       }
     }

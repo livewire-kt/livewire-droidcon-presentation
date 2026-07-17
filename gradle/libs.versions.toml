@@ -32,6 +32,7 @@ emoji-compose = { module = "org.kodein.emoji:emoji-compose-m3", version.ref = "e
 livewire-client = { module = "com.livewire-kt.livewire:client", version.ref = "livewire" }
 livewire-plugin-recomposition = { module = "com.livewire-kt.livewire:plugin-recomposition", version.ref = "livewire" }
 qrose = { module = "io.github.alexzhirkevich:qrose", version.ref = "qrose" }
+particle-emitter = "io.github.piotrprus:particle-emitter:1.1.0"
 
 [bundles]
 compose = [

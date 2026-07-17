@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import livewire_presentation.generated.resources.Res
 import livewire_presentation.generated.resources.diagram_actions
 import livewire_presentation.generated.resources.diagram_rendering_tree
@@ -58,8 +59,8 @@ val renderingOnHost by
       rememberSourceCode(language = "kotlin") {
         val shell by marker(dimmed(0))
 
-        // language=kotlin
-        """
+      // language=kotlin
+      """
         ${shell}HostScaffold(…) {${X}
           val layoutNode by host.connection
             .incomingLayoutNodes
@@ -71,19 +72,20 @@ val renderingOnHost by
           )
         ${shell}}${X}
         """
-          .trimIndent()
-      }
+        .trimIndent()
+    }
 
-    slideContent { step ->
-      TitledSlide(title = "Rendering on the host", kicker = "// HOST RENDERING") {
-        CodeBox(
-          modifier = Modifier.fillMaxSize()
-        ) {
-          LivewireCode(sourceCode, step = step)
-        }
+  slideContent { step ->
+    TitledSlide(title = "Rendering on the host", kicker = "// HOST RENDERING") {
+      CodeBox(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
+      ) {
+        LivewireCode(sourceCode, step = step)
       }
     }
   }
+}
 
 val renderingTree by
   PreparedSlide(
@@ -112,28 +114,29 @@ val renderingTree by
           }
         }
         """
-          .trimIndent()
-      }
+        .trimIndent()
+    }
 
-    slideContent {
-      TitledSlide(title = "Rendering our tree", kicker = "// HOST RENDERING") {
-        Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
-          Image(
-            painter = painterResource(Res.drawable.diagram_rendering_tree),
-            contentDescription = "The LayoutNode tree structure",
-            modifier = Modifier.weight(0.8f).fillMaxSize(),
-            contentScale = ContentScale.Fit,
-          )
-          Spacer(Modifier.width(16.dp))
-          CodeBox(
-            modifier = Modifier.fillMaxSize().weight(1.2f)
-          ) {
-            LivewireCode(sourceCode)
-          }
+  slideContent {
+    TitledSlide(title = "Rendering our tree", kicker = "// HOST RENDERING") {
+      Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
+        Image(
+          painter = painterResource(Res.drawable.diagram_rendering_tree),
+          contentDescription = "The LayoutNode tree structure",
+          modifier = Modifier.weight(0.8f).fillMaxSize(),
+          contentScale = ContentScale.Fit,
+        )
+        Spacer(Modifier.width(16.dp))
+        CodeBox(
+          modifier = Modifier.fillMaxSize().weight(1.2f),
+          contentAlignment = Alignment.Center,
+        ) {
+          LivewireCode(sourceCode)
         }
       }
     }
   }
+}
 
 val renderingNode by
   PreparedSlide(
@@ -158,8 +161,8 @@ val renderingNode by
         val keyed by marker(dimmed(2))
         val folded by marker(dimmed(1))
 
-        // language=kotlin
-        """
+      // language=kotlin
+      """
         ${outer}@Composable
         fun BoxNodeContent(
           node: BoxNode,
@@ -178,19 +181,20 @@ val renderingNode by
           }
         }${X}
         """
-          .trimIndent()
-      }
+        .trimIndent()
+    }
 
-    slideContent { step ->
-      TitledSlide(title = "Rendering a node", kicker = "// HOST RENDERING") {
-        CodeBox(
-          modifier = Modifier.fillMaxSize()
-        ) {
+  slideContent { step ->
+    TitledSlide(title = "Rendering a node", kicker = "// HOST RENDERING") {
+      CodeBox(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
+      ) {
         LivewireCode(sourceCode, step = step)
-          }
       }
     }
   }
+}
 
 val diffing by
   PreparedSlide(
@@ -220,28 +224,28 @@ val diffing by
           class UpdateNode(nodeId, propertyBytes)
         }
         """
-          .trimIndent()
-      }
+        .trimIndent()
+    }
 
-    slideContent {
-      TitledSlide(title = "Composition over the wire", kicker = "// DIFFING") {
-        Bullet(
-          line {
-            t(
-              "First frame serializes the full tree, after that the Applier records what the runtime "
-            )
-            i("did")
-          }
-        )
-        Bullet(line { t("Resync the world when in doubt") })
-        Spacer(Modifier.height(10.dp))
-        CodeBox(
-        ) {
-          LivewireCode(sourceCode, modifier = Modifier.fillMaxWidth())
+  slideContent {
+    TitledSlide(title = "Composition over the wire", kicker = "// DIFFING") {
+      Bullet(
+        line {
+          t(
+            "First frame serializes the full tree, after that the Applier records what the runtime "
+          )
+          i("did")
         }
+      )
+      Bullet(line { t("Resync the world when in doubt") })
+      Spacer(Modifier.height(10.dp))
+      CodeBox(
+      ) {
+        LivewireCode(sourceCode, modifier = Modifier.fillMaxWidth())
       }
     }
   }
+}
 
 val backpressure by
   Slide(context = SpeakerNotes(
@@ -356,12 +360,12 @@ val definingIntention by
           val checked: Boolean = false,
         ) : LivewireAction
         """
-          .trimIndent()
-      }
-    val right =
-      rememberSourceCode(language = "kotlin", key = "actionsRight") {
-        // language=kotlin
-        """
+        .trimIndent()
+    }
+  val right =
+    rememberSourceCode(language = "kotlin", key = "actionsRight") {
+      // language=kotlin
+      """
         @Serializable
         data class ValueChangeAction(
           val identifier: String,
@@ -375,23 +379,23 @@ val definingIntention by
           val value: Float = 0f,
         ) : LivewireAction
         """
-          .trimIndent()
-      }
+        .trimIndent()
+    }
 
-    slideContent {
-      TitledSlide(title = "Defining user intention", kicker = "// ACTIONS") {
-        CodeBox(
-          modifier = Modifier.fillMaxSize()
-        ) {
-          Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.Top) {
-            LivewireCode(left, modifier = Modifier.weight(1f))
-            Spacer(Modifier.width(20.dp))
-            LivewireCode(right, modifier = Modifier.weight(1f))
-          }
+  slideContent {
+    TitledSlide(title = "Defining user intention", kicker = "// ACTIONS") {
+      CodeBox(
+        modifier = Modifier.fillMaxSize()
+      ) {
+        Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.Top) {
+          LivewireCode(left, modifier = Modifier.weight(1f))
+          Spacer(Modifier.width(20.dp))
+          LivewireCode(right, modifier = Modifier.weight(1f))
         }
       }
     }
   }
+}
 
 val declaringIntention by
   PreparedSlide(
@@ -420,12 +424,12 @@ val declaringIntention by
         val observe by marker(dimmed(1, 3))
         val ret by marker(dimmed(1, 2))
 
-        // language=kotlin
-        """
+      // language=kotlin
+      """
         ${head}@Composable
-        fun clickAction(
-          onClick: () -> Unit,
-        ): ClickAction {${X}
+        fun clickAction(${X}
+          ${click}onClick: () -> Unit,${X}
+        ${tail}): ClickAction {${X}
         ${identifier}  val identifier = "click_${'$'}currentCompositeKeyHashCode"${X}
         ${observe}  val actionObserver = LocalLivewireActionObserver.current
 
@@ -441,19 +445,24 @@ val declaringIntention by
         ${ret}  return remember { ClickAction(identifier) }${X}
         ${head}}${X}
         """
-          .trimIndent()
-      }
+        .trimIndent()
+    }
 
-    slideContent { step ->
-      TitledSlide(title = "Declaring user intention", kicker = "// CLIENT") {
-        CodeBox(
-          modifier = Modifier.fillMaxSize()
-        ) {
-          LivewireCode(sourceCode, step = step)
-        }
+  slideContent { step ->
+    TitledSlide(title = "Declaring user intention", kicker = "// CLIENT") {
+      CodeBox(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
+      ) {
+        LivewireCode(
+          sourceCode = sourceCode,
+          step = step,
+          fontSize = 12.sp,
+        )
       }
     }
   }
+}
 
 val clickingBackwards by
   PreparedSlide(
@@ -478,19 +487,23 @@ val clickingBackwards by
           }
         }
         """
-          .trimIndent()
-      }
+        .trimIndent()
+    }
 
-    slideContent {
-      TitledSlide(title = "Clicking, but backwards", kicker = "// CLIENT") {
-        CodeBox(
-          modifier = Modifier.fillMaxSize()
-        ) {
-          LivewireCode(sourceCode)
-        }
+  slideContent {
+    TitledSlide(title = "Clicking, but backwards", kicker = "// CLIENT") {
+      CodeBox(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
+      ) {
+        LivewireCode(
+          sourceCode = sourceCode,
+          fontSize = 12.sp,
+        )
       }
     }
   }
+}
 
 val deliveringAction by
   PreparedSlide(
@@ -519,16 +532,20 @@ val deliveringAction by
           ) // {}
         }
         """
-          .trimIndent()
-      }
+        .trimIndent()
+    }
 
-    slideContent {
-      TitledSlide(title = "Delivering Action", kicker = "// HOST") {
-        CodeBox(
-          modifier = Modifier.fillMaxSize()
-        ) {
-          LivewireCode(sourceCode)
-        }
+  slideContent {
+    TitledSlide(title = "Delivering Action", kicker = "// HOST") {
+      CodeBox(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
+      ) {
+        LivewireCode(
+          sourceCode = sourceCode,
+          fontSize = 12.sp,
+        )
       }
     }
   }
+}

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -15,10 +16,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import bugs.StagedBugs
+import com.livewire.ui.widget.Text
 import livewire_presentation.generated.resources.Res
+import livewire_presentation.generated.resources.jc
 import livewire_presentation.generated.resources.screenshot_demo_1
 import livewire_presentation.generated.resources.screenshot_demo_2
 import livewire_presentation.generated.resources.screenshot_demo_3
@@ -38,6 +43,7 @@ import widgets.Bullet
 import widgets.CodeBox
 import widgets.GifImage
 import widgets.LivewireCode
+import widgets.LivewireWire
 import widgets.SectionSlide
 import widgets.TitledSlide
 import widgets.line
@@ -294,8 +300,12 @@ val stateSurgery by
           "whose controls are bound straight to the deck's snapshot state.\n\n" +
           "Suggested run, all from the phone: drag \"Substrate lattice gain\" up and down " +
           "— the background dots breathe on every window. Flip \"Telemetry beacon\" — the " +
-          "pace battery vanishes and returns. Finale: \"Photon output limiter\" ON — the " +
-          "projector goes black while the speaker window keeps running — then OFF.\n\n" +
+          "pace battery vanishes and returns. Then WIRE PHYSICS on the wire below: crank " +
+          "\"Corona discharge rate\" to 400, \"Arc energy\" to ×3 (fireworks), drag " +
+          "\"Carrier drift velocity\" to 0 (charge freezes mid-wire) then to ×4, and slam " +
+          "\"Gravitational coupling\" so the sparks rain. Finale: \"Photon output " +
+          "limiter\" ON — the projector goes black while the speaker window keeps running " +
+          "— then OFF.\n\n" +
           "Land the point: no screenshots, no special demo build. The phone dispatches " +
           "actions over the wire into the same snapshot state this deck renders from. " +
           "Turtle one-liner on the way out: the tool inspecting the deck is itself " +
@@ -303,15 +313,44 @@ val stateSurgery by
       )
   ) {
     TitledSlide(title = "The deck is just state", kicker = "// DEMO") {
-      Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
-        Bullet(line { t("Those dots behind me? Snapshot state") })
-        Bullet(line { t("The little battery in the corner? Snapshot state") })
-        Bullet(
-          line {
-            t("The photons coming out of this projector? ")
-            em("Also state")
+      Box(Modifier.fillMaxSize()) {
+        Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
+          Row {
+            Column {
+              Bullet(line { t("Those dots behind me? Snapshot state") })
+              Bullet(line { t("The little battery in the corner? Snapshot state") })
+              Bullet(
+                line {
+                  t("The live…wire below? ")
+                  em("Also state")
+                }
+              )
+            }
+            Spacer(Modifier.weight(1f))
+            LivewireQrCode(
+              title = "ParticleEmitter",
+              url = "https://github.com/PiotrPrus/ParticleEmitter",
+              logo = painterResource(Res.drawable.jc),
+              initialVisibility = true,
+            )
           }
-        )
+          Spacer(Modifier.weight(1f))
+          LivewireWire(
+            modifier =
+              Modifier
+                .fillMaxWidth()
+                .height(80.dp)
+                .padding(horizontal = 6.dp)
+          )
+          Text(
+            line {
+              b("ParticleEmitter by Piotr Prus")
+            },
+            color = Color.White,
+            fontSize = 10.sp,
+          )
+        }
+
       }
     }
   }

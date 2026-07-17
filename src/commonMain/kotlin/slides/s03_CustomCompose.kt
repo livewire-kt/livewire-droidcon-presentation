@@ -7,6 +7,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import livewire_presentation.generated.resources.Res
 import livewire_presentation.generated.resources.diagram_growing_tree
 import net.kodein.cup.PreparedSlide
@@ -97,8 +98,13 @@ val theTree by
       TitledSlide(title = "The tree", kicker = "// CUSTOM COMPOSE") {
         CodeBox(
           modifier = Modifier.fillMaxSize(),
+          contentAlignment = Alignment.Center,
         ) {
-          LivewireCode(sourceCode, step = step)
+          LivewireCode(
+            sourceCode = sourceCode,
+            step = step,
+            fontSize = 12.sp,
+          )
         }
       }
     }
@@ -161,8 +167,13 @@ val applier by
       TitledSlide(title = "Applier", kicker = "// CUSTOM COMPOSE") {
         CodeBox(
           modifier = Modifier.fillMaxSize(),
+          contentAlignment = Alignment.Center,
         ) {
-          LivewireCode(sourceCode, step = step)
+          LivewireCode(
+            sourceCode = sourceCode,
+            step = step,
+            fontSize = 12.sp,
+          )
         }
       }
     }
@@ -222,8 +233,13 @@ val composition by
       TitledSlide(title = "Composition", kicker = "// CUSTOM COMPOSE") {
         CodeBox(
           modifier = Modifier.fillMaxSize(),
+          contentAlignment = Alignment.Center,
         ) {
-          LivewireCode(sourceCode, step = step)
+          LivewireCode(
+            sourceCode = sourceCode,
+            step = step,
+            fontSize = 12.sp,
+          )
         }
       }
     }

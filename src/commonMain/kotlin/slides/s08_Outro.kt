@@ -111,13 +111,14 @@ val thankYou by Slide(context = PaceKeyframe(39.minutes)) {
 }
 
 @Composable
-private fun LivewireQrCode(
+internal fun LivewireQrCode(
   title: String,
   url: String,
   logo: Painter,
   modifier: Modifier = Modifier,
+  initialVisibility: Boolean = false
 ) {
-  var visible by remember { mutableStateOf(false) }
+  var visible by remember { mutableStateOf(initialVisibility) }
 
   LaunchedEffect(Unit) {
     delay(1.seconds)

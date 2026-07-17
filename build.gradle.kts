@@ -20,6 +20,7 @@ kotlin {
       implementation(libs.livewire.client)
       implementation(libs.livewire.plugin.recomposition)
       implementation(libs.qrose)
+      implementation(libs.particle.emitter)
     }
   }
 }
