@@ -60,6 +60,7 @@ val demoScreens by
     context =
       SpeakerNotes(
         listOf(
+          0..0 to "SOMETHING HERE OR IT CRASHES",
           1..1 to
             "Run custom queries. View schemas. View tables. Database queries through the " +
               "same SQL driver your app uses.",

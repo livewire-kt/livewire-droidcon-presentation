@@ -69,12 +69,11 @@ val flipIt by
   Slide(
     context =
       SpeakerNotes(
-        "In Flipper, meaning is reconstructed on the desktop by a second program.\n\n" +
-          "What if meaning never left the app? The app already knows how its debug data should " +
-          "look, so it sends the looks.\n\n" +
-          "A plugin is just Kotlin in your codebase; your database plugin can call your DAO.\n\n" +
-          "The host never updates when you write a new plugin. If you're thinking 'isn't that " +
-          "just Remote Compose?' — yes, next slide."
+        """In Flipper, meaning is reconstructed on the desktop by a second program.
+What if meaning never left the app? The app already knows how its debug data should look, so it sends the looks.
+
+A plugin is just Kotlin in your codebase; A database plugin can call your DAO directly. A another plugin could just access your apps state that would be hard to send across the wire.
+What if the host never updates when you write or update a plugin."""
       )
   ) {
     TitledSlide(title = "Flip it: the app describes, the host renders", kicker = "// THE IDEA") {
