@@ -36,9 +36,10 @@ import widgets.SectionSlide
 import widgets.TitledSlide
 import widgets.line
 import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 val sectionConnections by Slide(
-  context = PaceKeyframe(20.minutes) +
+  context = PaceKeyframe(16.minutes + 45.seconds) +
     SpeakerNotes(
       """
     ERIC:

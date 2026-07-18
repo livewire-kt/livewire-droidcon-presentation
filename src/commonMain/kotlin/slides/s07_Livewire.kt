@@ -44,6 +44,7 @@ import widgets.TitledSlide
 import widgets.VideoPlayer
 import widgets.line
 import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 val sectionLivewire by
   Slide(
@@ -51,7 +52,7 @@ val sectionLivewire by
       SpeakerNotes(
         "ERIC:\nWe've talked a lot about what we've built, but we haven't actually shown you a single " +
           "thing yet."
-      ) + PaceKeyframe(34.minutes)
+      ) + PaceKeyframe(31.minutes + 45.seconds)
   ) {
     SectionSlide(number = "05", title = "Livewire", subtitle = "Live Demos (also not live demos)")
   }

@@ -32,6 +32,7 @@ import kotlin.time.Duration.Companion.minutes
 import widgets.PaceKeyframe
 import net.kodein.cup.utils.plus
 import widgets.Livewire
+import kotlin.time.Duration.Companion.seconds
 
 val sectionReassembly by
   Slide(
@@ -39,7 +40,7 @@ val sectionReassembly by
       SpeakerNotes(
         "DREW:\nNow we've established how we create our UIs… How we established a connection between a " +
           "device and our desktop companion app… How do we now bring it all together."
-      ) + PaceKeyframe(28.minutes)
+      ) + PaceKeyframe(25.minutes + 45.seconds)
   ) {
     SectionSlide(number = "04", title = "Re-assembly", subtitle = "Not all parts included.")
   }

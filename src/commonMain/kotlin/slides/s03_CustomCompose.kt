@@ -14,13 +14,17 @@ import net.kodein.cup.PreparedSlide
 import net.kodein.cup.Slide
 import net.kodein.cup.sa.rememberSourceCode
 import net.kodein.cup.speaker.SpeakerNotes
+import net.kodein.cup.utils.plus
 import org.jetbrains.compose.resources.painterResource
 import widgets.Bullet
 import widgets.CodeBox
 import widgets.LivewireCode
+import widgets.PaceKeyframe
 import widgets.TitledSlide
 import widgets.dimmed
 import widgets.line
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
 
 val customComposition by
   Slide(
@@ -140,7 +144,7 @@ val applier by
               "There are more functions to override here for more complicated behavior, but you " +
               "get the gist.",
         )
-      ),
+      ) + PaceKeyframe(6.minutes + 45.seconds),
   ) {
     val sourceCode =
       rememberSourceCode(language = "kotlin") {
