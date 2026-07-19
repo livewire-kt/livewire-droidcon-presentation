@@ -1,15 +1,7 @@
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.LayoutDirection
 import bugs.deckBugs
-import com.livewire.client.LivewireClient
-import com.livewire.plugin.recomposition.RecompositionPlugin
-import kotlin.time.Duration.Companion.minutes
-import livewire.DeckDoctorPlugin
-import livewire.SlideDeckPlugin
-import net.kodein.cup.LocalPresentationState
 import net.kodein.cup.Presentation
 import net.kodein.cup.SLIDE_SIZE_16_9
 import net.kodein.cup.SlideGroup
@@ -106,22 +98,7 @@ import widgets.PacePowerBar
 
 fun main() =
   cupApplication(title = "Livewire — Droidcon '26") {
-    val presentationState = LocalPresentationState.current
-    val livewireClient = remember {
-      LivewireClient {
-        install(RecompositionPlugin())
-        install(SlideDeckPlugin(presentationState, talkDuration = 40.minutes))
-        install(DeckDoctorPlugin())
-      }
-    }
-
-    DisposableEffect(Unit) {
-      livewireClient.start()
-
-      onDispose {
-        livewireClient.stop()
-      }
-    }
+    LivewireIntegration()
 
     remember { EmojiService.initialize() }
 

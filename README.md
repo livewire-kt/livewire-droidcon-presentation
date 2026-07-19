@@ -24,23 +24,34 @@ with custom plugins so we can debug the deck live, from the deck.
 ## Running
 
 ```sh
-./gradlew run          # present
-./gradlew hotRunJvm    # develop with Compose Hot Reload
+./gradlew run                  # present (desktop)
+./gradlew hotRunJvm            # develop with Compose Hot Reload
+./gradlew wasmJsBrowserRun     # run the web build locally
 ```
 
-Desktop only. CuP plugins enabled: speaker window (with notes), laser pointer, overview,
+A web (Kotlin/Wasm) build is deployed to **GitHub Pages** on every push to `main`:
+<https://livewire-kt.github.io/livewire-droidcon-presentation/>. The web deck drops the
+desktop-only bits — no speaker window, no Livewire client, and the outro video plays as
+its GIF fallback — everything else is the same Compose code.
+
+CuP plugins enabled on desktop: speaker window (with notes), laser pointer, overview,
 image export, and window management.
 
 ## Project layout
 
 ```
 src/commonMain/kotlin/
-  main.kt            # cupApplication, slide order, LivewireClient setup
+  main.kt            # cupApplication and slide order
   slides/            # one file per talk section (s00_Intro … s08_Outro)
   widgets/           # theme, slide scaffolds, code display, pace meter, GIF/video players
-  speakernotes/      # custom speaker window
-  livewire/          # deck's own Livewire plugins (SlideDeck, Deck Doctor)
+  speakernotes/      # speaker-notes slide API (window itself is desktop-only)
   bugs/              # "faux bugs" staged for the live-debugging demo
+src/jvmMain/kotlin/
+  livewire/          # deck's own Livewire plugins (SlideDeck, Deck Doctor)
+  speakernotes/      # custom speaker window UI
+  widgets/           # VLCJ video player
+src/wasmJsMain/kotlin/
+  # no-op actuals for the desktop-only pieces
 ```
 
 Custom bits worth a look:
