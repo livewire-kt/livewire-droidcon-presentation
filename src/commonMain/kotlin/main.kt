@@ -99,6 +99,7 @@ import widgets.PacePowerBar
 fun main() =
   cupApplication(title = "Livewire — Droidcon '26") {
     LivewireIntegration()
+    PreloadFallbackFonts()
 
     remember { EmojiService.initialize() }
 

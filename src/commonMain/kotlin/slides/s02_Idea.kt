@@ -38,6 +38,7 @@ import org.jetbrains.compose.resources.painterResource
 import widgets.Bullet
 import widgets.CodeBox
 import widgets.GifImage
+import widgets.TitleVerdict
 import widgets.Livewire
 import widgets.LivewireCode
 import widgets.LocalLivewireFonts
@@ -210,7 +211,7 @@ val remoteComposeYes by
       }
 
     slideContent {
-      TitledSlide(title = "Remote Compose™ ✅", kicker = "// COMPOSE") {
+      TitledSlide(title = "Remote Compose™", kicker = "// COMPOSE", titleBadge = { TitleVerdict(pass = true) }) {
         Bullet(line { t("Write Compose in one app") })
         Bullet(line { t("Render Compose in another!") })
         Bullet(line { em("Great! This will work right?") })
@@ -242,7 +243,7 @@ We looked at porting this to kotlin / kmp but the lift turned out to be more tha
  - and we didn't want the burden of maintaining heavy changes to a fork of a young and frequently changing library."""
       )
   ) {
-    TitledSlide(title = "Remote Compose™ ❌", kicker = "// COMPOSE") {
+    TitledSlide(title = "Remote Compose™", kicker = "// COMPOSE", titleBadge = { TitleVerdict(pass = false) }) {
       Bullet(line { em("Creating is JVM-only") })
       Bullet(line { t("Not fully KMP compatible") }, indent = 1)
       Bullet(line { em("Player is Android-only") })

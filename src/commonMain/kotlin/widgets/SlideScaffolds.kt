@@ -18,6 +18,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Cancel
+import androidx.compose.material.icons.rounded.CheckCircle
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -42,6 +46,7 @@ fun TitledSlide(
   title: String,
   kicker: String? = null,
   titleSize: TextUnit = 22.sp,
+  titleBadge: (@Composable () -> Unit)? = null,
   horizontalAlignment: Alignment.Horizontal = Alignment.Start,
   content: @Composable ColumnScope.() -> Unit = {},
 ) {
@@ -60,13 +65,19 @@ fun TitledSlide(
       )
     }
     if (title.isNotBlank()) {
-      Text(
-        text = title,
-        fontFamily = fonts.title,
-        color = Livewire.Cream,
-        fontSize = titleSize,
-        lineHeight = titleSize
-      )
+      Row(verticalAlignment = Alignment.CenterVertically) {
+        Text(
+          text = title,
+          fontFamily = fonts.title,
+          color = Livewire.Cream,
+          fontSize = titleSize,
+          lineHeight = titleSize
+        )
+        if (titleBadge != null) {
+          Spacer(Modifier.width(10.dp))
+          titleBadge()
+        }
+      }
       Spacer(Modifier.height(12.dp))
     }
     content()
@@ -131,7 +142,18 @@ fun ColumnScope.Bullet(
       ),
       verticalAlignment = Alignment.Top
     ) {
-      Text("⭕", color = Livewire.Amber, fontSize = 12.sp)
+      // Drawn instead of an emoji glyph ("⭕") — the web build has no system emoji fallback font.
+      Canvas(
+        modifier = Modifier
+          .padding(top = 8.dp)
+          .size(12.dp)
+      ) {
+        drawCircle(
+          color = Livewire.Red,
+          radius = (size.minDimension - 1.6.dp.toPx()) / 2,
+          style = Stroke(width = 1.6.dp.toPx()),
+        )
+      }
       Spacer(Modifier.width(8.dp))
       Text(
         text,
@@ -141,6 +163,17 @@ fun ColumnScope.Bullet(
       )
     }
   }
+}
+
+/** Vector yes/no badge for slide titles (replaces the "✅"/"❌" emojis, which web can't render). */
+@Composable
+fun TitleVerdict(pass: Boolean) {
+  Icon(
+    imageVector = if (pass) Icons.Rounded.CheckCircle else Icons.Rounded.Cancel,
+    contentDescription = if (pass) "yes" else "no",
+    tint = if (pass) Livewire.CodeString else Livewire.Red,
+    modifier = Modifier.size(20.dp),
+  )
 }
 
 @Composable

@@ -284,7 +284,7 @@ val backpressure by
       )
       Bullet(
         line {
-          t("Slow consumer ⇒ the app ")
+          t("Slow consumer → the app ")
           em("composes less", color = Livewire.Red)
           t(", not queues more.")
         }

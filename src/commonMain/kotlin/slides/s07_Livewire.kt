@@ -126,7 +126,7 @@ val introspection by
           Spacer(Modifier.height(8.dp))
           Bullet(line { t("Livewire's own composition\nis tagged with a context\nmarker") })
           Bullet(line { t("The tracker ignorelists itself\nso it doesn't observe its own\nemissions, forever") })
-          Bullet(line { t("Turtles: contained 🐢") })
+          Bullet(line { t("Turtles: contained") })
         }
         Image(
           painter = painterResource(Res.drawable.screenshot_recomposition),
