@@ -145,7 +145,7 @@ fun ColumnScope.Bullet(
       // Drawn instead of an emoji glyph ("⭕") — the web build has no system emoji fallback font.
       Canvas(
         modifier = Modifier
-          .padding(top = 8.dp)
+          .padding(top = 5.dp)
           .size(12.dp)
       ) {
         drawCircle(
